@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Users, UserPlus, LogOut, Menu, LayoutDashboard } from 'lucide-react';
+import { Building2, Users, UserPlus, LogOut, Menu, LayoutDashboard, Bug, BarChart3 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { SuperAdminGuard } from '@/components/super-admin-guard';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,8 @@ const navItems = [
   { href: '/dashboard/organizations', label: 'Organizations', icon: Building2 },
   { href: '/dashboard/users', label: 'Users', icon: Users },
   { href: '/dashboard/onboarding', label: 'Onboarding', icon: UserPlus },
+  { href: '/dashboard/test-debugging', label: 'Test Debug', icon: Bug },
+  { href: '/dashboard/test-stats', label: 'Test Stats', icon: BarChart3 },
 ];
 
 function SidebarContent({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {

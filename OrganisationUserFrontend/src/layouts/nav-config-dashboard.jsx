@@ -64,9 +64,12 @@ export const navData = [
       },
       {
         title: 'Online Tests',
-        path: paths.dashboard.tests,
+        path: paths.dashboard.onlineTests.root,
         icon: ICONS.tests,
-        badge: 'Soon',
+        children: [
+          { title: 'All Tests', path: paths.dashboard.onlineTests.root },
+          { title: 'Create Test', path: paths.dashboard.onlineTests.create },
+        ],
       },
       {
         title: 'Classes & Students',
