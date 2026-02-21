@@ -1,46 +1,11 @@
 'use client';
 
-import { Fragment } from 'react';
-
-import Portal from '@mui/material/Portal';
-import { styled } from '@mui/material/styles';
-
-import { AnimateLogoZoom } from '../animate';
-
-// ----------------------------------------------------------------------
-
-export function SplashScreen({ portal = true, slotProps, sx, ...other }) {
-  const PortalWrapper = portal ? Portal : Fragment;
-
+export function SplashScreen() {
   return (
-    <PortalWrapper>
-      <LoadingWrapper {...slotProps?.wrapper}>
-        <LoadingContent sx={sx} {...other}>
-          <AnimateLogoZoom />
-        </LoadingContent>
-      </LoadingWrapper>
-    </PortalWrapper>
+    <div className="flex flex-1 flex-col">
+      <div className="fixed inset-0 z-[9998] flex items-center justify-center bg-background">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-muted border-t-primary" />
+      </div>
+    </div>
   );
 }
-
-// ----------------------------------------------------------------------
-
-const LoadingWrapper = styled('div')({
-  flexGrow: 1,
-  display: 'flex',
-  flexDirection: 'column',
-});
-
-const LoadingContent = styled('div')(({ theme }) => ({
-  right: 0,
-  bottom: 0,
-  zIndex: 9998,
-  flexGrow: 1,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  position: 'fixed',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: theme.vars.palette.background.default,
-}));

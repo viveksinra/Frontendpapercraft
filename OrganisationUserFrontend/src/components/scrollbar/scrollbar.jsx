@@ -1,58 +1,28 @@
 import SimpleBar from 'simplebar-react';
-import { mergeClasses } from 'minimal-shared/utils';
-
-import { styled } from '@mui/material/styles';
+import { cn } from '@/lib/utils';
 
 import { scrollbarClasses } from './classes';
 
-// ----------------------------------------------------------------------
-
 export function Scrollbar({
-  sx,
   ref,
   children,
   className,
-  slotProps,
   fillContent = true,
   ...other
 }) {
   return (
-    <ScrollbarRoot
+    <SimpleBar
       scrollableNodeProps={{ ref }}
       clickOnTrack={false}
-      fillContent={fillContent}
-      className={mergeClasses([scrollbarClasses.root, className])}
-      sx={[
-        {
-          '& .simplebar-wrapper': slotProps?.wrapperSx,
-          '& .simplebar-content-wrapper': slotProps?.contentWrapperSx,
-          '& .simplebar-content': slotProps?.contentSx,
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
+      className={cn(
+        scrollbarClasses.root,
+        'min-w-0 min-h-0 flex-1 flex flex-col',
+        fillContent && '[&_.simplebar-content]:flex [&_.simplebar-content]:flex-1 [&_.simplebar-content]:min-h-full [&_.simplebar-content]:flex-col',
+        className
+      )}
       {...other}
     >
       {children}
-    </ScrollbarRoot>
+    </SimpleBar>
   );
 }
-
-// ----------------------------------------------------------------------
-
-const ScrollbarRoot = styled(SimpleBar, {
-  shouldForwardProp: (prop) => !['fillContent', 'sx'].includes(prop),
-})(({ fillContent }) => ({
-  minWidth: 0,
-  minHeight: 0,
-  flexGrow: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  ...(fillContent && {
-    '& .simplebar-content': {
-      display: 'flex',
-      flex: '1 1 auto',
-      minHeight: '100%',
-      flexDirection: 'column',
-    },
-  }),
-}));

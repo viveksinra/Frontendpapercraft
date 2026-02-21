@@ -1,29 +1,26 @@
 import 'src/global.css';
 
-import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-
 import { CONFIG } from 'src/global-config';
-import { primary } from 'src/theme/core/palette';
-import { themeConfig, ThemeProvider } from 'src/theme';
-import { getTenantThemeOverrides } from 'src/lib/tenant-branding-server';
 
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
+import { SettingsProvider, defaultSettings } from 'src/components/settings';
 import { detectSettings } from 'src/components/settings/server';
-import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';
+
+import { Toaster } from '@/components/ui/sonner';
 
 // ----------------------------------------------------------------------
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: primary.main,
 };
 
 export const metadata = {
+  title: 'PaperCraft - Assessment Platform',
+  description: 'PaperCraft Organisation Dashboard',
   icons: [
     {
       rel: 'icon',
@@ -40,49 +37,30 @@ async function getAppConfig() {
       cookieSettings: undefined,
       dir: defaultSettings.direction,
     };
-  } else {
-    const [settings] = await Promise.all([detectSettings()]);
-
-    return {
-      cookieSettings: settings,
-      dir: settings.direction,
-    };
   }
+  const [settings] = await Promise.all([detectSettings()]);
+  return {
+    cookieSettings: settings,
+    dir: settings.direction,
+  };
 }
 
 export default async function RootLayout({ children }) {
   const appConfig = await getAppConfig();
-  
-  // Get tenant brand tokens (SSR)
-  const tenantThemeOverrides = await getTenantThemeOverrides();
 
   return (
     <html lang="en" dir={appConfig.dir} suppressHydrationWarning>
-      <body>
-        <InitColorSchemeScript
-          modeStorageKey={themeConfig.modeStorageKey}
-          attribute={themeConfig.cssVariables.colorSchemeSelector}
-          defaultMode={themeConfig.defaultMode}
-        />
-
+      <body className="bg-background text-foreground antialiased">
         <AuthProvider>
           <SettingsProvider
             cookieSettings={appConfig.cookieSettings}
             defaultSettings={defaultSettings}
           >
-            <AppRouterCacheProvider options={{ key: 'css' }}>
-              <ThemeProvider
-                modeStorageKey={themeConfig.modeStorageKey}
-                defaultMode={themeConfig.defaultMode}
-                themeOverrides={tenantThemeOverrides}
-              >
-                <MotionLazy>
-                  <ProgressBar />
-                  <SettingsDrawer defaultSettings={defaultSettings} />
-                  {children}
-                </MotionLazy>
-              </ThemeProvider>
-            </AppRouterCacheProvider>
+            <MotionLazy>
+              <ProgressBar />
+              <Toaster />
+              {children}
+            </MotionLazy>
           </SettingsProvider>
         </AuthProvider>
       </body>

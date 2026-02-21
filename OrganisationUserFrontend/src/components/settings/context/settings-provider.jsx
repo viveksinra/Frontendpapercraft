@@ -1,12 +1,88 @@
 'use client';
 
-import { isEqual } from 'es-toolkit';
-import { getCookie, getStorage } from 'minimal-shared/utils';
 import { useMemo, useState, useEffect, useCallback } from 'react';
-import { useCookies, useLocalStorage } from 'minimal-shared/hooks';
 
 import { SettingsContext } from './settings-context';
 import { SETTINGS_STORAGE_KEY } from '../settings-config';
+
+// ----------------------------------------------------------------------
+
+function getCookieValue(key) {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${key}=([^;]*)`));
+  if (!match) return null;
+  try {
+    return JSON.parse(decodeURIComponent(match[1]));
+  } catch {
+    return null;
+  }
+}
+
+function setCookieValue(key, value, days = 365) {
+  if (typeof document === 'undefined') return;
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${key}=${encodeURIComponent(JSON.stringify(value))}; expires=${expires}; path=/`;
+}
+
+function getLocalStorageValue(key) {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function setLocalStorageValue(key, value) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // ignore
+  }
+}
+
+function deepEqual(a, b) {
+  if (a === b) return true;
+  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') return false;
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  if (keysA.length !== keysB.length) return false;
+  return keysA.every((key) => deepEqual(a[key], b[key]));
+}
+
+function useStorageState(key, initialValue, { get, set }) {
+  const [state, _setState] = useState(() => get(key) ?? initialValue);
+
+  const setState = useCallback(
+    (valueOrFn) => {
+      _setState((prev) => {
+        const next = typeof valueOrFn === 'function' ? valueOrFn(prev) : valueOrFn;
+        set(key, next);
+        return next;
+      });
+    },
+    [key, set]
+  );
+
+  const resetState = useCallback(
+    (resetValue) => {
+      set(key, resetValue);
+      _setState(resetValue);
+    },
+    [key, set]
+  );
+
+  const setField = useCallback(
+    (field, value) => {
+      setState((prev) => ({ ...prev, [field]: value }));
+    },
+    [setState]
+  );
+
+  return { state, setState, resetState, setField };
+}
 
 // ----------------------------------------------------------------------
 
@@ -17,11 +93,21 @@ export function SettingsProvider({
   storageKey = SETTINGS_STORAGE_KEY,
 }) {
   const isCookieEnabled = !!cookieSettings;
-  const useStorage = isCookieEnabled ? useCookies : useLocalStorage;
   const initialSettings = isCookieEnabled ? cookieSettings : defaultSettings;
-  const getStorageValue = isCookieEnabled ? getCookie : getStorage;
 
-  const { state, setState, resetState, setField } = useStorage(storageKey, initialSettings);
+  const storageAdapter = useMemo(
+    () =>
+      isCookieEnabled
+        ? { get: getCookieValue, set: setCookieValue }
+        : { get: getLocalStorageValue, set: setLocalStorageValue },
+    [isCookieEnabled]
+  );
+
+  const { state, setState, resetState, setField } = useStorageState(
+    storageKey,
+    initialSettings,
+    storageAdapter
+  );
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -33,7 +119,7 @@ export function SettingsProvider({
     setOpenDrawer(false);
   }, []);
 
-  const canReset = !isEqual(state, defaultSettings);
+  const canReset = !deepEqual(state, defaultSettings);
 
   const onReset = useCallback(() => {
     resetState(defaultSettings);
@@ -41,7 +127,7 @@ export function SettingsProvider({
 
   // Version check and reset handling
   useEffect(() => {
-    const storedValue = getStorageValue(storageKey);
+    const storedValue = storageAdapter.get(storageKey);
 
     if (storedValue) {
       try {

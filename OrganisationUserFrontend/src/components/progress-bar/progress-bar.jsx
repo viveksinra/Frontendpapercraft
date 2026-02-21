@@ -4,7 +4,19 @@ import './styles.css';
 
 import NProgress from 'nprogress';
 import { useRef, useEffect } from 'react';
-import { isEqualPath } from 'minimal-shared/utils';
+
+/**
+ * Checks if two URLs are considered equal (same pathname).
+ */
+function isEqualPath(a, b) {
+  try {
+    const urlA = new URL(a, 'http://localhost');
+    const urlB = new URL(b, 'http://localhost');
+    return urlA.pathname === urlB.pathname;
+  } catch {
+    return a === b;
+  }
+}
 
 import { usePathname } from 'src/routes/hooks';
 

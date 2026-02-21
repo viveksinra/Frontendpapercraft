@@ -1,28 +1,23 @@
 'use client';
 
 import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ListItemText from '@mui/material/ListItemText';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
 
 import { getCompanies, createCompany, selectActiveCompany, getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 const formatRoleLabel = (role) => {
-  if (!role) return 'Viewer';
+  if (!role) return 'Teacher';
   return role
     .split('_')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -36,7 +31,6 @@ export function CompanyGuard({ children }) {
   const [requireCreate, setRequireCreate] = useState(false);
   const [newCompany, setNewCompany] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const autoSelectAttempted = useRef(false);
 
   const refreshState = useCallback(async () => {
@@ -65,13 +59,11 @@ export function CompanyGuard({ children }) {
           await new Promise((r) => setTimeout(r, 75));
           return refreshState();
         } catch (err) {
-          // eslint-disable-next-line no-console
           console.error('[CompanyGuard] auto-select failed', err);
         }
       }
 
       if (!active) {
-        // eslint-disable-next-line no-console
         console.warn('[CompanyGuard] No active company detected; gating dashboard until one is selected.');
         setRequireSelection(true);
         setRequireCreate(false);
@@ -83,9 +75,8 @@ export function CompanyGuard({ children }) {
       setRequireSelection(false);
       return true;
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('[CompanyGuard] refreshState failed', e);
-      setSnackbar({ open: true, severity: 'error', message: 'Failed to load companies. Please retry.' });
+      toast.error('Failed to load companies. Please retry.');
       return false;
     } finally {
       setLoading(false);
@@ -102,17 +93,8 @@ export function CompanyGuard({ children }) {
       }
     }
     check();
-    return () => {
-      ignore = true;
-    };
+    return () => { ignore = true; };
   }, [refreshState]);
-
-  useEffect(() => {
-    if (requireSelection) {
-      // eslint-disable-next-line no-console
-      console.warn('[CompanyGuard] Waiting on user to select a company before continuing.');
-    }
-  }, [requireSelection]);
 
   const blocked = useMemo(() => loading || requireSelection || requireCreate, [loading, requireSelection, requireCreate]);
 
@@ -122,20 +104,16 @@ export function CompanyGuard({ children }) {
       setSubmitting(true);
       const created = await createCompany(newCompany.trim());
       const createdId = created?.id || created?._id;
-      // Defensive: ensure server-side selection cookie and FE header
       if (createdId) {
         await selectActiveCompany(createdId);
-        // small delay to allow cookie propagation
         await new Promise((r) => setTimeout(r, 50));
       }
       setNewCompany('');
-      setSnackbar({ open: true, severity: 'success', message: 'Company created and selected.' });
-      // Recompute state; remain blocked until active present
+      toast.success('Company created and selected.');
       await refreshState();
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('[CompanyGuard] create failed', e);
-      setSnackbar({ open: true, severity: 'error', message: 'Failed to create company.' });
+      toast.error('Failed to create company.');
     } finally {
       setSubmitting(false);
     }
@@ -146,12 +124,11 @@ export function CompanyGuard({ children }) {
       setSubmitting(true);
       await selectActiveCompany(companyId);
       await new Promise((r) => setTimeout(r, 50));
-      setSnackbar({ open: true, severity: 'success', message: 'Company selected.' });
+      toast.success('Company selected.');
       await refreshState();
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('[CompanyGuard] select failed', e);
-      setSnackbar({ open: true, severity: 'error', message: 'Failed to select company.' });
+      toast.error('Failed to select company.');
     } finally {
       setSubmitting(false);
     }
@@ -160,79 +137,87 @@ export function CompanyGuard({ children }) {
   return (
     <>
       {!blocked ? children : null}
-      <Dialog open={loading} hideBackdrop fullWidth maxWidth="xs">
-        <DialogTitle>Loading</DialogTitle>
-        <DialogContent sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 3 }}>
-          <CircularProgress size={20} />
-          Checking your companies…
+
+      {/* Loading dialog */}
+      <Dialog open={loading}>
+        <DialogContent className="sm:max-w-sm" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Loading</DialogTitle>
+          </DialogHeader>
+          <div className="flex items-center gap-3 py-4">
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Checking your companies...</span>
+          </div>
         </DialogContent>
       </Dialog>
-      <Dialog open={requireCreate} disableEscapeKeyDown fullWidth maxWidth="xs">
-        <DialogTitle>Create your first company</DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            You need a company to use the dashboard. This sets your active workspace for all actions and API calls.
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <TextField
+
+      {/* Create first company dialog */}
+      <Dialog open={requireCreate}>
+        <DialogContent className="sm:max-w-md" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Create your first company</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 py-2">
+            <p className="text-sm text-muted-foreground">
+              You need a company to use the dashboard. This sets your active workspace for all actions.
+            </p>
+            <Input
               autoFocus
-              fullWidth
-              margin="dense"
-              label="Company name"
-              placeholder="e.g. Acme Marketing"
+              placeholder="e.g. Acme Tutoring"
               value={newCompany}
               onChange={(e) => setNewCompany(e.target.value)}
             />
-            <Typography variant="caption" color="text.secondary">
-              You can invite teammates and manage roles after creation. We’ll automatically set this as your active company.
-            </Typography>
-          </Box>
+            <p className="text-xs text-muted-foreground">
+              You can invite teammates and manage roles after creation.
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" disabled>Cancel</Button>
+            <Button onClick={handleCreate} disabled={!newCompany.trim() || submitting}>
+              {submitting ? 'Creating...' : 'Create company'}
+            </Button>
+          </DialogFooter>
         </DialogContent>
-        <DialogActions>
-          <Button disabled>Cancel</Button>
-          <Button variant="contained" onClick={handleCreate} disabled={!newCompany.trim() || submitting}>
-            {submitting ? 'Creating…' : 'Create company'}
-          </Button>
-        </DialogActions>
       </Dialog>
-      <Dialog open={requireSelection} disableEscapeKeyDown fullWidth maxWidth="xs">
-        <DialogTitle>Select a company</DialogTitle>
-        <DialogContent dividers>
-          <Typography variant="body2" sx={{ mb: 1.5 }}>
-            Choose your active company. All content, settings, analytics, and publishing actions will be scoped to it.
-          </Typography>
-          <List sx={{ py: 0 }}>
-            {(companies || []).map((c) => (
-              <ListItem key={c.id} button onClick={() => handleSelect(c.id)} disabled={submitting}>
-                <ListItemAvatar>
-                  <Avatar src={c.logo} alt={c.displayName || c.name} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={c.displayName || c.name}
-                  secondary={`Role: ${formatRoleLabel(c.role)}`}
-                />
-              </ListItem>
-            ))}
-          </List>
+
+      {/* Select company dialog */}
+      <Dialog open={requireSelection}>
+        <DialogContent className="sm:max-w-md" showCloseButton={false}>
+          <DialogHeader>
+            <DialogTitle>Select a company</DialogTitle>
+          </DialogHeader>
+          <div className="py-2">
+            <p className="mb-3 text-sm text-muted-foreground">
+              Choose your active company. All actions will be scoped to it.
+            </p>
+            <div className="space-y-1">
+              {(companies || []).map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => handleSelect(c.id)}
+                  disabled={submitting}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-accent disabled:opacity-50"
+                >
+                  <img
+                    src={c.logo || '/favicon.ico'}
+                    alt={c.displayName || c.name}
+                    className="h-8 w-8 shrink-0 rounded-full object-cover"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium">{c.displayName || c.name}</p>
+                    <p className="text-xs text-muted-foreground">Role: {formatRoleLabel(c.role)}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => { setRequireSelection(false); setRequireCreate(true); }} disabled={submitting}>
+              Create new company
+            </Button>
+          </DialogFooter>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setRequireCreate(true)} disabled={submitting}>
-            Create new company
-          </Button>
-        </DialogActions>
       </Dialog>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={3000}
-        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert severity={snackbar.severity} variant="filled" onClose={() => setSnackbar((s) => ({ ...s, open: false }))}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </>
   );
 }
-
-
