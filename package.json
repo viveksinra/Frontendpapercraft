@@ -1,0 +1,23 @@
+{
+  "name": "papercraft-frontend",
+  "private": true,
+  "workspaces": [
+    "OrganisationUserFrontend",
+    "parentchildfrontend",
+    "developerfrontend",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:org": "npm run dev --workspace=OrganisationUserFrontend",
+    "dev:parent": "npm run dev --workspace=parentchildfrontend",
+    "dev:dev": "npm run dev --workspace=developerfrontend",
+    "build:org": "npm run build --workspace=OrganisationUserFrontend",
+    "build:parent": "npm run build --workspace=parentchildfrontend",
+    "build:dev": "npm run build --workspace=developerfrontend",
+    "build:all": "npm run build --workspaces",
+    "lint:all": "npm run lint --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
