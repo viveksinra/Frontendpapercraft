@@ -1,7 +1,16 @@
 import NProgress from 'nprogress';
 import { useMemo, useCallback } from 'react';
-import { isEqualPath } from 'minimal-shared/utils';
 import { useRouter as useNextRouter } from 'next/navigation';
+
+function isEqualPath(a, b) {
+  try {
+    const urlA = new URL(a, 'http://localhost');
+    const urlB = new URL(b, 'http://localhost');
+    return urlA.pathname === urlB.pathname;
+  } catch {
+    return a === b;
+  }
+}
 
 // ----------------------------------------------------------------------
 

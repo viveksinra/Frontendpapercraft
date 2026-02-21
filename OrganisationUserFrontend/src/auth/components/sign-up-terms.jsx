@@ -1,33 +1,17 @@
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-
 // ----------------------------------------------------------------------
 
-export function SignUpTerms({ sx, ...other }) {
+export function SignUpTerms() {
   return (
-    <Box
-      component="span"
-      sx={[
-        () => ({
-          mt: 3,
-          display: 'block',
-          textAlign: 'center',
-          typography: 'caption',
-          color: 'text.secondary',
-        }),
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
-    >
+    <span className="mt-4 block text-center text-xs text-muted-foreground">
       {'By signing up, I agree to '}
-      <Link underline="always" color="text.primary">
+      <a href="#" className="underline text-foreground hover:text-foreground/80">
         Terms of service
-      </Link>
+      </a>
       {' and '}
-      <Link underline="always" color="text.primary">
+      <a href="#" className="underline text-foreground hover:text-foreground/80">
         Privacy policy
-      </Link>
+      </a>
       .
-    </Box>
+    </span>
   );
 }

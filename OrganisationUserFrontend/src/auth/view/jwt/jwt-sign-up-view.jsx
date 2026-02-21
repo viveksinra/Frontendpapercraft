@@ -3,21 +3,16 @@
 import { z as zod } from 'zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useBoolean } from 'minimal-shared/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff } from 'lucide-react';
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-import { RouterLink } from 'src/routes/components';
 
-import { Iconify } from 'src/components/iconify';
 import { Form, Field } from 'src/components/hook-form';
 
 import { signUp } from '../../context/jwt';
@@ -46,9 +41,9 @@ export const SignUpSchema = zod.object({
 export function JwtSignUpView() {
   const router = useRouter();
 
-  const showPassword = useBoolean();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const { checkUserSession, authenticated } = useAuthContext();
+  const { checkUserSession } = useAuthContext();
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -77,12 +72,7 @@ export function JwtSignUpView() {
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      
-      // Wait for user session to be checked and state to be updated
       await checkUserSession?.();
-      
-      // Use Next.js router instead of hard redirect to avoid race conditions
-      // This preserves React state and allows AuthProvider to properly initialize
       router.push(paths.dashboard.root);
     } catch (error) {
       console.error(error);
@@ -91,58 +81,6 @@ export function JwtSignUpView() {
     }
   });
 
-  const renderForm = () => (
-    <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column' }}>
-      <Box
-        sx={{ display: 'flex', gap: { xs: 3, sm: 2 }, flexDirection: { xs: 'column', sm: 'row' } }}
-      >
-        <Field.Text
-          name="firstName"
-          label="First name"
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-        <Field.Text
-          name="lastName"
-          label="Last name"
-          slotProps={{ inputLabel: { shrink: true } }}
-        />
-      </Box>
-
-      <Field.Text name="email" label="Email address" slotProps={{ inputLabel: { shrink: true } }} />
-
-      <Field.Text
-        name="password"
-        label="Password"
-        placeholder="6+ characters"
-        type={showPassword.value ? 'text' : 'password'}
-        slotProps={{
-          inputLabel: { shrink: true },
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={showPassword.onToggle} edge="end">
-                  <Iconify icon={showPassword.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
-
-      <Button
-        fullWidth
-        color="inherit"
-        size="large"
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-        loadingIndicator="Create account..."
-      >
-        Create account
-      </Button>
-    </Box>
-  );
-
   return (
     <>
       <FormHead
@@ -150,22 +88,53 @@ export function JwtSignUpView() {
         description={
           <>
             {`Already have an account? `}
-            <Link component={RouterLink} href={paths.auth.jwt.signIn} variant="subtitle2">
-              Get started
+            <Link href={paths.auth.jwt.signIn} className="font-semibold text-foreground hover:underline">
+              Sign in
             </Link>
           </>
         }
-        sx={{ textAlign: { xs: 'center', md: 'left' } }}
       />
 
       {!!errorMessage && (
-        <Alert severity="error" sx={{ mb: 3 }}>
+        <div className="mb-4 rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {errorMessage}
-        </Alert>
+        </div>
       )}
 
       <Form methods={methods} onSubmit={onSubmit}>
-        {renderForm()}
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 sm:flex-row sm:gap-3">
+            <Field.Text name="firstName" label="First name" placeholder="John" />
+            <Field.Text name="lastName" label="Last name" placeholder="Doe" />
+          </div>
+
+          <Field.Text name="email" label="Email address" placeholder="your@email.com" />
+
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-medium leading-none">
+              Password
+            </label>
+            <div className="relative">
+              <Field.Text
+                name="password"
+                placeholder="6+ characters"
+                type={showPassword ? 'text' : 'password'}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+          </div>
+
+          <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+            {isSubmitting ? 'Creating account...' : 'Create account'}
+          </Button>
+        </div>
       </Form>
 
       <SignUpTerms />

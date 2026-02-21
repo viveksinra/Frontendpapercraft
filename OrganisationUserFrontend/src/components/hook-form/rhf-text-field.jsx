@@ -1,54 +1,41 @@
-import { Controller, useFormContext } from 'react-hook-form';
-import { transformValue, transformValueOnBlur, transformValueOnChange } from 'minimal-shared/utils';
+'use client';
 
-import TextField from '@mui/material/TextField';
+import { Controller, useFormContext } from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
 
 // ----------------------------------------------------------------------
 
-export function RHFTextField({ name, helperText, slotProps, type = 'text', ...other }) {
+export function RHFTextField({ name, helperText, label, type = 'text', className, ...other }) {
   const { control } = useFormContext();
-
-  const isNumberType = type === 'number';
 
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <TextField
-          {...field}
-          fullWidth
-          value={isNumberType ? transformValue(field.value) : field.value}
-          onChange={(event) => {
-            const transformedValue = isNumberType
-              ? transformValueOnChange(event.target.value)
-              : event.target.value;
-
-            field.onChange(transformedValue);
-          }}
-          onBlur={(event) => {
-            const transformedValue = isNumberType
-              ? transformValueOnBlur(event.target.value)
-              : event.target.value;
-
-            field.onChange(transformedValue);
-          }}
-          type={isNumberType ? 'text' : type}
-          error={!!error}
-          helperText={error?.message ?? helperText}
-          slotProps={{
-            ...slotProps,
-            htmlInput: {
-              ...slotProps?.htmlInput,
-              ...(isNumberType && {
-                inputMode: 'decimal',
-                pattern: '[0-9]*\\.?[0-9]*',
-              }),
-              autoComplete: 'new-password', // Disable autocomplete and autofill
-            },
-          }}
-          {...other}
-        />
+        <div className="space-y-2">
+          {label && (
+            <label htmlFor={name} className="text-sm font-medium leading-none">
+              {label}
+            </label>
+          )}
+          <Input
+            {...field}
+            id={name}
+            type={type}
+            value={field.value ?? ''}
+            className={cn(error && 'border-destructive', className)}
+            autoComplete="new-password"
+            {...other}
+          />
+          {(error?.message || helperText) && (
+            <p className={cn('text-xs', error ? 'text-destructive' : 'text-muted-foreground')}>
+              {error?.message ?? helperText}
+            </p>
+          )}
+        </div>
       )}
     />
   );

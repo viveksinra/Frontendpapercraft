@@ -1,47 +1,18 @@
 'use client';
 
-import { m } from 'framer-motion';
-
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-
-import { ForbiddenIllustration } from 'src/assets/illustrations';
-
-import { varBounce, MotionContainer } from 'src/components/animate';
-
 // ----------------------------------------------------------------------
 
-/**
- * NOTE:
- * This component is for reference only.
- * You can customize the logic and conditions to better suit your application's requirements.
- */
-
-export function RoleBasedGuard({ sx, children, hasContent, currentRole, allowedRoles }) {
+export function RoleBasedGuard({ children, hasContent, currentRole, allowedRoles }) {
   if (currentRole && allowedRoles && !allowedRoles.includes(currentRole)) {
     return hasContent ? (
-      <Container
-        component={MotionContainer}
-        sx={[{ textAlign: 'center' }, ...(Array.isArray(sx) ? sx : [sx])]}
-      >
-        <m.div variants={varBounce('in')}>
-          <Typography variant="h3" sx={{ mb: 2 }}>
-            Permission denied
-          </Typography>
-        </m.div>
-
-        <m.div variants={varBounce('in')}>
-          <Typography sx={{ color: 'text.secondary' }}>
-            You do not have permission to access this page.
-          </Typography>
-        </m.div>
-
-        <m.div variants={varBounce('in')}>
-          <ForbiddenIllustration sx={{ my: { xs: 5, sm: 10 } }} />
-        </m.div>
-      </Container>
+      <div className="flex flex-1 flex-col items-center justify-center py-16 text-center">
+        <h3 className="mb-2 text-2xl font-bold">Permission denied</h3>
+        <p className="text-muted-foreground">
+          You do not have permission to access this page.
+        </p>
+      </div>
     ) : null;
   }
 
-  return <> {children} </>;
+  return <>{children}</>;
 }

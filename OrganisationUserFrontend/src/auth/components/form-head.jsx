@@ -1,39 +1,23 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
 // ----------------------------------------------------------------------
 
-export function FormHead({ sx, icon, title, description, ...other }) {
+export function FormHead({ icon, title, description, className }) {
   return (
     <>
       {icon && (
-        <Box component="span" sx={{ mb: 3, mx: 'auto', display: 'inline-flex' }}>
+        <span className="mb-3 mx-auto inline-flex">
           {icon}
-        </Box>
+        </span>
       )}
 
-      <Box
-        sx={[
-          () => ({
-            mb: 5,
-            gap: 1.5,
-            display: 'flex',
-            textAlign: 'center',
-            whiteSpace: 'pre-line',
-            flexDirection: 'column',
-          }),
-          ...(Array.isArray(sx) ? sx : [sx]),
-        ]}
-        {...other}
-      >
-        <Typography variant="h5">{title}</Typography>
+      <div className={`mb-8 flex flex-col gap-1.5 whitespace-pre-line text-center md:text-left ${className || ''}`}>
+        <h1 className="text-xl font-semibold">{title}</h1>
 
         {description && (
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <p className="text-sm text-muted-foreground">
             {description}
-          </Typography>
+          </p>
         )}
-      </Box>
+      </div>
     </>
   );
 }

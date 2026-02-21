@@ -1,32 +1,26 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import {
-  Box,
-  Card,
-  Stack,
-  Button,
-  Typography,
-  CircularProgress,
-  Alert,
-  Chip,
-  Container,
-} from '@mui/material';
-import { MdCheckCircle, MdError, MdBusiness, MdPerson } from 'react-icons/md';
+import { CheckCircle, XCircle, Building, User, Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuthContext } from 'src/auth/hooks';
 import { paths } from 'src/routes/paths';
 import { getInviteDetails, acceptInvite } from 'src/lib/membership-api';
 import { selectActiveCompany } from 'src/lib/company-api';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 // ----------------------------------------------------------------------
 
 const ROLE_CONFIG = {
-  owner: { label: 'Owner', color: 'error' },
-  admin: { label: 'Admin', color: 'warning' },
-  manager: { label: 'Manager', color: 'info' },
-  editor: { label: 'Editor', color: 'primary' },
-  viewer: { label: 'Viewer', color: 'default' },
+  owner: { label: 'Owner' },
+  admin: { label: 'Admin' },
+  senior_teacher: { label: 'Senior Teacher' },
+  teacher: { label: 'Teacher' },
+  content_reviewer: { label: 'Content Reviewer' },
+  student: { label: 'Student' },
+  parent: { label: 'Parent' },
 };
 
 // ----------------------------------------------------------------------
@@ -106,217 +100,164 @@ export default function AcceptInvitePage() {
   // Show loading while checking auth
   if (authLoading || (!authenticated && !error)) {
     return (
-      <Container maxWidth="sm" sx={{ py: 8 }}>
-        <Card sx={{ p: 4, textAlign: 'center' }}>
-          <CircularProgress size={48} sx={{ mb: 2 }} />
-          <Typography variant="body1" color="text.secondary">
-            Loading...
-          </Typography>
+      <div className="mx-auto max-w-sm py-16">
+        <Card>
+          <CardContent className="p-8 text-center">
+            <Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-muted-foreground" />
+            <p className="text-muted-foreground">Loading...</p>
+          </CardContent>
         </Card>
-      </Container>
+      </div>
     );
   }
 
   // Show loading while fetching invite
   if (loading) {
     return (
-      <Container maxWidth="sm" sx={{ py: 8 }}>
-        <Card sx={{ p: 4, textAlign: 'center' }}>
-          <CircularProgress size={48} sx={{ mb: 2 }} />
-          <Typography variant="body1" color="text.secondary">
-            Loading invite details...
-          </Typography>
+      <div className="mx-auto max-w-sm py-16">
+        <Card>
+          <CardContent className="p-8 text-center">
+            <Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-muted-foreground" />
+            <p className="text-muted-foreground">Loading invite details...</p>
+          </CardContent>
         </Card>
-      </Container>
+      </div>
     );
   }
 
   // Show error state
   if (error && !inviteData) {
     return (
-      <Container maxWidth="sm" sx={{ py: 8 }}>
-        <Card sx={{ p: 4, textAlign: 'center' }}>
-          <MdError size={64} color="#d32f2f" style={{ marginBottom: 16 }} />
-          <Typography variant="h5" gutterBottom>
-            Invalid Invite
-          </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            {error}
-          </Typography>
-          <Button variant="contained" onClick={() => router.push(paths.dashboard.root)}>
-            Go to Dashboard
-          </Button>
+      <div className="mx-auto max-w-sm py-16">
+        <Card>
+          <CardContent className="flex flex-col items-center p-8 text-center">
+            <XCircle className="mb-4 h-16 w-16 text-destructive" />
+            <h2 className="mb-2 text-xl font-semibold">Invalid Invite</h2>
+            <p className="mb-6 text-muted-foreground">{error}</p>
+            <Button onClick={() => router.push(paths.dashboard.root)}>Go to Dashboard</Button>
+          </CardContent>
         </Card>
-      </Container>
+      </div>
     );
   }
 
   // Show success state
   if (success) {
     return (
-      <Container maxWidth="sm" sx={{ py: 8 }}>
-        <Card sx={{ p: 4, textAlign: 'center' }}>
-          <MdCheckCircle size={64} color="#2e7d32" style={{ marginBottom: 16 }} />
-          <Typography variant="h5" gutterBottom>
-            Welcome to {inviteData?.company?.name}!
-          </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            You have successfully joined the team. Redirecting to dashboard...
-          </Typography>
-          <CircularProgress size={24} />
+      <div className="mx-auto max-w-sm py-16">
+        <Card>
+          <CardContent className="flex flex-col items-center p-8 text-center">
+            <CheckCircle className="mb-4 h-16 w-16 text-green-600" />
+            <h2 className="mb-2 text-xl font-semibold">
+              Welcome to {inviteData?.company?.name}!
+            </h2>
+            <p className="mb-6 text-muted-foreground">
+              You have successfully joined the team. Redirecting to dashboard...
+            </p>
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          </CardContent>
         </Card>
-      </Container>
+      </div>
     );
   }
 
   const invite = inviteData?.invite;
   const company = inviteData?.company;
-  const roleConfig = ROLE_CONFIG[invite?.role] || ROLE_CONFIG.viewer;
+  const roleConfig = ROLE_CONFIG[invite?.role] || ROLE_CONFIG.student;
   const isInviteValid = invite?.status === 'pending' && !invite?.isExpired;
 
   return (
-    <Container maxWidth="sm" sx={{ py: 8 }}>
-      <Card sx={{ p: 4 }}>
-        <Stack spacing={4} alignItems="center">
-          {/* Header */}
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="h4" gutterBottom fontWeight={700}>
-              Team Invitation
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              You have been invited to join a team
-            </Typography>
-          </Box>
+    <div className="mx-auto max-w-sm py-16">
+      <Card>
+        <CardContent className="p-8">
+          <div className="flex flex-col items-center gap-8">
+            {/* Header */}
+            <div className="text-center">
+              <h1 className="mb-2 text-2xl font-bold">Team Invitation</h1>
+              <p className="text-muted-foreground">You have been invited to join a team</p>
+            </div>
 
-          {/* Company info */}
-          <Box
-            sx={{
-              width: '100%',
-              p: 3,
-              borderRadius: 2,
-              bgcolor: 'action.hover',
-              textAlign: 'center',
-            }}
-          >
-            <Box
-              sx={{
-                width: 64,
-                height: 64,
-                borderRadius: 2,
-                bgcolor: 'primary.main',
-                color: 'primary.contrastText',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                mx: 'auto',
-                mb: 2,
-              }}
-            >
-              <MdBusiness size={32} />
-            </Box>
-            <Typography variant="h5" gutterBottom>
-              {company?.name || 'Unknown Company'}
-            </Typography>
-            <Stack direction="row" spacing={1} justifyContent="center" alignItems="center">
-              <Typography variant="body2" color="text.secondary">
-                You will join as
-              </Typography>
-              <Chip
-                label={roleConfig.label}
-                color={roleConfig.color}
-                size="small"
-                sx={{ fontWeight: 600 }}
-              />
-            </Stack>
-          </Box>
+            {/* Company info */}
+            <div className="w-full rounded-lg bg-muted p-6 text-center">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <Building className="h-8 w-8" />
+              </div>
+              <h2 className="mb-2 text-xl font-semibold">
+                {company?.name || 'Unknown Company'}
+              </h2>
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-sm text-muted-foreground">You will join as</span>
+                <Badge variant="secondary" className="font-semibold">
+                  {roleConfig.label}
+                </Badge>
+              </div>
+            </div>
 
-          {/* Current user info */}
-          <Box
-            sx={{
-              width: '100%',
-              p: 2,
-              borderRadius: 1,
-              border: '1px solid',
-              borderColor: 'divider',
-            }}
-          >
-            <Stack direction="row" spacing={2} alignItems="center">
-              <Box
-                sx={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: '50%',
-                  bgcolor: 'primary.lighter',
-                  color: 'primary.main',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+            {/* Current user info */}
+            <div className="w-full rounded-md border p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <User className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Logged in as</p>
+                  <p className="text-sm font-medium">{user?.email}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Status messages */}
+            {error && (
+              <div className="w-full rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                {error}
+              </div>
+            )}
+
+            {!isInviteValid && (
+              <div className="w-full rounded-md border border-yellow-500/50 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-200">
+                {invite?.status === 'used'
+                  ? 'This invitation has already been used.'
+                  : invite?.status === 'revoked'
+                    ? 'This invitation has been revoked.'
+                    : 'This invitation has expired.'}
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex w-full gap-3">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => router.push(paths.dashboard.root)}
+                disabled={accepting}
               >
-                <MdPerson size={24} />
-              </Box>
-              <Box>
-                <Typography variant="body2" color="text.secondary">
-                  Logged in as
-                </Typography>
-                <Typography variant="subtitle2">{user?.email}</Typography>
-              </Box>
-            </Stack>
-          </Box>
+                Cancel
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={handleAccept}
+                disabled={!isInviteValid || accepting}
+              >
+                {accepting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {accepting ? 'Joining...' : 'Accept & Join'}
+              </Button>
+            </div>
 
-          {/* Status messages */}
-          {error && (
-            <Alert severity="error" sx={{ width: '100%' }}>
-              {error}
-            </Alert>
-          )}
-
-          {!isInviteValid && (
-            <Alert severity="warning" sx={{ width: '100%' }}>
-              {invite?.status === 'used'
-                ? 'This invitation has already been used.'
-                : invite?.status === 'revoked'
-                  ? 'This invitation has been revoked.'
-                  : 'This invitation has expired.'}
-            </Alert>
-          )}
-
-          {/* Actions */}
-          <Stack direction="row" spacing={2} sx={{ width: '100%' }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              onClick={() => router.push(paths.dashboard.root)}
-              disabled={accepting}
-            >
-              Cancel
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={handleAccept}
-              disabled={!isInviteValid || accepting}
-              startIcon={accepting && <CircularProgress size={16} color="inherit" />}
-            >
-              {accepting ? 'Joining...' : 'Accept & Join'}
-            </Button>
-          </Stack>
-
-          {/* Expiry notice */}
-          {isInviteValid && (
-            <Typography variant="caption" color="text.secondary" textAlign="center">
-              This invitation will expire on{' '}
-              {new Date(invite.expiresAt).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </Typography>
-          )}
-        </Stack>
+            {/* Expiry notice */}
+            {isInviteValid && (
+              <p className="text-center text-xs text-muted-foreground">
+                This invitation will expire on{' '}
+                {new Date(invite.expiresAt).toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </p>
+            )}
+          </div>
+        </CardContent>
       </Card>
-    </Container>
+    </div>
   );
 }
-

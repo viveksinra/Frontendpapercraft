@@ -1,21 +1,13 @@
-import Divider from '@mui/material/Divider';
+import { Separator } from '@/components/ui/separator';
 
 // ----------------------------------------------------------------------
 
-export function FormDivider({ sx, label = 'OR' }) {
+export function FormDivider({ label = 'OR' }) {
   return (
-    <Divider
-      sx={[
-        () => ({
-          my: 3,
-          typography: 'overline',
-          color: 'text.disabled',
-          '&::before, :after': { borderTopStyle: 'dashed' },
-        }),
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-    >
-      {label}
-    </Divider>
+    <div className="my-4 flex items-center gap-3">
+      <Separator className="flex-1" />
+      <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
+      <Separator className="flex-1" />
+    </div>
   );
 }

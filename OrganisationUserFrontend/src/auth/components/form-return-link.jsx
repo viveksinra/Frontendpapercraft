@@ -1,31 +1,15 @@
-import Link from '@mui/material/Link';
-
-import { RouterLink } from 'src/routes/components';
-
-import { Iconify } from 'src/components/iconify';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 // ----------------------------------------------------------------------
 
-export function FormReturnLink({ sx, href, label, icon, children, ...other }) {
+export function FormReturnLink({ href, label, icon, children }) {
   return (
     <Link
-      component={RouterLink}
       href={href}
-      color="inherit"
-      variant="subtitle2"
-      sx={[
-        {
-          mt: 3,
-          gap: 0.5,
-          mx: 'auto',
-          alignItems: 'center',
-          display: 'inline-flex',
-        },
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
+      className="mt-4 mx-auto inline-flex items-center gap-1 text-sm font-semibold hover:underline"
     >
-      {icon || <Iconify width={16} icon="eva:arrow-ios-back-fill" />}
+      {icon || <ArrowLeft className="h-4 w-4" />}
       {label || 'Return to sign in'}
       {children}
     </Link>

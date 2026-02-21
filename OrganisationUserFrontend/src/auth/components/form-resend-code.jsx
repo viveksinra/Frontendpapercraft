@@ -1,32 +1,17 @@
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-
 // ----------------------------------------------------------------------
 
-export function FormResendCode({ value, disabled, onResendCode, sx, ...other }) {
+export function FormResendCode({ value, disabled, onResendCode }) {
   return (
-    <Box
-      sx={[
-        () => ({
-          mt: 3,
-          typography: 'body2',
-          alignSelf: 'center',
-        }),
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-      {...other}
-    >
-      {`Don’t have a code? `}
-      <Link
-        variant="subtitle2"
+    <p className="mt-4 self-center text-sm">
+      {`Don't have a code? `}
+      <button
+        type="button"
         onClick={onResendCode}
-        sx={{
-          cursor: 'pointer',
-          ...(disabled && { color: 'text.disabled', pointerEvents: 'none' }),
-        }}
+        disabled={disabled}
+        className="font-semibold hover:underline disabled:pointer-events-none disabled:text-muted-foreground"
       >
-        Resend {disabled && value && value > 0 && `(${value}s)`}
-      </Link>
-    </Box>
+        Resend {disabled && value > 0 && `(${value}s)`}
+      </button>
+    </p>
   );
 }

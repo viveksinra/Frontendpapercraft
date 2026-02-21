@@ -1,37 +1,16 @@
 'use client';
 
-import { varAlpha } from 'minimal-shared/utils';
-
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
 import { DashboardContent } from 'src/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 
-export function BlankView({ title = 'Blank', description, sx }) {
-  const renderContent = () => (
-    <Box
-      sx={[
-        (theme) => ({
-          mt: 5,
-          width: 1,
-          height: 320,
-          borderRadius: 2,
-          border: `dashed 1px ${theme.vars.palette.divider}`,
-          bgcolor: varAlpha(theme.vars.palette.grey['500Channel'], 0.04),
-        }),
-        ...(Array.isArray(sx) ? sx : [sx]),
-      ]}
-    />
-  );
-
+export function BlankView({ title = 'Blank', description }) {
   return (
     <DashboardContent maxWidth="xl">
-      <Typography variant="h4"> {title} </Typography>
-      {description && <Typography sx={{ mt: 1 }}> {description} </Typography>}
+      <h1 className="text-2xl font-bold">{title}</h1>
+      {description && <p className="mt-1">{description}</p>}
 
-      {renderContent()}
+      <div className="mt-5 h-80 w-full rounded-lg border border-dashed border-border bg-muted/5" />
     </DashboardContent>
   );
 }

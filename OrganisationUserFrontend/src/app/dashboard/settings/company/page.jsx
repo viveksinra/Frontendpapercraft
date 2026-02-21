@@ -1,20 +1,12 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import {
-  Box,
-  Card,
-  Stack,
-  Button,
-  TextField,
-  Typography,
-  Alert,
-  CircularProgress,
-  Divider,
-  Chip,
-  Skeleton,
-} from '@mui/material';
-import { FiCheck, FiRefreshCw, FiGlobe, FiMail, FiFileText, FiLink, FiAtSign, FiAlertTriangle } from 'react-icons/fi';
+import { Check, RefreshCw, Globe, Mail, FileText, Link, AtSign, AlertTriangle, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Badge } from '@/components/ui/badge';
 import { useAuthContext } from 'src/auth/hooks';
 import { getCompanyInfo, updateCompanyInfo, getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
@@ -179,194 +171,217 @@ export default function CompanyInfoPage() {
 
   if (loading) {
     return (
-      <Stack spacing={3} sx={{ p: { xs: 2, md: 3 } }}>
-        <Skeleton variant="text" width={200} height={40} />
-        <Skeleton variant="text" width={300} height={24} />
-        <Skeleton variant="rounded" height={400} />
-      </Stack>
+      <div className="flex flex-col gap-6 p-4 md:p-6">
+        <div className="h-10 w-48 animate-pulse rounded bg-muted" />
+        <div className="h-6 w-72 animate-pulse rounded bg-muted" />
+        <div className="h-[400px] w-full animate-pulse rounded-lg bg-muted" />
+      </div>
     );
   }
 
   return (
-    <Stack spacing={2} sx={{ p: { xs: 2, md: 3 } }}>
+    <div className="flex flex-col gap-4 p-4 md:p-6">
       {/* Header */}
-      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" flexWrap="wrap" gap={2}>
-        <Box>
-          <Typography variant="h4" fontWeight={700}>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
             Company Profile
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
+          </h1>
+          <p className="text-sm text-muted-foreground">
             Manage your company&apos;s basic information and contact details.
-          </Typography>
-        </Box>
-        <Stack direction="row" spacing={1}>
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
           <Button
-            variant="outlined"
-            startIcon={<FiRefreshCw size={16} />}
+            variant="outline"
             onClick={handleReset}
             disabled={saving || !hasChanges}
           >
+            <RefreshCw className="mr-2 h-4 w-4" />
             Reset
           </Button>
           <Button
-            variant="contained"
-            startIcon={saving ? <CircularProgress size={16} color="inherit" /> : <FiCheck size={16} />}
             onClick={handleSubmit}
             disabled={disableSave}
           >
+            {saving ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Check className="mr-2 h-4 w-4" />
+            )}
             {saving ? 'Saving...' : 'Save Changes'}
           </Button>
-        </Stack>
-      </Stack>
+        </div>
+      </div>
 
       {/* Alerts */}
       {error && (
-        <Alert severity="error" onClose={() => setError(null)}>
+        <div className="relative rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          <button
+            type="button"
+            className="absolute right-2 top-2 rounded-sm p-1 text-destructive/70 hover:text-destructive"
+            onClick={() => setError(null)}
+          >
+            <span className="sr-only">Close</span>
+            <span className="text-lg leading-none">&times;</span>
+          </button>
           {error}
-        </Alert>
+        </div>
       )}
       {success && (
-        <Alert severity="success" onClose={() => setSuccess(false)}>
+        <div className="relative rounded-md border border-green-500/50 bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-400">
+          <button
+            type="button"
+            className="absolute right-2 top-2 rounded-sm p-1 text-green-600/70 hover:text-green-700 dark:text-green-400/70 dark:hover:text-green-400"
+            onClick={() => setSuccess(false)}
+          >
+            <span className="sr-only">Close</span>
+            <span className="text-lg leading-none">&times;</span>
+          </button>
           Company profile updated successfully!
-        </Alert>
+        </div>
       )}
       {validationErrors.length > 0 && (
-        <Alert severity="error">
-          <Stack component="ul" spacing={0.5} sx={{ my: 0, pl: 2 }}>
+        <div className="rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          <ul className="my-0 list-disc space-y-1 pl-5">
             {validationErrors.map((issue) => (
-              <Typography component="li" variant="body2" key={issue}>
-                {issue}
-              </Typography>
+              <li key={issue}>{issue}</li>
             ))}
-          </Stack>
-        </Alert>
+          </ul>
+        </div>
       )}
 
       {/* Form */}
-      <Card sx={{ p: 3 }}>
-        <Stack spacing={3}>
+      <Card>
+        <CardContent className="space-y-6 p-6">
           {/* Company Name */}
-          <Box>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <FiFileText size={16} />
-              <Typography variant="subtitle2">Company Name *</Typography>
-            </Stack>
-            <TextField
-              fullWidth
-              size="small"
+          <div>
+            <div className="mb-2 flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              <label className="text-sm font-medium">Company Name *</label>
+            </div>
+            <Input
               value={formData.name}
               onChange={handleChange('name')}
               placeholder="Enter your company name"
-              helperText="This is the primary name for your company in the system."
-              error={!formData.name?.trim()}
+              className={!formData.name?.trim() ? 'border-destructive focus-visible:ring-destructive' : ''}
             />
-          </Box>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              This is the primary name for your company in the system.
+            </p>
+          </div>
 
           {/* Username */}
-          <Box>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <FiAtSign size={16} />
-              <Typography variant="subtitle2">Username</Typography>
-              <Chip label="Unique" size="small" color="info" variant="outlined" sx={{ height: 20, fontSize: 10 }} />
-            </Stack>
-            <TextField
-              fullWidth
-              size="small"
+          <div>
+            <div className="mb-2 flex items-center gap-2">
+              <AtSign className="h-4 w-4" />
+              <label className="text-sm font-medium">Username</label>
+              <Badge variant="outline" className="h-5 text-[10px]">Unique</Badge>
+            </div>
+            <Input
               value={formData.username}
               onChange={handleChange('username')}
               placeholder="your-company-username"
-              helperText="A unique identifier for your company (3-30 chars, lowercase letters, numbers, underscores, hyphens only)."
-              error={formData.username && (!isValidUsername(formData.username) || formData.username.length < 3)}
-              inputProps={{ maxLength: 30 }}
+              maxLength={30}
+              className={
+                formData.username && (!isValidUsername(formData.username) || formData.username.length < 3)
+                  ? 'border-destructive focus-visible:ring-destructive'
+                  : ''
+              }
             />
-            <Alert 
-              severity="warning" 
-              icon={<FiAlertTriangle size={18} />}
-              sx={{ mt: 1.5, py: 0.5 }}
-            >
-              <Typography variant="body2">
-                <strong>Important:</strong> Once you publish a blog, your username cannot be changed. 
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              A unique identifier for your company (3-30 chars, lowercase letters, numbers, underscores, hyphens only).
+            </p>
+            <div className="mt-3 flex items-start gap-2 rounded-md border border-yellow-500/50 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-700 dark:text-yellow-400">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+              <p>
+                <strong>Important:</strong> Once you publish a blog, your username cannot be changed.
                 This ensures your published URLs remain consistent and accessible.
-              </Typography>
-            </Alert>
-          </Box>
+              </p>
+            </div>
+          </div>
 
           {/* Slug Info */}
           {companySlug && (
-            <Box sx={{ p: 2, bgcolor: 'action.hover', borderRadius: 1 }}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <FiLink size={14} />
-                <Typography variant="caption" color="text.secondary">
-                  URL Slug:
-                </Typography>
-                <Chip label={companySlug} size="small" variant="outlined" />
-              </Stack>
-              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+            <div className="rounded-md bg-muted/50 p-4">
+              <div className="flex items-center gap-2">
+                <Link className="h-3.5 w-3.5" />
+                <span className="text-xs text-muted-foreground">URL Slug:</span>
+                <Badge variant="outline">{companySlug}</Badge>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
                 The URL slug is automatically generated from your company name and updates when you save changes.
-              </Typography>
-            </Box>
+              </p>
+            </div>
           )}
 
-          <Divider />
+          <Separator />
 
           {/* Description */}
-          <Box>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <FiFileText size={16} />
-              <Typography variant="subtitle2">Description</Typography>
-            </Stack>
-            <TextField
-              fullWidth
-              multiline
+          <div>
+            <div className="mb-2 flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              <label className="text-sm font-medium">Description</label>
+            </div>
+            <textarea
               rows={3}
-              size="small"
               value={formData.description}
               onChange={handleChange('description')}
               placeholder="Brief description of your company..."
-              helperText={`${formData.description?.length || 0}/500 characters`}
-              inputProps={{ maxLength: 500 }}
+              maxLength={500}
+              className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
             />
-          </Box>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              {formData.description?.length || 0}/500 characters
+            </p>
+          </div>
 
-          <Divider />
+          <Separator />
 
           {/* Website URL */}
-          <Box>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <FiGlobe size={16} />
-              <Typography variant="subtitle2">Website URL</Typography>
-            </Stack>
-            <TextField
-              fullWidth
-              size="small"
+          <div>
+            <div className="mb-2 flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              <label className="text-sm font-medium">Website URL</label>
+            </div>
+            <Input
               value={formData.websiteUrl}
               onChange={handleChange('websiteUrl')}
               placeholder="https://example.com"
-              helperText="Your company's main website address."
-              error={formData.websiteUrl && !isValidUrl(formData.websiteUrl)}
+              className={
+                formData.websiteUrl && !isValidUrl(formData.websiteUrl)
+                  ? 'border-destructive focus-visible:ring-destructive'
+                  : ''
+              }
             />
-          </Box>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              Your company&apos;s main website address.
+            </p>
+          </div>
 
           {/* Contact Email */}
-          <Box>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
-              <FiMail size={16} />
-              <Typography variant="subtitle2">Contact Email</Typography>
-            </Stack>
-            <TextField
-              fullWidth
-              size="small"
+          <div>
+            <div className="mb-2 flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              <label className="text-sm font-medium">Contact Email</label>
+            </div>
+            <Input
               type="email"
               value={formData.contactEmail}
               onChange={handleChange('contactEmail')}
               placeholder="contact@example.com"
-              helperText="Primary contact email for your company."
-              error={formData.contactEmail && !isValidEmail(formData.contactEmail)}
+              className={
+                formData.contactEmail && !isValidEmail(formData.contactEmail)
+                  ? 'border-destructive focus-visible:ring-destructive'
+                  : ''
+              }
             />
-          </Box>
-        </Stack>
+            <p className="mt-1.5 text-xs text-muted-foreground">
+              Primary contact email for your company.
+            </p>
+          </div>
+        </CardContent>
       </Card>
-    </Stack>
+    </div>
   );
 }
-

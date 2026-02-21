@@ -1,7 +1,6 @@
 'use client';
 
-import { useSetState } from 'minimal-shared/hooks';
-import { useMemo, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 
 import axios, { endpoints } from 'src/lib/axios';
 
@@ -12,7 +11,8 @@ import { setSession, isValidToken } from './utils';
 // ----------------------------------------------------------------------
 
 export function AuthProvider({ children }) {
-  const { state, setState } = useSetState({ user: null, loading: true });
+  const [state, _setState] = useState({ user: null, loading: true });
+  const setState = useCallback((patch) => _setState((prev) => ({ ...prev, ...patch })), []);
 
   const checkUserSession = useCallback(async () => {
     try {
