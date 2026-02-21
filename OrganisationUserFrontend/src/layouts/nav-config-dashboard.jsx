@@ -1,12 +1,31 @@
-import { LayoutDashboard, BarChart3, Settings } from 'lucide-react';
+import {
+  Users,
+  Monitor,
+  Palette,
+  BookOpen,
+  Building,
+  FileText,
+  UserPlus,
+  BarChart3,
+  ClipboardList,
+  LayoutDashboard,
+} from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { CONFIG } from 'src/global-config';
 
 const ICONS = {
   dashboard: <LayoutDashboard />,
+  questionBank: <BookOpen />,
+  papers: <FileText />,
+  tests: <Monitor />,
+  classes: <Users />,
+  homework: <ClipboardList />,
   analytics: <BarChart3 />,
-  settings: <Settings />,
+  company: <Building />,
+  brand: <Palette />,
+  members: <UserPlus />,
 };
 
 export const navData = [
@@ -22,7 +41,42 @@ export const navData = [
     ],
   },
   {
-    subheader: 'Analytics',
+    subheader: 'Management',
+    items: [
+      {
+        title: 'Question Bank',
+        path: paths.dashboard.questionBank,
+        icon: ICONS.questionBank,
+        badge: 'Soon',
+      },
+      {
+        title: 'Papers & Templates',
+        path: paths.dashboard.papers,
+        icon: ICONS.papers,
+        badge: 'Soon',
+      },
+      {
+        title: 'Online Tests',
+        path: paths.dashboard.tests,
+        icon: ICONS.tests,
+        badge: 'Soon',
+      },
+      {
+        title: 'Classes & Students',
+        path: paths.dashboard.classes,
+        icon: ICONS.classes,
+        badge: 'Soon',
+      },
+      {
+        title: 'Homework',
+        path: paths.dashboard.homework,
+        icon: ICONS.homework,
+        badge: 'Soon',
+      },
+    ],
+  },
+  {
+    subheader: 'Insights',
     items: [
       {
         title: 'Analytics',
@@ -34,16 +88,9 @@ export const navData = [
   {
     subheader: 'Settings',
     items: [
-      {
-        title: 'Settings',
-        path: paths.dashboard.settings.root,
-        icon: ICONS.settings,
-        children: [
-          { title: 'Company Profile', path: paths.dashboard.settings.company },
-          { title: 'Branding', path: paths.dashboard.settings.brand },
-          { title: 'Team Members', path: paths.dashboard.settings.members },
-        ],
-      },
+      { title: 'Company Profile', path: paths.dashboard.settings.company, icon: ICONS.company },
+      { title: 'Branding', path: paths.dashboard.settings.brand, icon: ICONS.brand },
+      { title: 'Team Members', path: paths.dashboard.settings.members, icon: ICONS.members },
     ],
   },
 ];

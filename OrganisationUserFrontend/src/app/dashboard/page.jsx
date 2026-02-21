@@ -1,4 +1,5 @@
 import { CONFIG } from 'src/global-config';
+
 import LaunchpadView from 'src/sections/launchpad/view';
 
 // ----------------------------------------------------------------------

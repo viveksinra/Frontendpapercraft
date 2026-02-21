@@ -20,12 +20,17 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
+    questionBank: `${ROOTS.DASHBOARD}/question-bank`,
+    papers: `${ROOTS.DASHBOARD}/papers`,
+    tests: `${ROOTS.DASHBOARD}/tests`,
+    classes: `${ROOTS.DASHBOARD}/classes`,
+    homework: `${ROOTS.DASHBOARD}/homework`,
+    analytics: `${ROOTS.DASHBOARD}/analytics`,
     settings: {
       root: `${ROOTS.DASHBOARD}/settings`,
       company: `${ROOTS.DASHBOARD}/settings/company`,
       brand: `${ROOTS.DASHBOARD}/settings/brand`,
       members: `${ROOTS.DASHBOARD}/settings/members`,
     },
-    analytics: `${ROOTS.DASHBOARD}/analytics`,
   },
 };

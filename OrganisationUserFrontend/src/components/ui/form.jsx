@@ -1,9 +1,11 @@
 "use client";
+
 import * as React from "react"
 import { Slot } from "radix-ui"
-import { Controller, FormProvider, useFormContext, useFormState } from "react-hook-form";
+import { Controller, FormProvider, useFormState, useFormContext } from "react-hook-form";
 
 import { cn } from "@/lib/utils"
+
 import { Label } from "@/components/ui/label"
 
 const Form = FormProvider
@@ -14,13 +16,11 @@ const FormField = (
   {
     ...props
   }
-) => {
-  return (
+) => (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
     </FormFieldContext.Provider>
-  );
-}
+  )
 
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
@@ -133,12 +133,12 @@ function FormMessage({
 }
 
 export {
-  useFormField,
   Form,
   FormItem,
   FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
   FormField,
+  FormControl,
+  FormMessage,
+  useFormField,
+  FormDescription,
 }

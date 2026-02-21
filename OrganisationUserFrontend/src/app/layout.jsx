@@ -2,14 +2,13 @@ import 'src/global.css';
 
 import { CONFIG } from 'src/global-config';
 
+import { Toaster } from '@/components/ui/sonner';
 import { ProgressBar } from 'src/components/progress-bar';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
-import { SettingsProvider, defaultSettings } from 'src/components/settings';
 import { detectSettings } from 'src/components/settings/server';
+import { defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';
-
-import { Toaster } from '@/components/ui/sonner';
 
 // ----------------------------------------------------------------------
 

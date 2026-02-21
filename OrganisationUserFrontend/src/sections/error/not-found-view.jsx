@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
-
 import { SimpleLayout } from 'src/layouts/simple';
+
+import { Button } from '@/components/ui/button';
 
 // ----------------------------------------------------------------------
 

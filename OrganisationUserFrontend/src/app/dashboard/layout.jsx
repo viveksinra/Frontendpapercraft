@@ -3,9 +3,9 @@
 import { CONFIG } from 'src/global-config';
 import { DashboardLayout as DashboardShell } from 'src/layouts/dashboard';
 import { navData as dashboardNavData } from 'src/layouts/nav-config-dashboard';
+import { BootstrapStatusProvider } from 'src/contexts/bootstrap-status-context';
 
 import { AuthGuard, CompanyGuard } from 'src/auth/guard';
-import { BootstrapStatusProvider } from 'src/contexts/bootstrap-status-context';
 
 // ----------------------------------------------------------------------
 

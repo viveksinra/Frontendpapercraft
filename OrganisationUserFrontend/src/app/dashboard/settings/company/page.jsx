@@ -1,14 +1,17 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { Check, RefreshCw, Globe, Mail, FileText, Link, AtSign, AlertTriangle, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Badge } from '@/components/ui/badge';
-import { useAuthContext } from 'src/auth/hooks';
+import { useMemo, useState, useEffect } from 'react';
+import { Mail, Link, Check, Globe, AtSign, Loader2, FileText, RefreshCw, AlertTriangle } from 'lucide-react';
+
 import { getCompanyInfo, updateCompanyInfo, getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from '@/components/ui/card';
+
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 

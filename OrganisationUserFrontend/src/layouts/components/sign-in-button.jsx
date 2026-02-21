@@ -1,7 +1,8 @@
 import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
 import { CONFIG } from 'src/global-config';
+
+import { Button } from '@/components/ui/button';
 
 export function SignInButton({ className, ...other }) {
   return (

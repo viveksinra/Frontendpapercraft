@@ -1,21 +1,21 @@
 'use client';
 
-import { useCallback } from 'react';
 import Link from 'next/link';
-import { LogOut, User, LayoutDashboard, Home } from 'lucide-react';
+import { useCallback } from 'react';
+import { User, Home, LogOut, LayoutDashboard } from 'lucide-react';
+
+import { paths } from 'src/routes/paths';
+import { useRouter , usePathname } from 'src/routes/hooks';
 
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
+  DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
-import { paths } from 'src/routes/paths';
-import { usePathname } from 'src/routes/hooks';
-import { useRouter } from 'src/routes/hooks';
 import { useAuthContext } from 'src/auth/hooks';
 import { signOut } from 'src/auth/context/jwt/action';
 

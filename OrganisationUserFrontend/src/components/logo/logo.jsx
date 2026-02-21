@@ -1,9 +1,10 @@
 'use client';
 
-import { useId } from 'react';
 import Link from 'next/link';
+import { useId } from 'react';
 
 import { cn } from '@/lib/utils';
+
 import { logoClasses } from './classes';
 
 export function Logo({ disabled, className, href = '/', isSingle = true, ...other }) {

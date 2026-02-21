@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
+import { useRouter } from 'src/routes/hooks';
+
 import { Button } from '@/components/ui/button';
 
-import { useRouter } from 'src/routes/hooks';
 import { useAuthContext } from 'src/auth/hooks';
 import { signOut } from 'src/auth/context/jwt/action';
 

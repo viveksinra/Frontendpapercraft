@@ -111,7 +111,7 @@ const sortImportsRules = () => {
         environment: 'node',
         maxLineLength: undefined,
         newlinesBetween: 'always',
-        internalPattern: ['^src/.+'],
+        internalPattern: ['^src/.+', '^@/.+'],
         groups: [
           'style',
           'side-effect',
@@ -133,13 +133,13 @@ const sortImportsRules = () => {
         customGroups: {
           value: {
             [customGroups.mui]: ['^@mui/.+'],
-            [customGroups.auth]: ['^src/auth/.+'],
-            [customGroups.hooks]: ['^src/hooks/.+'],
-            [customGroups.utils]: ['^src/utils/.+'],
-            [customGroups.types]: ['^src/types/.+'],
-            [customGroups.routes]: ['^src/routes/.+'],
-            [customGroups.sections]: ['^src/sections/.+'],
-            [customGroups.components]: ['^src/components/.+'],
+            [customGroups.auth]: ['^(src|@)/auth/.+'],
+            [customGroups.hooks]: ['^(src|@)/hooks/.+'],
+            [customGroups.utils]: ['^(src|@)/utils/.+', '^@/lib/.+'],
+            [customGroups.types]: ['^(src|@)/types/.+'],
+            [customGroups.routes]: ['^(src|@)/routes/.+'],
+            [customGroups.sections]: ['^(src|@)/sections/.+'],
+            [customGroups.components]: ['^(src|@)/components/.+'],
           },
         },
       },
@@ -160,7 +160,10 @@ export const customConfig = {
   settings: {
     'import/resolver': {
       alias: {
-        map: [['src', './src']],
+        map: [
+          ['src', './src'],
+          ['@', './src'],
+        ],
         extensions: ['.js', '.jsx', '.json'],
       },
     },

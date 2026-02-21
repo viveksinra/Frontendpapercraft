@@ -3,12 +3,13 @@
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
+
 import {
   Select,
-  SelectContent,
   SelectItem,
-  SelectTrigger,
   SelectValue,
+  SelectContent,
+  SelectTrigger,
 } from '@/components/ui/select';
 
 // ----------------------------------------------------------------------

@@ -1,4 +1,4 @@
-import { Home, User, FolderOpen, CreditCard, Shield, Settings } from 'lucide-react';
+import { Home, User, Shield, Settings, FolderOpen, CreditCard } from 'lucide-react';
 
 export const _account = [
   {

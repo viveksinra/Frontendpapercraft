@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+
 import { layoutClasses } from './classes';
 
 export function MainSection({ children, className, ...other }) {

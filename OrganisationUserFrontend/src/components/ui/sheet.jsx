@@ -133,11 +133,11 @@ function SheetDescription({
 
 export {
   Sheet,
-  SheetTrigger,
   SheetClose,
-  SheetContent,
+  SheetTitle,
   SheetHeader,
   SheetFooter,
-  SheetTitle,
+  SheetTrigger,
+  SheetContent,
   SheetDescription,
 }

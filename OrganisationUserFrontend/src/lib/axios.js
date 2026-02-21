@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { CONFIG } from 'src/global-config';
+
 import { BACKEND_URL } from './v2-endpoints';
 
 // ----------------------------------------------------------------------

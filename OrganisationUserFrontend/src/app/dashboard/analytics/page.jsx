@@ -1,40 +1,43 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
+
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import {
+  getConfig,
+  testAlert,
+  saveConfig,
+  getSummary,
+  listAlerts,
+  getOverview,
+  createAlert,
+  updateAlert,
+  deleteAlert,
+} from 'src/lib/analytics-api';
+
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
+  Select,
+  SelectItem,
+  SelectValue,
+  SelectContent,
+  SelectTrigger,
+} from '@/components/ui/select';
+import {
   Table,
+  TableRow,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
 } from '@/components/ui/table';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
 import { useAuthContext } from 'src/auth/hooks';
-import {
-  saveConfig,
-  getConfig,
-  getOverview,
-  getSummary,
-  listAlerts,
-  createAlert,
-  updateAlert,
-  deleteAlert,
-  testAlert,
-} from 'src/lib/analytics-api';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 // ----------------------------------------------------------------------
 
@@ -632,7 +635,7 @@ export default function AnalyticsPage() {
                           <TableCell>{event.status}</TableCell>
                           <TableCell>{event.message}</TableCell>
                           <TableCell>
-                            {event.createdAt ? fDateTime(event.createdAt) : '\u2014'}
+                            {event.createdAt ? new Date(event.createdAt).toLocaleString() : '\u2014'}
                           </TableCell>
                         </TableRow>
                       ))}

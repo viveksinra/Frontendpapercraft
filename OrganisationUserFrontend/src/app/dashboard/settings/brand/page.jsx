@@ -1,16 +1,19 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
-import { Check, RefreshCw, Eye, Type, Droplet, Image, Code, Monitor, Tablet, Smartphone, AlertTriangle, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { useAuthContext } from 'src/auth/hooks';
-import { getBrandSettings, updateBrandSettings, DEFAULT_BRAND_SETTINGS } from 'src/lib/brand-api';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { useMemo, useState, useEffect } from 'react';
+import { Eye, Type, Code, Check, Image, Tablet, Droplet, Monitor, Loader2, RefreshCw, Smartphone, AlertTriangle } from 'lucide-react';
+
 import { primeTenantBrandTokens } from 'src/lib/tenant-branding';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { getBrandSettings, updateBrandSettings, DEFAULT_BRAND_SETTINGS } from 'src/lib/brand-api';
+
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -132,9 +135,12 @@ function hexToRgb(hex) {
   const int = Number.parseInt(value, 16);
   if (Number.isNaN(int)) return null;
   return {
-    r: (int >> 16) & 255,
-    g: (int >> 8) & 255,
-    b: int & 255,
+    // eslint-disable-next-line no-bitwise
+    r: (int >> 16) & 255, // NOSONAR
+    // eslint-disable-next-line no-bitwise
+    g: (int >> 8) & 255, // NOSONAR
+    // eslint-disable-next-line no-bitwise
+    b: int & 255, // NOSONAR
   };
 }
 

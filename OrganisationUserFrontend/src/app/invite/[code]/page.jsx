@@ -1,15 +1,19 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { CheckCircle, XCircle, Building, User, Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { useAuthContext } from 'src/auth/hooks';
+import { useState, useEffect, useCallback } from 'react';
+import { User, XCircle, Loader2, Building, CheckCircle } from 'lucide-react';
+
 import { paths } from 'src/routes/paths';
-import { getInviteDetails, acceptInvite } from 'src/lib/membership-api';
+
 import { selectActiveCompany } from 'src/lib/company-api';
+import { acceptInvite, getInviteDetails } from 'src/lib/membership-api';
+
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 

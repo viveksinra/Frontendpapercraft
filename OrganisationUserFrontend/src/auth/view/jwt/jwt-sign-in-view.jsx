@@ -1,18 +1,16 @@
 'use client';
 
+import Link from 'next/link';
 import { z as zod } from 'zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-
-import Link from 'next/link';
-
-import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
+import { Button } from '@/components/ui/button';
 import { Form, Field } from 'src/components/hook-form';
 
 import { useAuthContext } from '../../hooks';

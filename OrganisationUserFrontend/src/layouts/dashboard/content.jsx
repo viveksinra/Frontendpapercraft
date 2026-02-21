@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+
 import { layoutClasses } from '../core';
 
 export function DashboardContent({

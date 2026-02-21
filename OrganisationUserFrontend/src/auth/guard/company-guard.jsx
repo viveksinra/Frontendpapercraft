@@ -1,20 +1,20 @@
 'use client';
 
-import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 
 import { getCompanies, createCompany, selectActiveCompany, getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+} from '@/components/ui/dialog';
 
 const formatRoleLabel = (role) => {
   if (!role) return 'Teacher';

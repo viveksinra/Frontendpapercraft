@@ -1,19 +1,17 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import { Menu } from 'lucide-react';
+import { useState, useCallback } from 'react';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import { Logo } from 'src/components/logo';
-
 import { NavMobile } from './nav-mobile';
 import { NavVertical } from './nav-vertical';
-import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
-import { navData as dashboardNavData } from '../nav-config-dashboard';
-import { WorkspacesPopover } from '../components/workspaces-popover';
 import { AccountDropdown } from '../components/account-dropdown';
 import { MainSection, HeaderSection, LayoutSection } from '../core';
+import { WorkspacesPopover } from '../components/workspaces-popover';
+import { navData as dashboardNavData } from '../nav-config-dashboard';
+import { dashboardLayoutVars, dashboardNavColorVars } from './css-vars';
 
 export function DashboardLayout({ children, slotProps }) {
   const { user } = useAuthContext();

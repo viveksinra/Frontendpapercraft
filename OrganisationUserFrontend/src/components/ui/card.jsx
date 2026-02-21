@@ -92,10 +92,10 @@ function CardFooter({
 
 export {
   Card,
+  CardTitle,
   CardHeader,
   CardFooter,
-  CardTitle,
   CardAction,
-  CardDescription,
   CardContent,
+  CardDescription,
 }

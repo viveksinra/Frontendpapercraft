@@ -1,57 +1,57 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import {
-  Copy,
-  MoreVertical,
-  UserPlus,
-  Search,
-  ChevronDown,
-  ChevronUp,
-  Trash2,
-  Edit,
   X,
+  Copy,
   Check,
-  RefreshCw,
+  Search,
+  Trash2,
   Loader2,
+  UserPlus,
+  ChevronUp,
+  RefreshCw,
+  ChevronDown,
+  MoreVertical,
 } from 'lucide-react';
-import { useAuthContext } from 'src/auth/hooks';
+
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   getMembers,
-  inviteMember,
   getInvites,
-  updateMemberRole,
+  inviteMember,
   removeMember,
   revokeInvite,
+  updateMemberRole,
 } from 'src/lib/membership-api';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Select,
+  SelectItem,
+  SelectValue,
+  SelectContent,
+  SelectTrigger,
+} from '@/components/ui/select';
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
+  DialogHeader,
   DialogFooter,
+  DialogContent,
 } from '@/components/ui/dialog';
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuContent,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
+
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -119,7 +119,8 @@ function stringToColor(str) {
   if (!str) return '#757575';
   let hash = 0;
   for (let i = 0; i < str.length; i += 1) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    // eslint-disable-next-line no-bitwise
+    hash = str.charCodeAt(i) + ((hash << 5) - hash); // NOSONAR
   }
   const colors = [
     '#1976d2', '#388e3c', '#d32f2f', '#7b1fa2', '#1565c0',
@@ -581,10 +582,9 @@ export default function MembersSettingsPage() {
 
   // Clear success message after delay
   useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => setSuccess(null), 4000);
-      return () => clearTimeout(timer);
-    }
+    if (!success) return undefined;
+    const timer = setTimeout(() => setSuccess(null), 4000);
+    return () => clearTimeout(timer);
   }, [success]);
 
   if (loading) {

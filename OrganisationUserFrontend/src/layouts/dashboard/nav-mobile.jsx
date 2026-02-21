@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
 import { X } from 'lucide-react';
-
-import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { useEffect } from 'react';
 
 import { usePathname } from 'src/routes/hooks';
 
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
 
 import { NavSectionVertical } from '../components/nav-section-vertical';
 

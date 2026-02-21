@@ -1,11 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import Link from 'next/link';
+
+import { usePathname } from 'src/routes/hooks';
 
 import { cn } from '@/lib/utils';
-import { usePathname } from 'src/routes/hooks';
 
 export function NavSectionVertical({ data, isNavMini, checkPermissions }) {
   const pathname = usePathname();
@@ -45,7 +46,7 @@ export function NavSectionVertical({ data, isNavMini, checkPermissions }) {
 }
 
 function NavItem({ item, isNavMini, pathname, depth }) {
-  const { title, path, icon, info, children, disabled } = item;
+  const { title, path, icon, info, badge, children, disabled } = item;
   const isActive = pathname === path || pathname.startsWith(path + '/');
   const hasChildren = children && children.length > 0;
   const [open, setOpen] = useState(
@@ -120,7 +121,12 @@ function NavItem({ item, isNavMini, pathname, depth }) {
       >
         {icon && <span className="shrink-0 [&_svg]:h-5 [&_svg]:w-5">{icon}</span>}
         <span className="flex-1 truncate">{title}</span>
-        {info && <span className="ml-auto text-xs">{info}</span>}
+        {badge && (
+          <span className="ml-auto rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+            {badge}
+          </span>
+        )}
+        {info && !badge && <span className="ml-auto text-xs">{info}</span>}
       </Link>
     </li>
   );

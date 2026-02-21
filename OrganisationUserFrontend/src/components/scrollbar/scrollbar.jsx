@@ -1,4 +1,5 @@
 import SimpleBar from 'simplebar-react';
+
 import { cn } from '@/lib/utils';
 
 import { scrollbarClasses } from './classes';

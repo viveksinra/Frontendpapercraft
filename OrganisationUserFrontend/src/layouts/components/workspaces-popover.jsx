@@ -1,29 +1,30 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
-import { ChevronsUpDown, Plus, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { useState, useEffect, useCallback } from 'react';
+import { Plus, Check, ChevronsUpDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
 
-import { Scrollbar } from 'src/components/scrollbar';
 import {
   getCompanies,
   createCompany,
   selectActiveCompany,
   getActiveCompanyIdFromCookie,
 } from 'src/lib/company-api';
+
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Scrollbar } from 'src/components/scrollbar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+} from '@/components/ui/dialog';
 
 export function WorkspacesPopover({ data = [], className }) {
   const [open, setOpen] = useState(false);

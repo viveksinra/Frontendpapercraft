@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import { cn } from '@/lib/utils';
+
 import { layoutClasses } from './classes';
 
 export function HeaderSection({

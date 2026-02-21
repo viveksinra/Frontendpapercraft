@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { it, expect, describe } from 'vitest';
+
+import { paths } from 'src/routes/paths';
 
 import { buildLaunchpadSteps, getLaunchpadProgress } from 'src/sections/launchpad/utils';
-import { paths } from 'src/routes/paths';
 
 describe('Launchpad utilities', () => {
   it('computes checklist progress from status flags', () => {

@@ -5,6 +5,7 @@ import { XIcon } from "lucide-react"
 import { Dialog as DialogPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+
 import { Button } from "@/components/ui/button"
 
 function Dialog({
@@ -136,12 +137,12 @@ function DialogDescription({
 export {
   Dialog,
   DialogClose,
-  DialogContent,
-  DialogDescription,
+  DialogTitle,
   DialogFooter,
   DialogHeader,
-  DialogOverlay,
   DialogPortal,
-  DialogTitle,
+  DialogContent,
+  DialogOverlay,
   DialogTrigger,
+  DialogDescription,
 }

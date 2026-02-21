@@ -1,10 +1,10 @@
 'use client';
 
-import { createContext, useContext, useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useMemo, useState, useEffect, useContext, useCallback, createContext } from 'react';
 
-import { getBootstrapStatus, recordBootstrapEvent } from 'src/lib/bootstrap-api';
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { getBootstrapStatus, recordBootstrapEvent } from 'src/lib/bootstrap-api';
 
 const BootstrapStatusContext = createContext({
   status: null,
