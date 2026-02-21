@@ -50,10 +50,17 @@ export const navData = [
         badge: 'Soon',
       },
       {
-        title: 'Papers & Templates',
-        path: paths.dashboard.papers,
+        title: 'Papers',
+        path: paths.dashboard.papers.root,
         icon: ICONS.papers,
-        badge: 'Soon',
+        children: [
+          { title: 'All Papers', path: paths.dashboard.papers.root },
+          { title: 'Create Paper', path: paths.dashboard.papers.create },
+          { title: 'Auto-Generate', path: paths.dashboard.papers.autoGenerate },
+          { title: 'Templates', path: paths.dashboard.papers.templates },
+          { title: 'Blueprints', path: paths.dashboard.papers.blueprints },
+          { title: 'Paper Sets', path: paths.dashboard.papers.sets },
+        ],
       },
       {
         title: 'Online Tests',
