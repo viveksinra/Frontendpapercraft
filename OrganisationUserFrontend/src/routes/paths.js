@@ -20,7 +20,14 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
-    questionBank: `${ROOTS.DASHBOARD}/question-bank`,
+    questionBank: {
+      root: `${ROOTS.DASHBOARD}/question-bank`,
+      create: `${ROOTS.DASHBOARD}/question-bank/create`,
+      detail: (id) => `${ROOTS.DASHBOARD}/question-bank/${id}`,
+      edit: (id) => `${ROOTS.DASHBOARD}/question-bank/${id}/edit`,
+      import: `${ROOTS.DASHBOARD}/question-bank/import`,
+      subjects: `${ROOTS.DASHBOARD}/question-bank/subjects`,
+    },
     papers: {
       root: `${ROOTS.DASHBOARD}/papers`,
       create: `${ROOTS.DASHBOARD}/papers/create`,

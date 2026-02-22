@@ -2,6 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectItem,
@@ -16,23 +17,30 @@ export default function HeaderEditor({ header = {}, onChange }) {
   };
 
   return (
-    <div className="space-y-4">
-      <h4 className="text-sm font-semibold">Header Settings</h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="space-y-5">
+      {/* Logo toggle */}
+      <div className="flex items-center justify-between rounded-lg border p-3">
         <div>
-          <Label>Show Logo</Label>
-          <Select value={header.showLogo ? 'yes' : 'no'} onValueChange={(v) => update('showLogo', v === 'yes')}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="yes">Yes</SelectItem>
-              <SelectItem value="no">No</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label className="text-sm font-medium">Show Logo</Label>
+          <p className="text-xs text-muted-foreground">Display your organisation logo</p>
         </div>
-        <div>
+        <Switch
+          checked={!!header.showLogo}
+          onCheckedChange={(v) => update('showLogo', v)}
+        />
+      </div>
+
+      {/* Logo position - only show when logo is enabled */}
+      {header.showLogo && (
+        <div className="space-y-1.5 pl-1">
           <Label>Logo Position</Label>
-          <Select value={header.logoPosition || 'left'} onValueChange={(v) => update('logoPosition', v)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+          <Select
+            value={header.logoPosition || 'left'}
+            onValueChange={(v) => update('logoPosition', v)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="left">Left</SelectItem>
               <SelectItem value="center">Center</SelectItem>
@@ -40,24 +48,37 @@ export default function HeaderEditor({ header = {}, onChange }) {
             </SelectContent>
           </Select>
         </div>
-        <div>
-          <Label>Title</Label>
-          <Input value={header.title || ''} onChange={(e) => update('title', e.target.value)} placeholder="Paper title" />
-        </div>
-        <div>
-          <Label>Subtitle</Label>
-          <Input value={header.subtitle || ''} onChange={(e) => update('subtitle', e.target.value)} placeholder="Subtitle" />
-        </div>
+      )}
+
+      {/* Title & Subtitle */}
+      <div className="space-y-1.5">
+        <Label>Title</Label>
+        <Input
+          value={header.title || ''}
+          onChange={(e) => update('title', e.target.value)}
+          placeholder="e.g. Mathematics Final Exam"
+        />
       </div>
-      <div>
-        <Label>Show Student Info</Label>
-        <Select value={header.showStudentInfo ? 'yes' : 'no'} onValueChange={(v) => update('showStudentInfo', v === 'yes')}>
-          <SelectTrigger className="w-[120px]"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="yes">Yes</SelectItem>
-            <SelectItem value="no">No</SelectItem>
-          </SelectContent>
-        </Select>
+
+      <div className="space-y-1.5">
+        <Label>Subtitle</Label>
+        <Input
+          value={header.subtitle || ''}
+          onChange={(e) => update('subtitle', e.target.value)}
+          placeholder="e.g. Grade 10 - Term 2"
+        />
+      </div>
+
+      {/* Student info toggle */}
+      <div className="flex items-center justify-between rounded-lg border p-3">
+        <div>
+          <Label className="text-sm font-medium">Student Info Fields</Label>
+          <p className="text-xs text-muted-foreground">Show Name and Date fields</p>
+        </div>
+        <Switch
+          checked={!!header.showStudentInfo}
+          onCheckedChange={(v) => update('showStudentInfo', v)}
+        />
       </div>
     </div>
   );

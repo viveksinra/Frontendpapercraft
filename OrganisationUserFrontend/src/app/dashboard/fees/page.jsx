@@ -65,7 +65,8 @@ export default function FeesPage() {
       try {
         const data = await listClasses(activeCompanyId, { status: 'active' });
         if (!cancelled) {
-          const list = data?.classes || data || [];
+          const raw = data?.classes || data?.data || data;
+          const list = Array.isArray(raw) ? raw : [];
           setClasses(list);
           if (list.length > 0) setSelectedClassId(list[0]._id || list[0].id);
         }

@@ -61,9 +61,14 @@ export const navData = [
     items: [
       {
         title: 'Question Bank',
-        path: paths.dashboard.questionBank,
+        path: paths.dashboard.questionBank.root,
         icon: ICONS.questionBank,
-        badge: 'Soon',
+        children: [
+          { title: 'All Questions', path: paths.dashboard.questionBank.root },
+          { title: 'Create Question', path: paths.dashboard.questionBank.create },
+          { title: 'Bulk Import', path: paths.dashboard.questionBank.import },
+          { title: 'Subjects & Topics', path: paths.dashboard.questionBank.subjects },
+        ],
       },
       {
         title: 'Papers',

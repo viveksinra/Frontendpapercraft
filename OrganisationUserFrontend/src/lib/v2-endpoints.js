@@ -228,6 +228,30 @@ export const v2Endpoints = {
     bulk: (companyId) => `/api/v2/companies/${companyId}/reports/bulk`,
     delete: (companyId, reportId) => `/api/v2/companies/${companyId}/reports/${reportId}`,
   },
+  // Phase 1: Question Bank
+  questions: {
+    list: (companyId) => `/api/v2/companies/${companyId}/questions`,
+    create: (companyId) => `/api/v2/companies/${companyId}/questions`,
+    stats: (companyId) => `/api/v2/companies/${companyId}/questions/stats`,
+    detail: (companyId, id) => `/api/v2/companies/${companyId}/questions/${id}`,
+    update: (companyId, id) => `/api/v2/companies/${companyId}/questions/${id}`,
+    archive: (companyId, id) => `/api/v2/companies/${companyId}/questions/${id}`,
+    restore: (companyId, id) => `/api/v2/companies/${companyId}/questions/${id}/restore`,
+    duplicate: (companyId, id) => `/api/v2/companies/${companyId}/questions/${id}/duplicate`,
+    review: (companyId, id) => `/api/v2/companies/${companyId}/questions/${id}/review`,
+    bulkImport: (companyId) => `/api/v2/companies/${companyId}/questions/bulk-import`,
+    bulkImportStatus: (companyId, jobId) => `/api/v2/companies/${companyId}/questions/bulk-import/${jobId}`,
+    bulkImportConfirm: (companyId, jobId) => `/api/v2/companies/${companyId}/questions/bulk-import/${jobId}/confirm`,
+  },
+  subjects: {
+    tree: (companyId) => `/api/v2/companies/${companyId}/subjects`,
+    create: (companyId) => `/api/v2/companies/${companyId}/subjects`,
+    detail: (companyId, id) => `/api/v2/companies/${companyId}/subjects/${id}`,
+    update: (companyId, id) => `/api/v2/companies/${companyId}/subjects/${id}`,
+    delete: (companyId, id) => `/api/v2/companies/${companyId}/subjects/${id}`,
+    move: (companyId, id) => `/api/v2/companies/${companyId}/subjects/${id}/move`,
+    reorder: (companyId) => `/api/v2/companies/${companyId}/subjects/reorder`,
+  },
   // Phase 8: Course Builder
   courses: {
     list: (companyId) => `/api/v2/companies/${companyId}/courses`,
