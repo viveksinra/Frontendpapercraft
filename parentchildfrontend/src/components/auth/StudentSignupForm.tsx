@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,9 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Loader2, GraduationCap } from 'lucide-react';
+import { Loader2, GraduationCap, PartyPopper } from 'lucide-react';
 import { OrgCodeInput } from './OrgCodeInput';
 import { StudentCodeDisplay } from './StudentCodeDisplay';
+import { staggerContainer, staggerItem, scaleIn } from '@/lib/animations';
 
 const studentSignupSchema = z.object({
   orgCode: z
@@ -84,152 +86,211 @@ export function StudentSignupForm() {
   // Show student code after successful registration
   if (studentCode) {
     return (
-      <Card>
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-            <GraduationCap className="h-6 w-6 text-green-600" />
-          </div>
-          <CardTitle className="text-2xl">Registration Complete!</CardTitle>
-          <CardDescription>
-            Your student account has been created. Save your student code below.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <StudentCodeDisplay code={studentCode} />
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button asChild>
-            <Link href="/student/dashboard">Go to Dashboard</Link>
-          </Button>
-        </CardFooter>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Card variant="glass">
+          <CardHeader className="text-center">
+            <motion.div
+              className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-500"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.2 }}
+            >
+              <PartyPopper className="h-7 w-7 text-white" />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <CardTitle className="text-2xl">Registration Complete!</CardTitle>
+              <CardDescription>
+                Your student account has been created. Save your student code below.
+              </CardDescription>
+            </motion.div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <StudentCodeDisplay code={studentCode} />
+            </motion.div>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+            >
+              <Button variant="gradient" asChild>
+                <Link href="/student/dashboard">Go to Dashboard</Link>
+              </Button>
+            </motion.div>
+          </CardFooter>
+        </Card>
+      </motion.div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader className="text-center">
-        <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-          <GraduationCap className="h-6 w-6 text-primary" />
-        </div>
-        <CardTitle className="text-2xl">Student Sign Up</CardTitle>
-        <CardDescription>Create your student account to get started</CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent className="space-y-4">
-          {/* Organization Code - at top */}
-          <div className="space-y-2">
-            <Label htmlFor="orgCode">Organization Code</Label>
-            <Controller
-              name="orgCode"
-              control={control}
-              render={({ field }) => (
-                <OrgCodeInput
-                  value={field.value}
-                  onChange={field.onChange}
-                  error={errors.orgCode?.message}
-                  disabled={loading}
-                />
-              )}
-            />
-          </div>
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.div variants={staggerItem}>
+        <Card variant="glass">
+          <CardHeader className="text-center">
+            <motion.div
+              className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-mid))]"
+              variants={scaleIn}
+              initial="hidden"
+              animate="visible"
+            >
+              <GraduationCap className="h-6 w-6 text-white" />
+            </motion.div>
+            <CardTitle className="text-2xl">Student Sign Up</CardTitle>
+            <CardDescription>Create your student account to get started</CardDescription>
+          </CardHeader>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CardContent>
+              <motion.div
+                className="space-y-4"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
+              >
+                {/* Organization Code - at top */}
+                <motion.div className="space-y-2" variants={staggerItem}>
+                  <Label htmlFor="orgCode">Organization Code</Label>
+                  <Controller
+                    name="orgCode"
+                    control={control}
+                    render={({ field }) => (
+                      <OrgCodeInput
+                        value={field.value}
+                        onChange={field.onChange}
+                        error={errors.orgCode?.message}
+                        disabled={loading}
+                      />
+                    )}
+                  />
+                </motion.div>
 
-          {/* Full Name */}
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              placeholder="Enter your full name"
-              {...register('name')}
-              disabled={loading}
-            />
-            {errors.name && (
-              <p className="text-sm text-red-500">{errors.name.message}</p>
-            )}
-          </div>
+                {/* Full Name */}
+                <motion.div className="space-y-2" variants={staggerItem}>
+                  <Label htmlFor="name">Full Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Enter your full name"
+                    {...register('name')}
+                    disabled={loading}
+                  />
+                  {errors.name && (
+                    <p className="text-sm text-red-500">{errors.name.message}</p>
+                  )}
+                </motion.div>
 
-          {/* Email */}
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              {...register('email')}
-              disabled={loading}
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
+                {/* Email */}
+                <motion.div className="space-y-2" variants={staggerItem}>
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    {...register('email')}
+                    disabled={loading}
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-500">{errors.email.message}</p>
+                  )}
+                </motion.div>
 
-          {/* Password */}
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Create a password"
-              {...register('password')}
-              disabled={loading}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-          </div>
+                {/* Password */}
+                <motion.div className="space-y-2" variants={staggerItem}>
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Create a password"
+                    {...register('password')}
+                    disabled={loading}
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-red-500">{errors.password.message}</p>
+                  )}
+                </motion.div>
 
-          {/* Year Group */}
-          <div className="space-y-2">
-            <Label htmlFor="yearGroup">Year Group</Label>
-            <Controller
-              name="yearGroup"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  value={field.value}
-                  onValueChange={field.onChange}
+                {/* Year Group */}
+                <motion.div className="space-y-2" variants={staggerItem}>
+                  <Label htmlFor="yearGroup">Year Group</Label>
+                  <Controller
+                    name="yearGroup"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                        disabled={loading}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select your year group" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {YEAR_GROUPS.map((yg) => (
+                            <SelectItem key={yg.value} value={yg.value}>
+                              {yg.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.yearGroup && (
+                    <p className="text-sm text-red-500">{errors.yearGroup.message}</p>
+                  )}
+                </motion.div>
+              </motion.div>
+            </CardContent>
+
+            <CardFooter className="flex flex-col gap-4">
+              <motion.div className="w-full" variants={staggerItem}>
+                <Button
+                  type="submit"
+                  variant="gradient"
+                  className="w-full"
                   disabled={loading}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your year group" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {YEAR_GROUPS.map((yg) => (
-                      <SelectItem key={yg.value} value={yg.value}>
-                        {yg.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              )}
-            />
-            {errors.yearGroup && (
-              <p className="text-sm text-red-500">{errors.yearGroup.message}</p>
-            )}
-          </div>
-        </CardContent>
-
-        <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Create Student Account
-          </Button>
-          <div className="flex flex-col items-center gap-1 text-sm text-muted-foreground">
-            <p>
-              Already have an account?{' '}
-              <Link href="/auth/student/login" className="text-primary underline-offset-4 hover:underline">
-                Sign In
-              </Link>
-            </p>
-            <p>
-              Are you a parent?{' '}
-              <Link href="/auth/parent/signup" className="text-primary underline-offset-4 hover:underline">
-                Register as Parent
-              </Link>
-            </p>
-          </div>
-        </CardFooter>
-      </form>
-    </Card>
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Create Student Account
+                </Button>
+              </motion.div>
+              <motion.div
+                className="flex flex-col items-center gap-1 text-sm text-muted-foreground"
+                variants={staggerItem}
+              >
+                <p>
+                  Already have an account?{' '}
+                  <Link href="/auth/student/login" className="text-primary font-medium underline-offset-4 hover:underline transition-colors">
+                    Sign In
+                  </Link>
+                </p>
+                <p>
+                  Are you a parent?{' '}
+                  <Link href="/auth/parent/signup" className="text-primary font-medium underline-offset-4 hover:underline transition-colors">
+                    Register as Parent
+                  </Link>
+                </p>
+              </motion.div>
+            </CardFooter>
+          </form>
+        </Card>
+      </motion.div>
+    </motion.div>
   );
 }

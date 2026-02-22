@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Users, UserPlus, LogOut, Menu, Bug, BarChart3, Search, UserSearch, ClipboardList, GraduationCap, TrendingUp, CreditCard, Sparkles, PlayCircle } from 'lucide-react';
+import { Building2, Users, UserPlus, LogOut, Menu, Bug, BarChart3, Search, UserSearch, ClipboardList, GraduationCap, TrendingUp, CreditCard, Sparkles, PlayCircle, Trophy } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { SuperAdminGuard } from '@/components/super-admin-guard';
 import { Navbar } from '@/components/navbar';
@@ -30,6 +30,7 @@ const navGroups = [
       { href: '/dashboard/revenue', label: 'Platform Revenue', icon: TrendingUp },
       { href: '/dashboard/courses', label: 'Courses', icon: PlayCircle },
       { href: '/dashboard/stripe-accounts', label: 'Stripe Accounts', icon: CreditCard },
+      { href: '/dashboard/engagement', label: 'Engagement', icon: Trophy },
     ],
   },
   {
