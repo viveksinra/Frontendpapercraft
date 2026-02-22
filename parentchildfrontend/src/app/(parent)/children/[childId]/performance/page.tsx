@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ChildPerformanceCharts } from '@/components/parent/ChildPerformanceCharts';
+import { ChildAnalyticsDashboard } from '@/components/parent/ChildAnalyticsDashboard';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 
@@ -27,7 +27,7 @@ export default function ChildPerformancePage() {
         </div>
       </div>
 
-      <ChildPerformanceCharts childId={childId} />
+      <ChildAnalyticsDashboard childId={childId} />
     </div>
   );
 }

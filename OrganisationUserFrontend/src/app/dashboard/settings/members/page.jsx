@@ -94,7 +94,7 @@ const ROLE_CONFIG = {
 };
 
 const ROLE_ORDER = ['owner', 'admin', 'senior_teacher', 'teacher', 'content_reviewer', 'student', 'parent'];
-const ASSIGNABLE_ROLES = ['admin', 'senior_teacher', 'teacher', 'content_reviewer', 'student', 'parent'];
+const ASSIGNABLE_ROLES = ['admin', 'senior_teacher', 'teacher', 'content_reviewer'];
 
 // Badge color helper: maps ROLE_CONFIG color to className
 function getRoleBadgeProps(color) {

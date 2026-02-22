@@ -69,6 +69,7 @@ export const endpoints = {
   },
   parent: {
     linkChild: '/api/v2/parent/link-child',
+    createChild: '/api/v2/parent/create-child',
     unlinkChild: '/api/v2/parent/unlink-child',
     children: '/api/v2/parent/children',
     dashboard: '/api/v2/parent/dashboard',
@@ -101,5 +102,15 @@ export const endpoints = {
   },
   parentPurchases: {
     list: '/api/v2/parent/purchases',
+  },
+  // Phase 7: Analytics & Reporting
+  studentAnalytics: {
+    analytics: '/api/v2/student/analytics',
+    scoreTrend: '/api/v2/student/analytics/score-trend',
+    subjectRadar: '/api/v2/student/analytics/subject-radar',
+    elevenPlus: '/api/v2/student/analytics/eleven-plus',
+    reports: '/api/v2/student/reports',
+    downloadReport: (reportId: string) => `/api/v2/student/reports/${reportId}/download`,
+    topicDrilldown: (subjectId: string) => `/api/v2/student/analytics/topic-drilldown/${subjectId}`,
   },
 };

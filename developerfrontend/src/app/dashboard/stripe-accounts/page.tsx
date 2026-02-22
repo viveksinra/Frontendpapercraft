@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { getConnectedAccounts, type ConnectedAccount } from '@/lib/admin-api';
 import { ConnectedAccountsList } from '@/components/stripe/ConnectedAccountsList';
@@ -73,12 +73,15 @@ export default function StripeAccountsPage() {
       {/* Filters */}
       <div className="flex items-end gap-4">
         <form onSubmit={handleSearchSubmit} className="flex items-end gap-2">
-          <Input
-            placeholder="Search by org name..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-64"
-          />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search by org name..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-64 pl-9"
+            />
+          </div>
           <Button type="submit" variant="outline" size="sm" disabled={loading}>
             Search
           </Button>

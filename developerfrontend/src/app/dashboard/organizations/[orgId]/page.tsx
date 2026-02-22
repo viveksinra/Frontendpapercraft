@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Building2, Users, BarChart3 } from 'lucide-react';
+import { ArrowLeft, Building2, Users, BarChart3, FileText, FlaskConical, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { getOrganization, type OrganizationDetail } from '@/lib/admin-api';
 import { Button } from '@/components/ui/button';
@@ -72,7 +72,9 @@ export default function OrganizationDetailPage() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <Building2 className="h-5 w-5 text-muted-foreground" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+              <Building2 className="h-5 w-5 text-primary" />
+            </div>
             <div>
               <CardTitle className="text-xl">{org.name}</CardTitle>
               <CardDescription className="font-mono text-xs">{org.slug}</CardDescription>
@@ -81,23 +83,23 @@ export default function OrganizationDetailPage() {
         </CardHeader>
         <CardContent>
           <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
+            <div className="rounded-lg border-l-2 border-l-primary/50 pl-3">
               <dt className="text-sm font-medium text-muted-foreground">Status</dt>
               <dd className="mt-1">
-                <Badge variant={org.status === 'active' ? 'default' : 'secondary'}>
+                <Badge variant={org.status === 'active' ? 'success' : 'secondary'}>
                   {org.status || '—'}
                 </Badge>
               </dd>
             </div>
-            <div>
+            <div className="rounded-lg border-l-2 border-l-blue-500/50 pl-3">
               <dt className="text-sm font-medium text-muted-foreground">Owner Email</dt>
               <dd className="mt-1 text-sm">{org.ownerEmail || '—'}</dd>
             </div>
-            <div>
+            <div className="rounded-lg border-l-2 border-l-green-500/50 pl-3">
               <dt className="text-sm font-medium text-muted-foreground">Members</dt>
               <dd className="mt-1 text-sm">{org.memberCount ?? org.members?.length ?? '—'}</dd>
             </div>
-            <div>
+            <div className="rounded-lg border-l-2 border-l-amber-500/50 pl-3">
               <dt className="text-sm font-medium text-muted-foreground">Created</dt>
               <dd className="mt-1 text-sm">
                 {org.createdAt ? new Date(org.createdAt).toLocaleDateString() : '—'}
@@ -111,7 +113,9 @@ export default function OrganizationDetailPage() {
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <Users className="h-5 w-5 text-muted-foreground" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/10">
+              <Users className="h-4 w-4 text-blue-500" />
+            </div>
             <CardTitle>Members</CardTitle>
           </div>
         </CardHeader>
@@ -149,11 +153,13 @@ export default function OrganizationDetailPage() {
         </CardContent>
       </Card>
 
-      {/* Usage Stats Placeholder */}
+      {/* Usage Stats */}
       <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
-            <BarChart3 className="h-5 w-5 text-muted-foreground" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500/10">
+              <BarChart3 className="h-4 w-4 text-amber-500" />
+            </div>
             <CardTitle>Usage Statistics</CardTitle>
           </div>
           <CardDescription>Usage metrics for this organization.</CardDescription>
@@ -161,14 +167,23 @@ export default function OrganizationDetailPage() {
         <CardContent>
           <dl className="grid gap-4 sm:grid-cols-3">
             <div className="rounded-md border p-4 text-center">
+              <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-blue-500/10">
+                <FileText className="h-4 w-4 text-blue-500" />
+              </div>
               <dt className="text-sm font-medium text-muted-foreground">Questions Created</dt>
               <dd className="mt-1 text-2xl font-bold">&mdash;</dd>
             </div>
             <div className="rounded-md border p-4 text-center">
+              <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-green-500/10">
+                <FlaskConical className="h-4 w-4 text-green-500" />
+              </div>
               <dt className="text-sm font-medium text-muted-foreground">Tests Created</dt>
               <dd className="mt-1 text-2xl font-bold">&mdash;</dd>
             </div>
             <div className="rounded-md border p-4 text-center">
+              <div className="mx-auto mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-purple-500/10">
+                <Send className="h-4 w-4 text-purple-500" />
+              </div>
               <dt className="text-sm font-medium text-muted-foreground">Total Submissions</dt>
               <dd className="mt-1 text-2xl font-bold">&mdash;</dd>
             </div>

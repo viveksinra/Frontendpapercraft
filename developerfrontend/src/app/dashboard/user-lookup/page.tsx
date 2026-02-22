@@ -52,6 +52,8 @@ export default function UserLookupPage() {
     }
   };
 
+  const roleColor = user?.role === 'student' ? 'info' : user?.role === 'parent' ? 'success' : 'secondary';
+
   return (
     <div className="space-y-6">
       <div>
@@ -91,7 +93,9 @@ export default function UserLookupPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <User className="h-5 w-5 text-muted-foreground" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                  {user.firstName?.[0]}{user.lastName?.[0]}
+                </div>
                 <div>
                   <CardTitle>
                     {user.firstName} {user.lastName}
@@ -99,7 +103,7 @@ export default function UserLookupPage() {
                   <CardDescription>{user.email}</CardDescription>
                 </div>
                 {user.role && (
-                  <Badge variant="secondary" className="ml-auto">
+                  <Badge variant={roleColor as any} className="ml-auto">
                     {user.role}
                   </Badge>
                 )}
@@ -129,100 +133,96 @@ export default function UserLookupPage() {
             </CardContent>
           </Card>
 
-          {/* Student-specific: studentCode, organizations, linked parents */}
+          {/* Student-specific */}
           {user.studentProfile && (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Student Profile</CardTitle>
-                  <CardDescription>Student-specific information.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <dl className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <dt className="text-sm font-medium text-muted-foreground">Student Code</dt>
-                      <dd className="mt-1 font-mono text-sm font-bold">
-                        {user.studentProfile.studentCode || '\u2014'}
-                      </dd>
+            <Card className="border-l-4 border-l-blue-500">
+              <CardHeader>
+                <CardTitle>Student Profile</CardTitle>
+                <CardDescription>Student-specific information.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <dl className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <dt className="text-sm font-medium text-muted-foreground">Student Code</dt>
+                    <dd className="mt-1 font-mono text-sm font-bold">
+                      {user.studentProfile.studentCode || '\u2014'}
+                    </dd>
+                  </div>
+                </dl>
+
+                {user.studentProfile.organizations &&
+                  user.studentProfile.organizations.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="mb-2 text-sm font-medium text-muted-foreground">
+                        Organizations
+                      </h4>
+                      <div className="rounded-md border">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Organization Name</TableHead>
+                              <TableHead>Organization ID</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {user.studentProfile.organizations.map((org) => (
+                              <TableRow key={org.organizationId}>
+                                <TableCell className="font-medium">
+                                  {org.organizationName}
+                                </TableCell>
+                                <TableCell className="font-mono text-xs">
+                                  {org.organizationId}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
                     </div>
-                  </dl>
+                  )}
 
-                  {/* Organizations */}
-                  {user.studentProfile.organizations &&
-                    user.studentProfile.organizations.length > 0 && (
-                      <div className="mt-6">
-                        <h4 className="mb-2 text-sm font-medium text-muted-foreground">
-                          Organizations
-                        </h4>
-                        <div className="rounded-md border">
-                          <Table>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead>Organization Name</TableHead>
-                                <TableHead>Organization ID</TableHead>
+                {user.studentProfile.linkedParents &&
+                  user.studentProfile.linkedParents.length > 0 && (
+                    <div className="mt-6">
+                      <h4 className="mb-2 text-sm font-medium text-muted-foreground">
+                        Linked Parents
+                      </h4>
+                      <div className="rounded-md border">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Name</TableHead>
+                              <TableHead>Email</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {user.studentProfile.linkedParents.map((parent) => (
+                              <TableRow key={parent.id}>
+                                <TableCell className="font-medium">
+                                  {parent.firstName} {parent.lastName}
+                                </TableCell>
+                                <TableCell>{parent.email}</TableCell>
                               </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {user.studentProfile.organizations.map((org) => (
-                                <TableRow key={org.organizationId}>
-                                  <TableCell className="font-medium">
-                                    {org.organizationName}
-                                  </TableCell>
-                                  <TableCell className="font-mono text-xs">
-                                    {org.organizationId}
-                                  </TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </div>
+                            ))}
+                          </TableBody>
+                        </Table>
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                  {/* Linked Parents */}
-                  {user.studentProfile.linkedParents &&
-                    user.studentProfile.linkedParents.length > 0 && (
-                      <div className="mt-6">
-                        <h4 className="mb-2 text-sm font-medium text-muted-foreground">
-                          Linked Parents
-                        </h4>
-                        <div className="rounded-md border">
-                          <Table>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Email</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {user.studentProfile.linkedParents.map((parent) => (
-                                <TableRow key={parent.id}>
-                                  <TableCell className="font-medium">
-                                    {parent.firstName} {parent.lastName}
-                                  </TableCell>
-                                  <TableCell>{parent.email}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </div>
-                      </div>
-                    )}
-
-                  {user.studentProfile.linkedParents &&
-                    user.studentProfile.linkedParents.length === 0 && (
-                      <p className="mt-4 text-sm text-muted-foreground">
-                        No linked parents found.
-                      </p>
-                    )}
-                </CardContent>
-              </Card>
-            </>
+                {user.studentProfile.linkedParents &&
+                  user.studentProfile.linkedParents.length === 0 && (
+                    <p className="mt-4 text-sm text-muted-foreground">
+                      No linked parents found.
+                    </p>
+                  )}
+              </CardContent>
+            </Card>
           )}
 
-          {/* Parent-specific: linked children */}
+          {/* Parent-specific */}
           {user.parentProfile && (
-            <Card>
+            <Card className="border-l-4 border-l-green-500">
               <CardHeader>
                 <CardTitle>Parent Profile</CardTitle>
                 <CardDescription>Linked children for this parent account.</CardDescription>
@@ -263,7 +263,7 @@ export default function UserLookupPage() {
             </Card>
           )}
 
-          {/* Organization Memberships (shown for all roles) */}
+          {/* Organization Memberships */}
           <Card>
             <CardHeader>
               <CardTitle>Organization Memberships</CardTitle>

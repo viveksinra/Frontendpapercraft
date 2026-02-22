@@ -33,12 +33,12 @@ function formatDate(dateStr: string | null | undefined): string {
   }
 }
 
-function getStatusVariant(status: string): 'default' | 'secondary' | 'outline' | 'destructive' {
+function getStatusVariant(status: string): 'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning' {
   switch (status) {
     case 'completed':
-      return 'default';
+      return 'success';
     case 'in_progress':
-      return 'secondary';
+      return 'info' as any;
     case 'abandoned':
     case 'timed_out':
       return 'destructive';
@@ -136,10 +136,17 @@ export default function StudentDebugPage() {
           {/* Student Info Card */}
           <Card>
             <CardHeader>
-              <CardTitle>
-                {student.firstName} {student.lastName}
-              </CardTitle>
-              <CardDescription>{student.email}</CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                  {student.firstName?.[0]}{student.lastName?.[0]}
+                </div>
+                <div>
+                  <CardTitle>
+                    {student.firstName} {student.lastName}
+                  </CardTitle>
+                  <CardDescription>{student.email}</CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -167,7 +174,7 @@ export default function StudentDebugPage() {
             </CardContent>
           </Card>
 
-          {/* Attempts Table */}
+          {/* Attempts */}
           <Card>
             <CardHeader>
               <CardTitle>
@@ -179,49 +186,32 @@ export default function StudentDebugPage() {
             </CardHeader>
             <CardContent>
               {student.attempts && student.attempts.length > 0 ? (
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Test Name</TableHead>
-                        <TableHead>Organization</TableHead>
-                        <TableHead>Attempt #</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Score</TableHead>
-                        <TableHead>Started</TableHead>
-                        <TableHead>Submitted</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {student.attempts.map((attempt) => (
-                        <TableRow key={attempt.id}>
-                          <TableCell className="font-medium">
-                            {attempt.testName || '\u2014'}
-                          </TableCell>
-                          <TableCell>{attempt.organizationName || '\u2014'}</TableCell>
-                          <TableCell>{attempt.attemptNumber ?? '\u2014'}</TableCell>
-                          <TableCell>
-                            <Badge variant={getStatusVariant(attempt.status)}>
-                              {attempt.status || 'unknown'}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            {attempt.score != null && attempt.totalMarks != null
-                              ? `${attempt.score}/${attempt.totalMarks}`
-                              : attempt.score != null
-                                ? String(attempt.score)
-                                : '\u2014'}
-                          </TableCell>
-                          <TableCell className="text-sm">
-                            {formatDate(attempt.startedAt)}
-                          </TableCell>
-                          <TableCell className="text-sm">
-                            {formatDate(attempt.submittedAt)}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                <div className="space-y-3">
+                  {student.attempts.map((attempt) => (
+                    <div
+                      key={attempt.id}
+                      className="rounded-lg border p-4 transition-colors hover:bg-muted/30"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium">{attempt.testName || '\u2014'}</span>
+                        <Badge variant={getStatusVariant(attempt.status)}>
+                          {attempt.status || 'unknown'}
+                        </Badge>
+                      </div>
+                      <div className="grid gap-2 text-sm text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
+                        <div>Org: {attempt.organizationName || '\u2014'}</div>
+                        <div>Attempt #{attempt.attemptNumber ?? '\u2014'}</div>
+                        <div>
+                          Score: {attempt.score != null && attempt.totalMarks != null
+                            ? `${attempt.score}/${attempt.totalMarks}`
+                            : attempt.score != null
+                              ? String(attempt.score)
+                              : '\u2014'}
+                        </div>
+                        <div>Started: {formatDate(attempt.startedAt)}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">

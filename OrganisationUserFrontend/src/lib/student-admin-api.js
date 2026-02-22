@@ -12,6 +12,7 @@ const studentEndpoints = {
   detail: (companyId, studentId) => `/api/v2/companies/${companyId}/students/${studentId}`,
   parents: (companyId, studentId) => `/api/v2/companies/${companyId}/students/${studentId}/parents`,
   testHistory: (companyId, studentId) => `/api/v2/companies/${companyId}/students/${studentId}/test-history`,
+  inviteParent: (companyId, studentId) => `/api/v2/companies/${companyId}/students/${studentId}/invite-parent`,
 };
 
 // ─── API functions ────────────────────────────────────────────────────────
@@ -37,5 +38,11 @@ export async function getStudentParents(companyId, studentId) {
 export async function getStudentTestHistory(companyId, studentId) {
   const url = backendUrl(studentEndpoints.testHistory(companyId, studentId));
   const res = await axios.get(url, { headers: headers(companyId) });
+  return res.data;
+}
+
+export async function inviteParent(companyId, studentId, email) {
+  const url = backendUrl(studentEndpoints.inviteParent(companyId, studentId));
+  const res = await axios.post(url, { email }, { headers: headers(companyId) });
   return res.data;
 }

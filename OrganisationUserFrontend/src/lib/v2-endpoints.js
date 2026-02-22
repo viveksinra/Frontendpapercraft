@@ -184,4 +184,48 @@ export const v2Endpoints = {
     transactions: (companyId) => `/api/v2/companies/${companyId}/revenue/transactions`,
     topProducts: (companyId) => `/api/v2/companies/${companyId}/revenue/top-products`,
   },
+  // Phase 7: Analytics & Reporting
+  analytics: {
+    studentAnalytics: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/students/${studentId}`,
+    studentScoreTrend: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/students/${studentId}/score-trend`,
+    studentSubjectRadar: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/students/${studentId}/subject-radar`,
+    studentTopicDrilldown: (companyId, studentId, subjectId) => `/api/v2/companies/${companyId}/analytics/students/${studentId}/topic-drilldown/${subjectId}`,
+    studentTestComparison: (companyId, studentId, testId) => `/api/v2/companies/${companyId}/analytics/students/${studentId}/test-comparison/${testId}`,
+    studentTimeTrend: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/students/${studentId}/time-trend`,
+  },
+  classAnalytics: {
+    overview: (companyId, classId) => `/api/v2/companies/${companyId}/classes/${classId}/analytics`,
+    test: (companyId, classId, testId) => `/api/v2/companies/${companyId}/classes/${classId}/analytics/tests/${testId}`,
+    heatmap: (companyId, classId, subjectId) => `/api/v2/companies/${companyId}/classes/${classId}/analytics/heatmap/${subjectId}`,
+    trend: (companyId, classId) => `/api/v2/companies/${companyId}/classes/${classId}/analytics/trend`,
+    rankings: (companyId, classId, testId) => `/api/v2/companies/${companyId}/classes/${classId}/analytics/rankings/${testId}`,
+  },
+  instituteAnalytics: {
+    overview: (companyId) => `/api/v2/companies/${companyId}/analytics/institute/overview`,
+    enrollmentTrends: (companyId) => `/api/v2/companies/${companyId}/analytics/institute/enrollment-trends`,
+    teacherActivity: (companyId) => `/api/v2/companies/${companyId}/analytics/institute/teacher-activity`,
+    contentUsage: (companyId) => `/api/v2/companies/${companyId}/analytics/institute/content-usage`,
+    studentRetention: (companyId) => `/api/v2/companies/${companyId}/analytics/institute/student-retention`,
+    questionBankStats: (companyId) => `/api/v2/companies/${companyId}/analytics/institute/question-bank-stats`,
+  },
+  questionAnalytics: {
+    list: (companyId) => `/api/v2/companies/${companyId}/analytics/questions`,
+    detail: (companyId, questionId) => `/api/v2/companies/${companyId}/analytics/questions/${questionId}`,
+    problematic: (companyId) => `/api/v2/companies/${companyId}/analytics/questions/problematic`,
+    calibration: (companyId) => `/api/v2/companies/${companyId}/analytics/questions/calibration`,
+  },
+  elevenPlusAnalytics: {
+    band: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/eleven-plus/students/${studentId}/band`,
+    components: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/eleven-plus/students/${studentId}/components`,
+    cohortPercentile: (companyId, studentId) => `/api/v2/companies/${companyId}/analytics/eleven-plus/students/${studentId}/cohort-percentile`,
+    config: (companyId) => `/api/v2/companies/${companyId}/analytics/eleven-plus/config`,
+  },
+  reports: {
+    list: (companyId) => `/api/v2/companies/${companyId}/reports`,
+    generate: (companyId) => `/api/v2/companies/${companyId}/reports`,
+    detail: (companyId, reportId) => `/api/v2/companies/${companyId}/reports/${reportId}`,
+    download: (companyId, reportId) => `/api/v2/companies/${companyId}/reports/${reportId}/download`,
+    bulk: (companyId) => `/api/v2/companies/${companyId}/reports/bulk`,
+    delete: (companyId, reportId) => `/api/v2/companies/${companyId}/reports/${reportId}`,
+  },
 };

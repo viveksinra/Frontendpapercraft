@@ -15,6 +15,7 @@ import {
   ShoppingBag,
   TrendingUp,
   CreditCard,
+  FileBarChart,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
@@ -38,6 +39,7 @@ const ICONS = {
   products: <ShoppingBag />,
   revenue: <TrendingUp />,
   stripe: <CreditCard />,
+  reports: <FileBarChart />,
 };
 
 export const navData = [
@@ -136,8 +138,24 @@ export const navData = [
     items: [
       {
         title: 'Analytics',
-        path: paths.dashboard.analytics,
+        path: paths.dashboard.analytics.root,
         icon: ICONS.analytics,
+        children: [
+          { title: 'Dashboard', path: paths.dashboard.analytics.root },
+          { title: 'Students', path: paths.dashboard.analytics.students.root },
+          { title: 'Classes', path: paths.dashboard.analytics.classes.root },
+          { title: 'Institute', path: paths.dashboard.analytics.institute },
+          { title: 'Questions', path: paths.dashboard.analytics.questions.root },
+        ],
+      },
+      {
+        title: 'Reports',
+        path: paths.dashboard.reports.root,
+        icon: ICONS.reports,
+        children: [
+          { title: 'All Reports', path: paths.dashboard.reports.root },
+          { title: 'Generate Report', path: paths.dashboard.reports.generate },
+        ],
       },
       {
         title: 'Revenue Dashboard',

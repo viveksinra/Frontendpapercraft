@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, FlaskConical, Users, Award } from 'lucide-react';
 import { toast } from 'sonner';
 import axiosInstance from '@/lib/axios';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +40,7 @@ const MODE_COLORS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  draft: 'bg-gray-400',
+  draft: 'bg-gray-400 dark:bg-gray-600',
   scheduled: 'bg-blue-400',
   live: 'bg-green-500',
   completed: 'bg-emerald-600',
@@ -70,11 +70,11 @@ function BarChart({
         <div key={key} className="space-y-1">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">{labels[key] || key}</span>
-            <span className="font-medium">{value.toLocaleString()}</span>
+            <span className="font-medium tabular-nums">{value.toLocaleString()}</span>
           </div>
           <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
             <div
-              className={`h-full rounded-full transition-all ${colors[key] || 'bg-primary'}`}
+              className={`h-full rounded-full transition-all duration-500 ease-out ${colors[key] || 'bg-primary'}`}
               style={{ width: `${(value / maxValue) * 100}%` }}
             />
           </div>
@@ -112,6 +112,36 @@ export default function TestStatsPage() {
     loadStats();
   }, []);
 
+  const metricCards = stats ? [
+    {
+      label: 'Total Tests',
+      value: stats.totalTests.toLocaleString(),
+      description: 'All tests created on the platform',
+      icon: FlaskConical,
+      color: 'text-blue-500',
+      bg: 'bg-blue-500/10',
+      accent: 'border-l-blue-500',
+    },
+    {
+      label: 'Total Attempts',
+      value: stats.totalAttempts.toLocaleString(),
+      description: 'Total test attempts across all students',
+      icon: Users,
+      color: 'text-green-500',
+      bg: 'bg-green-500/10',
+      accent: 'border-l-green-500',
+    },
+    {
+      label: 'Platform Pass Rate',
+      value: stats.passRate != null ? `${stats.passRate.toFixed(1)}%` : '\u2014',
+      description: 'Overall pass rate across all completed tests',
+      icon: Award,
+      color: 'text-amber-500',
+      bg: 'bg-amber-500/10',
+      accent: 'border-l-amber-500',
+    },
+  ] : [];
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -146,43 +176,23 @@ export default function TestStatsPage() {
         <>
           {/* Summary Cards */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Total Tests</CardDescription>
-                <CardTitle className="text-3xl">{stats.totalTests.toLocaleString()}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xs text-muted-foreground">
-                  All tests created on the platform
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Total Attempts</CardDescription>
-                <CardTitle className="text-3xl">{stats.totalAttempts.toLocaleString()}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xs text-muted-foreground">
-                  Total test attempts across all students
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Platform Pass Rate</CardDescription>
-                <CardTitle className="text-3xl">
-                  {stats.passRate != null ? `${stats.passRate.toFixed(1)}%` : '\u2014'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-xs text-muted-foreground">
-                  Overall pass rate across all completed tests
-                </p>
-              </CardContent>
-            </Card>
+            {metricCards.map((card) => {
+              const Icon = card.icon;
+              return (
+                <Card key={card.label} className={`border-l-4 ${card.accent}`}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardDescription>{card.label}</CardDescription>
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${card.bg}`}>
+                      <Icon className={`h-4 w-4 ${card.color}`} />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardTitle className="text-3xl">{card.value}</CardTitle>
+                    <p className="text-xs text-muted-foreground mt-1">{card.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
 
           {/* Distribution Charts */}

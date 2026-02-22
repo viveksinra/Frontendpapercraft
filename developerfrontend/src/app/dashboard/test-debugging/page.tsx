@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
   Select,
   SelectContent,
@@ -172,9 +173,9 @@ export default function TestDebuggingPage() {
                 <Badge
                   variant={
                     attempt.status === 'completed'
-                      ? 'default'
+                      ? 'success'
                       : attempt.status === 'in_progress'
-                        ? 'secondary'
+                        ? 'info' as any
                         : 'outline'
                   }
                 >
@@ -234,7 +235,7 @@ export default function TestDebuggingPage() {
                     </TableHeader>
                     <TableBody>
                       {attempt.answers.map((answer, ansIdx) => (
-                        <TableRow key={answer.questionId || ansIdx}>
+                        <TableRow key={answer.questionId || ansIdx} className={ansIdx % 2 === 1 ? 'bg-muted/20' : ''}>
                           <TableCell className="font-mono text-xs">
                             {answer.questionId || '\u2014'}
                           </TableCell>
@@ -242,7 +243,7 @@ export default function TestDebuggingPage() {
                             {formatAnswerValue(answer.answer)}
                           </TableCell>
                           <TableCell>
-                            <Badge variant={answer.isCorrect ? 'default' : 'destructive'}>
+                            <Badge variant={answer.isCorrect ? 'success' : 'destructive'}>
                               {answer.isCorrect ? 'Yes' : 'No'}
                             </Badge>
                           </TableCell>
@@ -252,7 +253,7 @@ export default function TestDebuggingPage() {
                           </TableCell>
                           <TableCell>
                             {answer.flagged ? (
-                              <Badge variant="secondary">Flagged</Badge>
+                              <Badge variant="warning">Flagged</Badge>
                             ) : (
                               '\u2014'
                             )}
@@ -361,7 +362,7 @@ export default function TestDebuggingPage() {
 
           {/* Separator between multiple attempts */}
           {idx < attempts.length - 1 && (
-            <div className="border-b pt-4" />
+            <Separator className="my-6" />
           )}
         </div>
       ))}

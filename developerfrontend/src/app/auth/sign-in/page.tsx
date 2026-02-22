@@ -54,7 +54,7 @@ export default function SignInPage() {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <Card>
+      <Card className="border-t-4 border-t-primary shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">PaperCraft Internal</CardTitle>
           <CardDescription>Sign in to the super-admin dashboard</CardDescription>
@@ -111,10 +111,12 @@ export default function SignInPage() {
                 key={account.email}
                 type="button"
                 onClick={() => fillCredentials(account)}
-                className={`flex items-center gap-2.5 rounded-lg border p-2.5 text-left transition-colors hover:bg-accent hover:border-accent-foreground/20 cursor-pointer ${isActive ? 'border-primary bg-primary/5' : 'border-border'}`}
+                className={`flex items-center gap-2.5 rounded-lg border p-2.5 text-left transition-all hover:bg-accent hover:border-accent-foreground/20 cursor-pointer ${isActive ? 'border-primary bg-primary/5 shadow-sm' : 'border-border'}`}
               >
                 <div className="flex-shrink-0">
-                  <Icon className="h-4 w-4 text-primary" />
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10">
+                    <Icon className="h-3.5 w-3.5 text-primary" />
+                  </div>
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">

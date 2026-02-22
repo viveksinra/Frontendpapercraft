@@ -89,7 +89,9 @@ export default function UsersPage() {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3">
-                <User className="h-5 w-5 text-muted-foreground" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                  {user.firstName?.[0]}{user.lastName?.[0]}
+                </div>
                 <div>
                   <CardTitle>
                     {user.firstName} {user.lastName}

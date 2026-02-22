@@ -8,6 +8,18 @@ export async function linkChild(studentCode: string, relationship: string = 'gua
   return res.data;
 }
 
+export async function createChild(data: {
+  name: string;
+  relationship: string;
+  email?: string;
+  password?: string;
+  yearGroup?: string;
+  orgCode?: string;
+}) {
+  const res = await axiosInstance.post(endpoints.parent.createChild, data);
+  return res.data;
+}
+
 export async function unlinkChild(studentUserId: string) {
   const res = await axiosInstance.post(`${endpoints.parent.unlinkChild}/${studentUserId}`);
   return res.data;
@@ -92,6 +104,55 @@ export async function getChildHomeworkDetail(childId: string, homeworkId: string
 export async function getChildFees(childId: string) {
   const res = await axiosInstance.get(
     `${endpoints.parent.children}/${childId}/fees`
+  );
+  return res.data;
+}
+
+// Phase 7: Analytics & Reporting
+
+export async function getChildAnalytics(
+  childId: string,
+  params?: { period?: string; forceRefresh?: string }
+) {
+  const res = await axiosInstance.get(
+    `${endpoints.parent.children}/${childId}/analytics`,
+    { params }
+  );
+  return res.data;
+}
+
+export async function getChildScoreTrend(childId: string, limit?: number) {
+  const res = await axiosInstance.get(
+    `${endpoints.parent.children}/${childId}/analytics/score-trend`,
+    { params: limit ? { limit } : undefined }
+  );
+  return res.data;
+}
+
+export async function getChildSubjectRadar(childId: string) {
+  const res = await axiosInstance.get(
+    `${endpoints.parent.children}/${childId}/analytics/subject-radar`
+  );
+  return res.data;
+}
+
+export async function getChildElevenPlusAnalytics(childId: string) {
+  const res = await axiosInstance.get(
+    `${endpoints.parent.children}/${childId}/analytics/eleven-plus`
+  );
+  return res.data;
+}
+
+export async function getChildReports(childId: string) {
+  const res = await axiosInstance.get(
+    `${endpoints.parent.children}/${childId}/reports`
+  );
+  return res.data;
+}
+
+export async function downloadChildReport(childId: string, reportId: string) {
+  const res = await axiosInstance.get(
+    `${endpoints.parent.children}/${childId}/reports/${reportId}/download`
   );
   return res.data;
 }

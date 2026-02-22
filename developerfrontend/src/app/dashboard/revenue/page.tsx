@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import { getPlatformRevenue, type PlatformRevenueOverview as PlatformRevenueData } from '@/lib/admin-api';
 import { PlatformRevenueOverview } from '@/components/revenue/PlatformRevenueOverview';
@@ -10,6 +10,7 @@ import { FailedPaymentsMonitor } from '@/components/revenue/FailedPaymentsMonito
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function PlatformRevenuePage() {
   const [data, setData] = useState<PlatformRevenueData | null>(null);
@@ -56,32 +57,35 @@ export default function PlatformRevenuePage() {
         </Button>
       </div>
 
-      {/* Date Range Filter */}
-      <div className="flex items-end gap-4">
-        <div className="space-y-1">
-          <Label htmlFor="startDate" className="text-sm">Start Date</Label>
-          <Input
-            id="startDate"
-            type="date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="w-40"
-          />
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor="endDate" className="text-sm">End Date</Label>
-          <Input
-            id="endDate"
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className="w-40"
-          />
-        </div>
-        <Button variant="outline" size="sm" onClick={loadRevenue} disabled={loading}>
-          Apply
-        </Button>
-      </div>
+      {/* Date Range Filter - Toolbar style */}
+      <Card>
+        <CardContent className="flex items-end gap-4 pt-4 pb-4">
+          <Calendar className="h-4 w-4 text-muted-foreground mb-2" />
+          <div className="space-y-1">
+            <Label htmlFor="startDate" className="text-xs">Start Date</Label>
+            <Input
+              id="startDate"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-40 h-8 text-sm"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="endDate" className="text-xs">End Date</Label>
+            <Input
+              id="endDate"
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-40 h-8 text-sm"
+            />
+          </div>
+          <Button variant="secondary" size="sm" onClick={loadRevenue} disabled={loading}>
+            Apply
+          </Button>
+        </CardContent>
+      </Card>
 
       {loading && !data && (
         <div className="flex items-center justify-center py-20">

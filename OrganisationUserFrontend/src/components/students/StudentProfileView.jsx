@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   User,
   Mail,
@@ -12,6 +12,11 @@ import {
   GraduationCap,
   ClipboardList,
   ArrowLeft,
+  Copy,
+  Check,
+  UserPlus,
+  X,
+  Send,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -20,11 +25,20 @@ import {
   getStudentProfile,
   getStudentParents,
   getStudentTestHistory,
+  inviteParent,
 } from 'src/lib/student-admin-api';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+} from '@/components/ui/dialog';
 import {
   Table,
   TableRow,
@@ -59,8 +73,60 @@ export default function StudentProfileView({ studentId }) {
   const [student, setStudent] = useState(null);
   const [parents, setParents] = useState([]);
   const [testHistory, setTestHistory] = useState(null);
+  const [codeCopied, setCodeCopied] = useState(false);
+  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [inviting, setInviting] = useState(false);
+  const [inviteSuccess, setInviteSuccess] = useState(false);
+  const [inviteError, setInviteError] = useState(null);
 
   const activeCompanyId = getActiveCompanyIdFromCookie();
+
+  const handleCopyCode = useCallback(async () => {
+    if (!student?.studentCode) return;
+    try {
+      await navigator.clipboard.writeText(student.studentCode);
+      setCodeCopied(true);
+      setTimeout(() => setCodeCopied(false), 2000);
+    } catch {
+      // Fallback
+      const textArea = document.createElement('textarea');
+      textArea.value = student.studentCode;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCodeCopied(true);
+      setTimeout(() => setCodeCopied(false), 2000);
+    }
+  }, [student?.studentCode]);
+
+  const handleInviteParent = async () => {
+    const email = inviteEmail.trim().toLowerCase();
+    if (!email) return;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setInviteError('Please enter a valid email address');
+      return;
+    }
+    try {
+      setInviting(true);
+      setInviteError(null);
+      await inviteParent(activeCompanyId, studentId, email);
+      setInviteSuccess(true);
+    } catch (err) {
+      setInviteError(err.message || 'Failed to send invite');
+    } finally {
+      setInviting(false);
+    }
+  };
+
+  const handleCloseInviteDialog = () => {
+    setInviteDialogOpen(false);
+    setInviteEmail('');
+    setInviteSuccess(false);
+    setInviteError(null);
+  };
 
   useEffect(() => {
     if (!activeCompanyId || !studentId) {
@@ -193,11 +259,34 @@ export default function StudentProfileView({ studentId }) {
                 label="School"
                 value={student?.school}
               />
-              <InfoRow
-                icon={Hash}
-                label="Student Code"
-                value={student?.studentCode}
-              />
+              <div className="flex items-start gap-3 py-2">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+                  <Hash className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs text-muted-foreground">Student Code</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium font-mono break-all">
+                      {student?.studentCode || '\u2014'}
+                    </p>
+                    {student?.studentCode && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 shrink-0"
+                        onClick={handleCopyCode}
+                        title={codeCopied ? 'Copied!' : 'Copy student code'}
+                      >
+                        {codeCopied ? (
+                          <Check className="h-3.5 w-3.5 text-green-600" />
+                        ) : (
+                          <Copy className="h-3.5 w-3.5" />
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              </div>
               {organisations.length > 0 && (
                 <div className="flex items-start gap-3 py-2 md:col-span-2">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted">
@@ -247,11 +336,19 @@ export default function StudentProfileView({ studentId }) {
 
         {/* Linked Parents */}
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
               Linked Parents
             </CardTitle>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setInviteDialogOpen(true)}
+            >
+              <UserPlus className="mr-1.5 h-4 w-4" />
+              Invite Parent
+            </Button>
           </CardHeader>
           <CardContent className="p-0">
             {parents.length === 0 ? (
@@ -288,6 +385,80 @@ export default function StudentProfileView({ studentId }) {
             )}
           </CardContent>
         </Card>
+
+        {/* Invite Parent Dialog */}
+        <Dialog open={inviteDialogOpen} onOpenChange={(open) => { if (!open) handleCloseInviteDialog(); }}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <div className="flex items-center justify-between">
+                <DialogTitle>Invite Parent</DialogTitle>
+                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleCloseInviteDialog}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </DialogHeader>
+
+            {!inviteSuccess ? (
+              <div className="flex flex-col gap-4">
+                <p className="text-sm text-muted-foreground">
+                  Send an email with the student code to a parent so they can link their account.
+                </p>
+
+                {inviteError && (
+                  <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200">
+                    {inviteError}
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="parent-email" className="text-sm font-medium">
+                    Parent&apos;s Email Address
+                  </label>
+                  <Input
+                    id="parent-email"
+                    type="email"
+                    value={inviteEmail}
+                    onChange={(e) => {
+                      setInviteEmail(e.target.value);
+                      if (inviteError) setInviteError(null);
+                    }}
+                    placeholder="parent@example.com"
+                    autoFocus
+                  />
+                </div>
+
+                <DialogFooter>
+                  <Button variant="outline" onClick={handleCloseInviteDialog}>
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleInviteParent}
+                    disabled={inviting || !inviteEmail.trim()}
+                  >
+                    {inviting ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="mr-2 h-4 w-4" />
+                    )}
+                    {inviting ? 'Sending...' : 'Send Invite'}
+                  </Button>
+                </DialogFooter>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div className="rounded-md border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/50 dark:text-green-200">
+                  Invitation sent successfully to <strong>{inviteEmail}</strong>!
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  The parent will receive an email with the student code and instructions to sign up.
+                </p>
+                <DialogFooter>
+                  <Button onClick={handleCloseInviteDialog}>Done</Button>
+                </DialogFooter>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

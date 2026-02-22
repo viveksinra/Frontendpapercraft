@@ -1,7 +1,7 @@
 'use client';
 
-import { PerformancePage } from '@/components/student/PerformancePage';
+import { PerformanceDashboard } from '@/components/student/PerformanceDashboard';
 
 export default function PerformanceRoute() {
-  return <PerformancePage />;
+  return <PerformanceDashboard />;
 }

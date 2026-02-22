@@ -78,7 +78,28 @@ export const paths = {
     revenue: {
       root: `${ROOTS.DASHBOARD}/revenue`,
     },
-    analytics: `${ROOTS.DASHBOARD}/analytics`,
+    // Phase 7: Analytics & Reporting
+    analytics: {
+      root: `${ROOTS.DASHBOARD}/analytics`,
+      students: {
+        root: `${ROOTS.DASHBOARD}/analytics/students`,
+        detail: (id) => `${ROOTS.DASHBOARD}/analytics/students/${id}`,
+      },
+      classes: {
+        root: `${ROOTS.DASHBOARD}/analytics/classes`,
+        detail: (id) => `${ROOTS.DASHBOARD}/analytics/classes/${id}`,
+        testDetail: (classId, testId) => `${ROOTS.DASHBOARD}/analytics/classes/${classId}/tests/${testId}`,
+      },
+      institute: `${ROOTS.DASHBOARD}/analytics/institute`,
+      questions: {
+        root: `${ROOTS.DASHBOARD}/analytics/questions`,
+        detail: (id) => `${ROOTS.DASHBOARD}/analytics/questions/${id}`,
+      },
+    },
+    reports: {
+      root: `${ROOTS.DASHBOARD}/reports`,
+      generate: `${ROOTS.DASHBOARD}/reports/generate`,
+    },
     settings: {
       root: `${ROOTS.DASHBOARD}/settings`,
       company: `${ROOTS.DASHBOARD}/settings/company`,

@@ -17,57 +17,43 @@ export function AccountStatusMonitor({ accounts }: AccountStatusMonitorProps) {
   const payoutsDisabled = accounts.filter((a) => !a.payoutsEnabled && a.status !== 'disabled');
   const onboardingIncomplete = accounts.filter((a) => !a.stripeOnboardingComplete && a.status !== 'disabled');
 
+  const statusCards = [
+    { label: 'Active', count: active.length, icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-500/10' },
+    { label: 'Pending', count: pending.length, icon: Clock, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
+    { label: 'Restricted', count: restricted.length, icon: AlertCircle, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+    { label: 'Disabled', count: disabled.length, icon: XCircle, color: 'text-destructive', bg: 'bg-destructive/10' },
+  ];
+
   return (
     <div className="space-y-4">
       {/* Status Summary Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardDescription>Active</CardDescription>
-            <CheckCircle2 className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <CardTitle className="text-2xl">{active.length}</CardTitle>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardDescription>Pending</CardDescription>
-            <Clock className="h-4 w-4 text-yellow-500" />
-          </CardHeader>
-          <CardContent>
-            <CardTitle className="text-2xl">{pending.length}</CardTitle>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardDescription>Restricted</CardDescription>
-            <AlertCircle className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <CardTitle className="text-2xl">{restricted.length}</CardTitle>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardDescription>Disabled</CardDescription>
-            <XCircle className="h-4 w-4 text-destructive" />
-          </CardHeader>
-          <CardContent>
-            <CardTitle className="text-2xl">{disabled.length}</CardTitle>
-          </CardContent>
-        </Card>
+        {statusCards.map((card) => {
+          const Icon = card.icon;
+          return (
+            <Card key={card.label}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardDescription>{card.label}</CardDescription>
+                <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${card.bg}`}>
+                  <Icon className={`h-4 w-4 ${card.color}`} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardTitle className="text-2xl">{card.count}</CardTitle>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Issues */}
       {(onboardingIncomplete.length > 0 || payoutsDisabled.length > 0 || restricted.length > 0) && (
-        <Card>
+        <Card className="border-l-4 border-l-amber-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-destructive" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10">
+                <AlertCircle className="h-4 w-4 text-amber-500" />
+              </div>
               Accounts Needing Attention
             </CardTitle>
             <CardDescription>
@@ -78,7 +64,7 @@ export function AccountStatusMonitor({ accounts }: AccountStatusMonitorProps) {
             {onboardingIncomplete.map((account) => (
               <div
                 key={`onboard-${account.orgId}`}
-                className="flex items-center justify-between rounded-md border p-3"
+                className="flex items-center justify-between rounded-md border p-3 transition-colors hover:bg-muted/30"
               >
                 <div>
                   <p className="font-medium text-sm">{account.orgName}</p>
@@ -86,14 +72,14 @@ export function AccountStatusMonitor({ accounts }: AccountStatusMonitorProps) {
                     Onboarding incomplete
                   </p>
                 </div>
-                <Badge variant="secondary">Incomplete Onboarding</Badge>
+                <Badge variant="warning">Incomplete Onboarding</Badge>
               </div>
             ))}
 
             {payoutsDisabled.map((account) => (
               <div
                 key={`payout-${account.orgId}`}
-                className="flex items-center justify-between rounded-md border p-3"
+                className="flex items-center justify-between rounded-md border p-3 transition-colors hover:bg-muted/30"
               >
                 <div>
                   <p className="font-medium text-sm">{account.orgName}</p>
@@ -108,7 +94,7 @@ export function AccountStatusMonitor({ accounts }: AccountStatusMonitorProps) {
             {restricted.map((account) => (
               <div
                 key={`restricted-${account.orgId}`}
-                className="flex items-center justify-between rounded-md border p-3"
+                className="flex items-center justify-between rounded-md border p-3 transition-colors hover:bg-muted/30"
               >
                 <div>
                   <p className="font-medium text-sm">{account.orgName}</p>

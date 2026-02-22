@@ -32,10 +32,10 @@ function formatDate(dateStr: string): string {
   }
 }
 
-function statusVariant(status: string): 'default' | 'secondary' | 'destructive' | 'outline' {
+function statusVariant(status: string): 'success' | 'secondary' | 'destructive' | 'outline' | 'warning' {
   switch (status) {
-    case 'active': return 'default';
-    case 'pending': return 'secondary';
+    case 'active': return 'success';
+    case 'pending': return 'warning';
     case 'restricted': return 'destructive';
     case 'disabled': return 'destructive';
     default: return 'outline';
@@ -91,21 +91,21 @@ export function ConnectedAccountsList({ accounts, total }: ConnectedAccountsList
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={account.stripeOnboardingComplete ? 'default' : 'secondary'}>
+                      <Badge variant={account.stripeOnboardingComplete ? 'success' : 'warning'}>
                         {account.stripeOnboardingComplete ? 'Complete' : 'Incomplete'}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={account.payoutsEnabled ? 'default' : 'destructive'}>
+                      <Badge variant={account.payoutsEnabled ? 'success' : 'destructive'}>
                         {account.payoutsEnabled ? 'Enabled' : 'Disabled'}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={account.chargesEnabled ? 'default' : 'destructive'}>
+                      <Badge variant={account.chargesEnabled ? 'success' : 'destructive'}>
                         {account.chargesEnabled ? 'Enabled' : 'Disabled'}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right font-medium">
+                    <TableCell className="text-right font-medium tabular-nums">
                       {formatCurrency(account.totalRevenue)}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">

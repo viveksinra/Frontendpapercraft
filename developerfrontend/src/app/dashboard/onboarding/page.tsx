@@ -95,7 +95,7 @@ export default function OnboardingPage() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Onboarding Form */}
-        <Card>
+        <Card className="border-t-4 border-t-primary">
           <CardHeader>
             <CardTitle>New Organization</CardTitle>
             <CardDescription>Fill in the details to create a new client organization.</CardDescription>
@@ -130,13 +130,15 @@ export default function OnboardingPage() {
               <div className="space-y-2">
                 <Label htmlFor="primaryColor">Primary Brand Color</Label>
                 <div className="flex items-center gap-3">
-                  <input
-                    type="color"
-                    id="primaryColorPicker"
-                    value={watch('primaryColor') || '#18181b'}
-                    onChange={(e) => setValue('primaryColor', e.target.value)}
-                    className="h-9 w-12 cursor-pointer rounded border border-input p-1"
-                  />
+                  <div className="relative">
+                    <input
+                      type="color"
+                      id="primaryColorPicker"
+                      value={watch('primaryColor') || '#18181b'}
+                      onChange={(e) => setValue('primaryColor', e.target.value)}
+                      className="h-9 w-12 cursor-pointer rounded-md border border-input p-1 transition-shadow hover:shadow-md"
+                    />
+                  </div>
                   <Input
                     id="primaryColor"
                     placeholder="#18181b"
@@ -174,10 +176,12 @@ export default function OnboardingPage() {
 
         {/* Confirmation Card */}
         {createdOrg && (
-          <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/20">
+          <Card className="border-l-4 border-l-green-500 bg-green-50/50 dark:bg-green-950/20">
             <CardHeader>
               <div className="flex items-center gap-3">
-                <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green-500/10">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                </div>
                 <CardTitle className="text-green-700 dark:text-green-300">Organization Created</CardTitle>
               </div>
               <CardDescription>The organization has been set up successfully.</CardDescription>
@@ -215,11 +219,11 @@ export default function OnboardingPage() {
             <CardFooter>
               <div className="text-sm text-muted-foreground">
                 <p className="font-medium">Next Steps:</p>
-                <ul className="mt-1 list-inside list-disc space-y-1">
+                <ol className="mt-1 list-inside list-decimal space-y-1">
                   <li>The owner will receive an invitation email to set up their account.</li>
                   <li>Configure branding and settings in the organization detail page.</li>
                   <li>The owner can then invite team members from their dashboard.</li>
-                </ul>
+                </ol>
               </div>
             </CardFooter>
           </Card>

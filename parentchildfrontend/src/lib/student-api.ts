@@ -68,3 +68,42 @@ export async function joinOrg(orgCode: string) {
   const res = await axiosInstance.post(endpoints.auth.studentJoinOrg, { orgCode });
   return res.data;
 }
+
+// Phase 7: Analytics & Reporting
+
+export async function getAnalytics(params?: { period?: string; forceRefresh?: string }) {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.analytics, { params });
+  return res.data;
+}
+
+export async function getScoreTrend(limit?: number) {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.scoreTrend, {
+    params: limit ? { limit } : undefined,
+  });
+  return res.data;
+}
+
+export async function getSubjectRadar() {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.subjectRadar);
+  return res.data;
+}
+
+export async function getTopicDrilldown(subjectId: string) {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.topicDrilldown(subjectId));
+  return res.data;
+}
+
+export async function getElevenPlusAnalytics() {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.elevenPlus);
+  return res.data;
+}
+
+export async function getMyReports() {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.reports);
+  return res.data;
+}
+
+export async function downloadReport(reportId: string) {
+  const res = await axiosInstance.get(endpoints.studentAnalytics.downloadReport(reportId));
+  return res.data;
+}

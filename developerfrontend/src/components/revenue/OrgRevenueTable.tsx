@@ -59,13 +59,13 @@ export function OrgRevenueTable({ data, currency = 'GBP' }: OrgRevenueTableProps
                         {org.stripeAccountId ? org.stripeAccountId.slice(0, 16) + '...' : '—'}
                       </code>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right tabular-nums">
                       {org.transactions.toLocaleString()}
                     </TableCell>
-                    <TableCell className="text-right font-medium">
+                    <TableCell className="text-right font-semibold text-green-600 dark:text-green-400">
                       {formatCurrency(org.revenue, currency)}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right tabular-nums">
                       {formatCurrency(org.platformFee, currency)}
                     </TableCell>
                   </TableRow>

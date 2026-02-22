@@ -167,7 +167,7 @@ export default function AcceptInvitePage() {
 
   const invite = inviteData?.invite;
   const company = inviteData?.company;
-  const roleConfig = ROLE_CONFIG[invite?.role] || ROLE_CONFIG.student;
+  const roleConfig = ROLE_CONFIG[invite?.role] || ROLE_CONFIG.teacher;
   const isInviteValid = invite?.status === 'pending' && !invite?.isExpired;
 
   return (
