@@ -7,8 +7,14 @@ import {
   FileText,
   UserPlus,
   BarChart3,
+  GraduationCap,
   ClipboardList,
   LayoutDashboard,
+  Megaphone,
+  Receipt,
+  ShoppingBag,
+  TrendingUp,
+  CreditCard,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
@@ -26,6 +32,12 @@ const ICONS = {
   company: <Building />,
   brand: <Palette />,
   members: <UserPlus />,
+  students: <GraduationCap />,
+  announcements: <Megaphone />,
+  fees: <Receipt />,
+  products: <ShoppingBag />,
+  revenue: <TrendingUp />,
+  stripe: <CreditCard />,
 };
 
 export const navData = [
@@ -72,16 +84,50 @@ export const navData = [
         ],
       },
       {
-        title: 'Classes & Students',
-        path: paths.dashboard.classes,
+        title: 'Students',
+        path: paths.dashboard.students.root,
+        icon: ICONS.students,
+      },
+      {
+        title: 'Classes',
+        path: paths.dashboard.classes.root,
         icon: ICONS.classes,
-        badge: 'Soon',
+        children: [
+          { title: 'All Classes', path: paths.dashboard.classes.root },
+          { title: 'Create Class', path: paths.dashboard.classes.create },
+        ],
       },
       {
         title: 'Homework',
-        path: paths.dashboard.homework,
+        path: paths.dashboard.homework.root,
         icon: ICONS.homework,
-        badge: 'Soon',
+        children: [
+          { title: 'All Homework', path: paths.dashboard.homework.root },
+          { title: 'Create Homework', path: paths.dashboard.homework.create },
+        ],
+      },
+      {
+        title: 'Announcements',
+        path: paths.dashboard.announcements.root,
+        icon: ICONS.announcements,
+        children: [
+          { title: 'All Announcements', path: paths.dashboard.announcements.root },
+          { title: 'Create Announcement', path: paths.dashboard.announcements.create },
+        ],
+      },
+      {
+        title: 'Fees',
+        path: paths.dashboard.fees.root,
+        icon: ICONS.fees,
+      },
+      {
+        title: 'Products & Pricing',
+        path: paths.dashboard.products.root,
+        icon: ICONS.products,
+        children: [
+          { title: 'All Products', path: paths.dashboard.products.root },
+          { title: 'Create Product', path: paths.dashboard.products.create },
+        ],
       },
     ],
   },
@@ -93,6 +139,11 @@ export const navData = [
         path: paths.dashboard.analytics,
         icon: ICONS.analytics,
       },
+      {
+        title: 'Revenue Dashboard',
+        path: paths.dashboard.revenue.root,
+        icon: ICONS.revenue,
+      },
     ],
   },
   {
@@ -101,6 +152,7 @@ export const navData = [
       { title: 'Company Profile', path: paths.dashboard.settings.company, icon: ICONS.company },
       { title: 'Branding', path: paths.dashboard.settings.brand, icon: ICONS.brand },
       { title: 'Team Members', path: paths.dashboard.settings.members, icon: ICONS.members },
+      { title: 'Stripe Connect', path: paths.dashboard.settings.stripe, icon: ICONS.stripe },
     ],
   },
 ];

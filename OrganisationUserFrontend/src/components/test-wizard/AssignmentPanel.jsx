@@ -122,7 +122,12 @@ export default function AssignmentPanel({ assignment, onChange }) {
               <div className="flex flex-wrap gap-2">
                 {selectedStudents.map((student) => (
                   <Badge key={student.id} variant="outline" className="gap-1 pr-1">
-                    {student.name}
+                    <span className="font-medium">{student.name}</span>
+                    {student.email && (
+                      <span className="text-muted-foreground text-xs ml-0.5">
+                        ({student.email})
+                      </span>
+                    )}
                     <button
                       type="button"
                       onClick={() => handleRemoveStudent(student.id)}

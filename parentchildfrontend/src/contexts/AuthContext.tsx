@@ -11,6 +11,7 @@ type User = {
   firstName: string;
   lastName: string;
   role: 'student' | 'parent';
+  studentCode?: string;
   accessToken?: string;
   [key: string]: any;
 };
@@ -22,6 +23,8 @@ type AuthState = {
   unauthenticated: boolean;
   checkUserSession: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
+  registerStudent: (email: string, password: string, name: string, orgCode: string) => Promise<{ studentCode: string }>;
+  registerParent: (email: string, password: string, name: string) => Promise<void>;
   register: (payload: {
     firstName: string;
     lastName: string;
@@ -92,9 +95,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await axiosInstance.post(endpoints.auth.signIn, { email, password });
     const { accessToken, user } = res.data;
     setSession(accessToken);
-    setState({ user: { ...user, accessToken }, loading: false });
+    const fullUser = { ...user, accessToken };
+    setState({ user: fullUser, loading: false });
+    return fullUser;
   }, [setState]);
 
+  const registerStudent = useCallback(async (email: string, password: string, name: string, orgCode: string) => {
+    const res = await axiosInstance.post(endpoints.auth.studentSignup, {
+      email,
+      password,
+      name,
+      orgCode,
+    });
+    const { accessToken, user, student } = res.data;
+    setSession(accessToken);
+    setState({
+      user: { ...user, role: 'student', studentCode: student?.studentCode, accessToken },
+      loading: false,
+    });
+    return { studentCode: student?.studentCode || '' };
+  }, [setState]);
+
+  const registerParent = useCallback(async (email: string, password: string, name: string) => {
+    const res = await axiosInstance.post(endpoints.auth.parentSignup, {
+      email,
+      password,
+      name,
+    });
+    const { accessToken, user } = res.data;
+    setSession(accessToken);
+    setState({ user: { ...user, role: 'parent', accessToken }, loading: false });
+  }, [setState]);
+
+  // Legacy register function for backward compat
   const register = useCallback(async (payload: {
     firstName: string;
     lastName: string;
@@ -126,9 +159,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     unauthenticated: status === 'unauthenticated',
     checkUserSession,
     login,
+    registerStudent,
+    registerParent,
     register,
     logout,
-  }), [state.user, status, checkUserSession, login, register, logout]);
+  }), [state.user, status, checkUserSession, login, registerStudent, registerParent, register, logout]);
 
   return <AuthContext value={value}>{children}</AuthContext>;
 }

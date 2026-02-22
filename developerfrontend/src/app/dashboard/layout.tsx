@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Users, UserPlus, LogOut, Menu, LayoutDashboard, Bug, BarChart3 } from 'lucide-react';
+import { Building2, Users, UserPlus, LogOut, Menu, LayoutDashboard, Bug, BarChart3, Search, UserSearch, ClipboardList, GraduationCap, TrendingUp, CreditCard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { SuperAdminGuard } from '@/components/super-admin-guard';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,12 @@ const navItems = [
   { href: '/dashboard/onboarding', label: 'Onboarding', icon: UserPlus },
   { href: '/dashboard/test-debugging', label: 'Test Debug', icon: Bug },
   { href: '/dashboard/test-stats', label: 'Test Stats', icon: BarChart3 },
+  { href: '/dashboard/user-lookup', label: 'User Lookup', icon: Search },
+  { href: '/dashboard/student-debug', label: 'Student Debug', icon: UserSearch },
+  { href: '/dashboard/registration-stats', label: 'Registration Stats', icon: ClipboardList },
+  { href: '/dashboard/class-stats', label: 'Class Stats', icon: GraduationCap },
+  { href: '/dashboard/revenue', label: 'Platform Revenue', icon: TrendingUp },
+  { href: '/dashboard/stripe-accounts', label: 'Stripe Accounts', icon: CreditCard },
 ];
 
 function SidebarContent({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {

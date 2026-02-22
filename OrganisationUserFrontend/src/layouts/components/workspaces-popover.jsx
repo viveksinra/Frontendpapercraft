@@ -120,6 +120,7 @@ export function WorkspacesPopover({ data = [], className }) {
         name: created?.name || newCompanyName.trim(),
         plan: 'Free',
         logo: '/favicon.ico',
+        role: 'owner',
       };
       if (normalized.id) {
         await selectActiveCompany(normalized.id);

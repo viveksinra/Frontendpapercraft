@@ -22,7 +22,10 @@ export function DashboardLayout({ children, slotProps }) {
   const navData = slotProps?.nav?.data ?? dashboardNavData;
 
   const canDisplayItemByRole = useCallback(
-    (allowedRoles) => !allowedRoles?.includes(user?.role),
+    (allowedRoles) => {
+      if (!allowedRoles) return false;
+      return !allowedRoles.includes(user?.role);
+    },
     [user?.role]
   );
 

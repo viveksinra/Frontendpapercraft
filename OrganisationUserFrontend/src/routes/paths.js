@@ -46,15 +46,45 @@ export const paths = {
       take: (id) => `${ROOTS.DASHBOARD}/take-test/${id}`,
       result: (id) => `${ROOTS.DASHBOARD}/take-test/${id}/result`,
     },
+    students: {
+      root: `${ROOTS.DASHBOARD}/students`,
+      profile: (id) => `${ROOTS.DASHBOARD}/students/${id}`,
+    },
     tests: `${ROOTS.DASHBOARD}/tests`,
-    classes: `${ROOTS.DASHBOARD}/classes`,
-    homework: `${ROOTS.DASHBOARD}/homework`,
+    classes: {
+      root: `${ROOTS.DASHBOARD}/classes`,
+      create: `${ROOTS.DASHBOARD}/classes/create`,
+      detail: (id) => `${ROOTS.DASHBOARD}/classes/${id}`,
+    },
+    homework: {
+      root: `${ROOTS.DASHBOARD}/homework`,
+      create: `${ROOTS.DASHBOARD}/homework/create`,
+      detail: (id) => `${ROOTS.DASHBOARD}/homework/${id}`,
+    },
+    announcements: {
+      root: `${ROOTS.DASHBOARD}/announcements`,
+      create: `${ROOTS.DASHBOARD}/announcements/create`,
+    },
+    fees: {
+      root: `${ROOTS.DASHBOARD}/fees`,
+    },
+    // Phase 6: Payments & Monetization
+    products: {
+      root: `${ROOTS.DASHBOARD}/products`,
+      create: `${ROOTS.DASHBOARD}/products/create`,
+      detail: (id) => `${ROOTS.DASHBOARD}/products/${id}`,
+      edit: (id) => `${ROOTS.DASHBOARD}/products/${id}/edit`,
+    },
+    revenue: {
+      root: `${ROOTS.DASHBOARD}/revenue`,
+    },
     analytics: `${ROOTS.DASHBOARD}/analytics`,
     settings: {
       root: `${ROOTS.DASHBOARD}/settings`,
       company: `${ROOTS.DASHBOARD}/settings/company`,
       brand: `${ROOTS.DASHBOARD}/settings/brand`,
       members: `${ROOTS.DASHBOARD}/settings/members`,
+      stripe: `${ROOTS.DASHBOARD}/settings/stripe`,
     },
   },
 };

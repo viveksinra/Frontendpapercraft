@@ -5,7 +5,7 @@ import packageJson from '../package.json';
 // ----------------------------------------------------------------------
 
 export const CONFIG = {
-  appName: 'Minimal UI',
+  appName: 'Paper Craft',
   appVersion: packageJson.version,
   // For auth endpoints, use empty string to make relative requests to Next.js API routes
   // Next.js API routes will proxy to the backend (localhost:2040 or api.papercraft.com)

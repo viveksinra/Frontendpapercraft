@@ -4,3 +4,8 @@ export * from "./components/timer/TimerComponent";
 export * from "./components/question-navigator/QuestionNavigator";
 export * from "./components/section-timed/SectionTimedController";
 export * from "./components/score-display/ScoreDisplay";
+export * from "./components/homework-status-badge/HomeworkStatusBadge";
+export * from "./components/fee-status-badge/FeeStatusBadge";
+export * from "./components/due-date-display/DueDateDisplay";
+export * from "./components/price-badge/PriceBadge";
+export * from "./components/purchase-status-badge/PurchaseStatusBadge";

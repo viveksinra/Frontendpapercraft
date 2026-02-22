@@ -42,6 +42,16 @@ export function JwtSignInView() {
 
   const [errorMessage, setErrorMessage] = useState('');
 
+  const testAccounts = [
+    { label: 'Owner', name: 'Navin Pathak', email: 'navin@chelmsford11plus.com', role: 'owner' },
+    { label: 'Admin', name: 'Vivek Kumar', email: 'vivek@chelmsford11plus.com', role: 'admin' },
+    { label: 'Sr. Teacher', name: 'Sarah Williams', email: 'sarah@chelmsford11plus.com', role: 'senior_teacher' },
+    { label: 'Teacher', name: 'James Anderson', email: 'james@chelmsford11plus.com', role: 'teacher' },
+    { label: 'Reviewer', name: 'Priya Sharma', email: 'priya@chelmsford11plus.com', role: 'content_reviewer' },
+  ];
+
+  const TEST_PASSWORD = 'Test@1234';
+
   const defaultValues = {
     email: '',
     password: '',
@@ -54,8 +64,14 @@ export function JwtSignInView() {
 
   const {
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = methods;
+
+  const fillTestAccount = (account) => {
+    setValue('email', account.email, { shouldValidate: true });
+    setValue('password', TEST_PASSWORD, { shouldValidate: true });
+  };
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -128,6 +144,28 @@ export function JwtSignInView() {
           </Button>
         </div>
       </Form>
+
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mt-6 rounded-lg border border-dashed border-muted-foreground/30 p-4">
+          <p className="mb-3 text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            Test Accounts (Password: {TEST_PASSWORD})
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {testAccounts.map((account) => (
+              <button
+                key={account.email}
+                type="button"
+                onClick={() => fillTestAccount(account)}
+                className="flex-1 min-w-[calc(50%-0.25rem)] rounded-md border border-border bg-muted/50 px-3 py-2 text-left text-xs transition-colors hover:bg-muted hover:border-foreground/30"
+              >
+                <span className="font-semibold">{account.label}</span>
+                <br />
+                <span className="text-muted-foreground">{account.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 }

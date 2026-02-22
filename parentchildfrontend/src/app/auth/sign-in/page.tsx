@@ -9,7 +9,28 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import { Loader2, User, Users } from 'lucide-react';
+
+const TEST_ACCOUNTS = [
+  {
+    label: 'Parent',
+    name: 'Emma Johnson',
+    email: 'emma@chelmsford11plus.com',
+    password: 'Test@1234',
+    role: 'parent',
+    icon: Users,
+    description: 'Monitor child progress & view paper sets',
+  },
+  {
+    label: 'Student',
+    name: 'Oliver Brown',
+    email: 'oliver@chelmsford11plus.com',
+    password: 'Test@1234',
+    role: 'student',
+    icon: User,
+    description: 'Take practice papers & view results',
+  },
+];
 
 function getDashboardPath(role?: string) {
   if (role === 'parent') return '/parent/dashboard';
@@ -31,12 +52,9 @@ export default function SignInPage() {
     }
     setLoading(true);
     try {
-      await login(email, password);
+      const loggedInUser = await login(email, password);
       toast.success('Signed in successfully!');
-      // We need to read the user from the response; login updates state,
-      // but we can't read it synchronously. Use a timeout or just redirect
-      // to a general dashboard route. The AuthGuard will handle redirection.
-      router.push('/student/dashboard');
+      router.push(getDashboardPath(loggedInUser?.role));
     } catch (err: any) {
       toast.error(err.message || 'Failed to sign in.');
     } finally {
@@ -44,52 +62,88 @@ export default function SignInPage() {
     }
   };
 
+  const fillCredentials = (account: typeof TEST_ACCOUNTS[number]) => {
+    setEmail(account.email);
+    setPassword(account.password);
+  };
+
   return (
-    <Card>
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Sign In</CardTitle>
-        <CardDescription>Enter your credentials to access your account</CardDescription>
-      </CardHeader>
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={loading}
-              required
-            />
+    <div className="flex flex-col gap-4 w-full">
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Sign In</CardTitle>
+          <CardDescription>Enter your credentials to access your account</CardDescription>
+        </CardHeader>
+        <form onSubmit={handleSubmit}>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+                required
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col gap-4">
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sign In
+            </Button>
+            <p className="text-sm text-muted-foreground">
+              Don&apos;t have an account?{' '}
+              <Link href="/auth/sign-up" className="text-primary underline-offset-4 hover:underline">
+                Sign up
+              </Link>
+            </p>
+          </CardFooter>
+        </form>
+      </Card>
+
+      <Card className="border-dashed">
+        <CardHeader className="pb-3 pt-4 px-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quick Login — Test Accounts</span>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={loading}
-              required
-            />
-          </div>
+        </CardHeader>
+        <CardContent className="px-4 pb-4 pt-0 grid grid-cols-2 gap-3">
+          {TEST_ACCOUNTS.map((account) => {
+            const Icon = account.icon;
+            const isActive = email === account.email;
+            return (
+              <button
+                key={account.role}
+                type="button"
+                onClick={() => fillCredentials(account)}
+                className={`flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-colors hover:bg-accent hover:border-accent-foreground/20 cursor-pointer ${isActive ? 'border-primary bg-primary/5' : 'border-border'}`}
+              >
+                <Icon className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium">{account.name}</span>
+                <span className="text-[11px] text-muted-foreground leading-tight">{account.description}</span>
+                <span className="mt-1 inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
+                  {account.label}
+                </span>
+              </button>
+            );
+          })}
         </CardContent>
-        <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign In
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            Don&apos;t have an account?{' '}
-            <Link href="/auth/sign-up" className="text-primary underline-offset-4 hover:underline">
-              Sign up
-            </Link>
-          </p>
-        </CardFooter>
-      </form>
-    </Card>
+      </Card>
+    </div>
   );
 }

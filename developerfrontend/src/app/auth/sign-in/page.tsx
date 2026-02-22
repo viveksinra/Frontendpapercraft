@@ -8,6 +8,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader2, Shield } from 'lucide-react';
+
+const TEST_ACCOUNTS = [
+  {
+    label: 'Developer',
+    name: 'Vivek Kumar',
+    email: 'vivek@chelmsford11plus.com',
+    password: 'Test@1234',
+    icon: Shield,
+    description: 'Developer — full access, platform admin',
+  },
+];
 
 export default function SignInPage() {
   const router = useRouter();
@@ -26,28 +38,6 @@ export default function SignInPage() {
     setLoading(true);
     try {
       await login(email, password);
-
-      // Check if user is super admin after login
-      const token = sessionStorage.getItem('jwt_access_token');
-      if (token) {
-        try {
-          const parts = token.split('.');
-          if (parts.length >= 2) {
-            const decoded = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-            const role = decoded.role;
-            const isSuperAdmin = decoded.isSuperAdmin;
-            if (role !== 'super_admin' && !isSuperAdmin) {
-              toast.error('Access Denied: This dashboard is restricted to super administrators only.');
-              sessionStorage.removeItem('jwt_access_token');
-              setLoading(false);
-              return;
-            }
-          }
-        } catch {
-          // If we can't decode the token, let the guard handle it
-        }
-      }
-
       toast.success('Signed in successfully.');
       router.push('/dashboard/organizations');
     } catch (err: any) {
@@ -57,43 +47,89 @@ export default function SignInPage() {
     }
   };
 
+  const fillCredentials = (account: typeof TEST_ACCOUNTS[number]) => {
+    setEmail(account.email);
+    setPassword(account.password);
+  };
+
   return (
-    <Card>
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">PaperCraft Internal</CardTitle>
-        <CardDescription>Sign in to the super-admin dashboard</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="admin@papercraft.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
+    <div className="flex flex-col gap-4 w-full">
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold">PaperCraft Internal</CardTitle>
+          <CardDescription>Sign in to the super-admin dashboard</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@papercraft.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                disabled={loading}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                disabled={loading}
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {loading ? 'Signing in...' : 'Sign In'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      <Card className="border-dashed">
+        <CardHeader className="pb-3 pt-4 px-4">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quick Login — Test Accounts</span>
+            <span className="text-[10px] text-muted-foreground">(password: Test@1234)</span>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
-          </div>
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+        </CardHeader>
+        <CardContent className="px-4 pb-4 pt-0 grid grid-cols-2 gap-2">
+          {TEST_ACCOUNTS.map((account) => {
+            const Icon = account.icon;
+            const isActive = email === account.email;
+            return (
+              <button
+                key={account.email}
+                type="button"
+                onClick={() => fillCredentials(account)}
+                className={`flex items-center gap-2.5 rounded-lg border p-2.5 text-left transition-colors hover:bg-accent hover:border-accent-foreground/20 cursor-pointer ${isActive ? 'border-primary bg-primary/5' : 'border-border'}`}
+              >
+                <div className="flex-shrink-0">
+                  <Icon className="h-4 w-4 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-medium truncate">{account.name}</span>
+                    <span className="flex-shrink-0 inline-flex items-center rounded-full bg-primary/10 px-1.5 py-0.5 text-[9px] font-medium text-primary">
+                      {account.label}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground truncate">{account.description}</p>
+                </div>
+              </button>
+            );
+          })}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
