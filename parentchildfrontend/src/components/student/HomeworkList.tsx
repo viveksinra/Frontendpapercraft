@@ -49,7 +49,8 @@ export function HomeworkList() {
     async function load() {
       try {
         const data = await getStudentHomework();
-        setItems(data?.homework || data || []);
+        const list = data?.homework || data?.items || data;
+        setItems(Array.isArray(list) ? list : []);
       } catch (err: any) {
         setError(err.message || 'Failed to load homework');
       } finally {

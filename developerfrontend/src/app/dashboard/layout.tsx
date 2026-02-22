@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Users, UserPlus, LogOut, Menu, LayoutDashboard, Bug, BarChart3, Search, UserSearch, ClipboardList, GraduationCap, TrendingUp, CreditCard } from 'lucide-react';
+import { Building2, Users, UserPlus, LogOut, Menu, Bug, BarChart3, Search, UserSearch, ClipboardList, GraduationCap, TrendingUp, CreditCard, Sparkles } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { SuperAdminGuard } from '@/components/super-admin-guard';
+import { Navbar } from '@/components/navbar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 
@@ -41,34 +41,30 @@ const navGroups = [
   },
 ];
 
-function SidebarContent({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
-  const { user, logout } = useAuth();
-
-  const initials = user
-    ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase()
-    : '??';
-
+function SidebarNav({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col text-sidebar-foreground">
       {/* Logo */}
-      <div className="p-6 bg-gradient-to-br from-primary/5 to-transparent">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <LayoutDashboard className="h-4 w-4" />
+      <div className="px-5 pt-6 pb-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/25">
+            <Sparkles className="h-4.5 w-4.5 text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-bold leading-tight">PaperCraft</h1>
-            <p className="text-[10px] text-muted-foreground">Internal Dashboard</p>
+            <h1 className="text-[15px] font-bold tracking-tight text-sidebar-accent-foreground">PaperCraft</h1>
+            <p className="text-[11px] text-sidebar-muted leading-none">Admin Console</p>
           </div>
         </div>
       </div>
-      <Separator className="bg-sidebar-border" />
+
+      {/* Divider */}
+      <div className="mx-4 h-px bg-sidebar-border" />
 
       {/* Nav Groups */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
+      <nav className="flex-1 overflow-y-auto px-3 pt-5 pb-3 space-y-5">
         {navGroups.map((group) => (
           <div key={group.label}>
-            <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+            <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-[0.08em] text-sidebar-muted">
               {group.label}
             </p>
             <div className="space-y-0.5">
@@ -81,14 +77,20 @@ function SidebarContent({ pathname, onNavigate }: { pathname: string; onNavigate
                     href={item.href}
                     onClick={onNavigate}
                     className={cn(
-                      'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150',
+                      'group flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-150',
                       isActive
-                        ? 'border-l-2 border-primary bg-primary/8 text-foreground'
-                        : 'border-l-2 border-transparent text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                        ? 'bg-primary/15 text-white shadow-sm'
+                        : 'text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                     )}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className={cn(
+                      'h-4 w-4 shrink-0 transition-colors',
+                      isActive ? 'text-primary' : 'text-sidebar-muted group-hover:text-sidebar-accent-foreground'
+                    )} />
                     {item.label}
+                    {isActive && (
+                      <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary shadow-sm shadow-primary/50" />
+                    )}
                   </Link>
                 );
               })}
@@ -97,34 +99,10 @@ function SidebarContent({ pathname, onNavigate }: { pathname: string; onNavigate
         ))}
       </nav>
 
-      <Separator className="bg-sidebar-border" />
-
-      {/* User section */}
-      <div className="p-3 space-y-2">
-        <div className="flex items-center gap-3 rounded-md bg-sidebar-accent/50 px-3 py-2">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-            {initials}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium">{user?.firstName} {user?.lastName}</p>
-            <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
-          </div>
-        </div>
-        <div className="flex items-center justify-between px-1">
-          <ThemeToggle />
-          <Button
-            variant="ghost"
-            size="sm"
-            className="gap-2 text-muted-foreground"
-            onClick={() => {
-              logout();
-              onNavigate?.();
-            }}
-          >
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </Button>
-        </div>
+      {/* Sidebar footer - version */}
+      <div className="mx-4 h-px bg-sidebar-border" />
+      <div className="px-5 py-4">
+        <p className="text-[10px] text-sidebar-muted">v1.0.0</p>
       </div>
     </div>
   );
@@ -138,13 +116,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <SuperAdminGuard>
       <div className="flex min-h-screen">
         {/* Desktop sidebar */}
-        <aside className="hidden w-64 shrink-0 border-r border-sidebar-border bg-sidebar md:block">
-          <SidebarContent pathname={pathname} />
+        <aside className="hidden w-[260px] shrink-0 border-r border-sidebar-border bg-sidebar md:block">
+          <div className="sticky top-0 h-screen overflow-hidden">
+            <SidebarNav pathname={pathname} />
+          </div>
         </aside>
 
-        {/* Mobile header + sheet */}
-        <div className="flex flex-1 flex-col">
-          <header className="flex h-14 items-center gap-4 border-b bg-card px-4 md:hidden">
+        {/* Main area */}
+        <div className="flex flex-1 flex-col min-w-0">
+          {/* Mobile header */}
+          <header className="flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-xl px-4 md:hidden">
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -152,20 +133,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-64 p-0 bg-sidebar">
+              <SheetContent side="left" className="w-[260px] p-0 bg-sidebar border-sidebar-border">
                 <SheetHeader className="sr-only">
                   <SheetTitle>Navigation</SheetTitle>
                 </SheetHeader>
-                <SidebarContent pathname={pathname} onNavigate={() => setSheetOpen(false)} />
+                <SidebarNav pathname={pathname} onNavigate={() => setSheetOpen(false)} />
               </SheetContent>
             </Sheet>
-            <h1 className="text-lg font-bold">PaperCraft Internal</h1>
+            <div className="flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary">
+                <Sparkles className="h-3.5 w-3.5 text-white" />
+              </div>
+              <span className="text-sm font-bold">PaperCraft</span>
+            </div>
             <div className="ml-auto">
               <ThemeToggle />
             </div>
           </header>
 
-          <main className="flex-1 overflow-auto bg-muted/30 p-6 lg:p-8">
+          {/* Desktop navbar */}
+          <div className="hidden md:block">
+            <Navbar />
+          </div>
+
+          <main className="flex-1 overflow-auto bg-muted/40 p-5 lg:p-8">
             <div className="mx-auto max-w-7xl animate-fade-in">
               {children}
             </div>

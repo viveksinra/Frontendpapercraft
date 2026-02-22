@@ -1,41 +1,71 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Sun, Moon, Monitor } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+
+const modes = [
+  { key: 'light', label: 'Light', Icon: Sun },
+  { key: 'dark', label: 'Dark', Icon: Moon },
+  { key: 'system', label: 'System', Icon: Monitor },
+] as const;
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return (
+      <div className="flex h-9 items-center gap-0.5 rounded-lg bg-muted/60 p-1">
+        {modes.map(({ key, Icon }) => (
+          <div
+            key={key}
+            className="flex h-7 w-8 items-center justify-center rounded-md"
+          >
+            <Icon className="h-3.5 w-3.5 text-muted-foreground/40" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          <Sun className="mr-2 h-4 w-4" />
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          <Moon className="mr-2 h-4 w-4" />
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          <Monitor className="mr-2 h-4 w-4" />
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="relative flex h-9 items-center gap-0.5 rounded-lg bg-muted/60 p-1">
+      {modes.map(({ key, Icon, label }) => {
+        const isActive = theme === key;
+        const iconColor =
+          key === 'light'
+            ? 'text-amber-500'
+            : key === 'dark'
+              ? 'text-indigo-400'
+              : 'text-muted-foreground';
+
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setTheme(key)}
+            aria-label={`Switch to ${label} mode`}
+            className={cn(
+              'relative z-10 flex h-7 cursor-pointer items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-all duration-200',
+              isActive
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Icon
+              className={cn(
+                'h-3.5 w-3.5 transition-colors duration-200',
+                isActive ? iconColor : 'text-current'
+              )}
+            />
+            <span className="hidden sm:inline">{label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }
