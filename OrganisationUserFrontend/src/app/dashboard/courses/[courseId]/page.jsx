@@ -278,7 +278,7 @@ export default function CourseDetailPage() {
           </div>
           {course?.tags?.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-3">
-              {course.tags.map((tag) => <Badge key={tag} variant="secondary">{tag}</Badge>)}
+              {course.tags?.map((tag) => <Badge key={tag} variant="secondary">{tag}</Badge>)}
             </div>
           )}
         </div>

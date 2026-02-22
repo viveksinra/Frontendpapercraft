@@ -244,7 +244,7 @@ export default function ProductDetailPage() {
           <div className="rounded-lg border bg-card p-4">
             <h3 className="text-sm font-medium mb-3">Add-on Services</h3>
             <div className="flex flex-col gap-2">
-              {product.addOns.map((addOn, i) => (
+              {product.addOns?.map((addOn, i) => (
                 <div key={i} className="flex items-center justify-between text-sm">
                   <div>
                     <span className="font-medium">{addOn.title}</span>
@@ -266,7 +266,7 @@ export default function ProductDetailPage() {
               Bundle Items ({product.bundleItems.length})
             </h3>
             <div className="flex flex-col gap-2">
-              {product.bundleItems.map((item, i) => (
+              {product.bundleItems?.map((item, i) => (
                 <div key={i} className="flex items-center gap-2 text-sm">
                   <Package className="h-3.5 w-3.5 text-muted-foreground" />
                   <span>{item.title || item.productId}</span>
@@ -305,7 +305,7 @@ export default function ProductDetailPage() {
           </div>
           {product.tags?.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-3">
-              {product.tags.map((tag) => (
+              {product.tags?.map((tag) => (
                 <Badge key={tag} variant="secondary">{tag}</Badge>
               ))}
             </div>

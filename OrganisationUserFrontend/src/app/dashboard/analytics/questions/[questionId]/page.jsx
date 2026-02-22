@@ -141,7 +141,7 @@ export default function QuestionAnalyticsDetailPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-col gap-3">
-                    {qa.distractorStats.map((d) => (
+                    {qa.distractorStats?.map((d) => (
                       <div key={d.label} className="flex items-center gap-3">
                         <span className="w-8 text-center font-mono font-bold text-sm">{d.label}</span>
                         <div className="flex-1">

@@ -250,7 +250,7 @@ export default function ThreadDetailPage() {
               No replies yet. Be the first to respond.
             </p>
           ) : (
-            replies.map((reply) => {
+            replies?.map((reply) => {
               const replyId = reply._id || reply.id;
               const replyAuthor = reply.author?.displayName || reply.author?.email || 'Anonymous';
               const isAccepted = reply.isAcceptedAnswer;

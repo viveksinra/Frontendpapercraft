@@ -31,7 +31,8 @@ export default function AnnouncementsListPage() {
       setLoading(true);
       setError(null);
       const data = await listAnnouncements(activeCompanyId);
-      setAnnouncements(data?.announcements || data || []);
+      const list = data?.announcements || data;
+      setAnnouncements(Array.isArray(list) ? list : []);
     } catch (err) {
       setError(err.message || 'Failed to load announcements');
     } finally {
@@ -92,7 +93,7 @@ export default function AnnouncementsListPage() {
           </div>
         )}
 
-        {announcements.length === 0 ? (
+        {announcements?.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
               <Megaphone className="h-6 w-6 text-muted-foreground" />
@@ -101,7 +102,7 @@ export default function AnnouncementsListPage() {
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            {announcements.map((a) => {
+            {announcements?.map((a) => {
               const id = a._id || a.id;
               return (
                 <div

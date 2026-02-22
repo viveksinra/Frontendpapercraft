@@ -1,19 +1,27 @@
-'use client';
+import { LandingHeader } from 'src/components/landing/header';
+import { Hero } from 'src/components/landing/hero';
+import { FeaturesGrid } from 'src/components/landing/features-grid';
+import { HowItWorks } from 'src/components/landing/how-it-works';
+import { Testimonials } from 'src/components/landing/testimonials';
+import { Pricing } from 'src/components/landing/pricing';
+import { FAQ } from 'src/components/landing/faq';
+import { FinalCTA } from 'src/components/landing/final-cta';
+import { Footer } from 'src/components/landing/footer';
 
-import { useEffect } from 'react';
-
-import { useRouter } from 'src/routes/hooks';
-
-import { CONFIG } from 'src/global-config';
-
-// ----------------------------------------------------------------------
-
-export default function Page() {
-  const router = useRouter();
-
-  useEffect(() => {
-    router.push(CONFIG.auth.redirectPath);
-  }, [router]);
-
-  return null;
+export default function LandingPage() {
+  return (
+    <div className="min-h-screen bg-background overflow-hidden">
+      <LandingHeader />
+      <main>
+        <Hero />
+        <FeaturesGrid />
+        <HowItWorks />
+        <Testimonials />
+        <Pricing />
+        <FAQ />
+        <FinalCTA />
+      </main>
+      <Footer />
+    </div>
+  );
 }

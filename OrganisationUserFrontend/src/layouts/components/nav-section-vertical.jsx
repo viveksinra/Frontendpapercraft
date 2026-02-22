@@ -47,8 +47,11 @@ export function NavSectionVertical({ data, isNavMini, checkPermissions }) {
 
 function NavItem({ item, isNavMini, pathname, depth }) {
   const { title, path, icon, info, badge, children, disabled } = item;
-  const isActive = pathname === path || pathname.startsWith(path + '/');
   const hasChildren = children && children.length > 0;
+  const pathSegments = path.split('/').filter(Boolean);
+  const isActive = hasChildren
+    ? children.some((child) => pathname === child.path || pathname.startsWith(child.path + '/'))
+    : pathname === path || (pathSegments.length > 1 && pathname.startsWith(path + '/'));
   const [open, setOpen] = useState(
     hasChildren && children.some((child) => pathname === child.path || pathname.startsWith(child.path + '/'))
   );
@@ -92,7 +95,7 @@ function NavItem({ item, isNavMini, pathname, depth }) {
         </button>
 
         {open && (
-          <ul className="mt-0.5 ml-4 space-y-0.5 border-l border-border pl-3">
+          <ul className="relative mt-1.5 ml-[1.375rem] space-y-0.5 border-l border-muted-foreground/25 py-1">
             {children.map((child) => (
               <NavItem
                 key={child.title}
@@ -108,12 +111,19 @@ function NavItem({ item, isNavMini, pathname, depth }) {
     );
   }
 
+  const isChild = depth > 0;
+
   return (
-    <li>
+    <li className={cn(isChild && 'relative pl-6')}>
+      {/* Horizontal branch line connecting from vertical line to item */}
+      {isChild && (
+        <span className="absolute left-0 top-1/2 w-5 border-t border-muted-foreground/25" />
+      )}
       <Link
         href={disabled ? '#' : path}
         className={cn(
           'flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors',
+          isChild && 'py-1.5 text-[13px]',
           isActive && 'bg-primary/10 text-primary font-medium',
           !isActive && 'hover:bg-accent hover:text-foreground',
           disabled && 'pointer-events-none opacity-50'
