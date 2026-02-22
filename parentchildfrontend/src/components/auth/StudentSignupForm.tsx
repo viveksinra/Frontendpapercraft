@@ -6,12 +6,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { GlassCard } from '@/components/ui/glass-card';
 import {
   Select,
   SelectContent,
@@ -22,7 +19,6 @@ import {
 import { Loader2, GraduationCap, PartyPopper } from 'lucide-react';
 import { OrgCodeInput } from './OrgCodeInput';
 import { StudentCodeDisplay } from './StudentCodeDisplay';
-import { staggerContainer, staggerItem, scaleIn } from '@/lib/animations';
 
 const studentSignupSchema = z.object({
   orgCode: z
@@ -83,214 +79,126 @@ export function StudentSignupForm() {
     }
   };
 
+  const inputClass = "w-full px-4 py-2.5 rounded-xl border border-border/60 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 transition-all duration-200 disabled:opacity-50";
+
   // Show student code after successful registration
   if (studentCode) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Card variant="glass">
-          <CardHeader className="text-center">
-            <motion.div
-              className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-400 to-emerald-500"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 15, delay: 0.2 }}
-            >
-              <PartyPopper className="h-7 w-7 text-white" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <CardTitle className="text-2xl">Registration Complete!</CardTitle>
-              <CardDescription>
+      <GlassCard className="p-8 animate-scale-in">
+        <div className="space-y-6">
+          <div className="text-center space-y-3">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center mx-auto shadow-lg shadow-green-500/25 animate-scale-in">
+              <PartyPopper className="w-7 h-7 text-white" />
+            </div>
+            <div className="animate-fade-in-up stagger-1">
+              <h1 className="text-2xl font-bold text-gradient">Registration Complete!</h1>
+              <p className="text-sm text-muted-foreground mt-1">
                 Your student account has been created. Save your student code below.
-              </CardDescription>
-            </motion.div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              <StudentCodeDisplay code={studentCode} />
-            </motion.div>
-          </CardContent>
-          <CardFooter className="flex justify-center">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              <Button variant="gradient" asChild>
-                <Link href="/student/dashboard">Go to Dashboard</Link>
-              </Button>
-            </motion.div>
-          </CardFooter>
-        </Card>
-      </motion.div>
+              </p>
+            </div>
+          </div>
+          <div className="animate-fade-in-up stagger-2">
+            <StudentCodeDisplay code={studentCode} />
+          </div>
+          <div className="flex justify-center animate-fade-in-up stagger-3">
+            <Button className="rounded-xl font-medium" asChild>
+              <Link href="/student/dashboard">Go to Dashboard</Link>
+            </Button>
+          </div>
+        </div>
+      </GlassCard>
     );
   }
 
   return (
-    <motion.div
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.div variants={staggerItem}>
-        <Card variant="glass">
-          <CardHeader className="text-center">
-            <motion.div
-              className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-mid))]"
-              variants={scaleIn}
-              initial="hidden"
-              animate="visible"
-            >
-              <GraduationCap className="h-6 w-6 text-white" />
-            </motion.div>
-            <CardTitle className="text-2xl">Student Sign Up</CardTitle>
-            <CardDescription>Create your student account to get started</CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <CardContent>
-              <motion.div
-                className="space-y-4"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {/* Organization Code - at top */}
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="orgCode">Organization Code</Label>
-                  <Controller
-                    name="orgCode"
-                    control={control}
-                    render={({ field }) => (
-                      <OrgCodeInput
-                        value={field.value}
-                        onChange={field.onChange}
-                        error={errors.orgCode?.message}
-                        disabled={loading}
-                      />
-                    )}
-                  />
-                </motion.div>
+    <GlassCard className="p-8 animate-scale-in">
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center space-y-3">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto shadow-lg shadow-primary/25 shine-effect">
+            <GraduationCap className="w-7 h-7 text-primary-foreground" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gradient">Student Sign Up</h1>
+            <p className="text-sm text-muted-foreground mt-1">Create your student account to get started</p>
+          </div>
+        </div>
 
-                {/* Full Name */}
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input
-                    id="name"
-                    placeholder="Enter your full name"
-                    {...register('name')}
-                    disabled={loading}
-                  />
-                  {errors.name && (
-                    <p className="text-sm text-red-500">{errors.name.message}</p>
-                  )}
-                </motion.div>
-
-                {/* Email */}
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    {...register('email')}
-                    disabled={loading}
-                  />
-                  {errors.email && (
-                    <p className="text-sm text-red-500">{errors.email.message}</p>
-                  )}
-                </motion.div>
-
-                {/* Password */}
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Create a password"
-                    {...register('password')}
-                    disabled={loading}
-                  />
-                  {errors.password && (
-                    <p className="text-sm text-red-500">{errors.password.message}</p>
-                  )}
-                </motion.div>
-
-                {/* Year Group */}
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="yearGroup">Year Group</Label>
-                  <Controller
-                    name="yearGroup"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        disabled={loading}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select your year group" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {YEAR_GROUPS.map((yg) => (
-                            <SelectItem key={yg.value} value={yg.value}>
-                              {yg.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    )}
-                  />
-                  {errors.yearGroup && (
-                    <p className="text-sm text-red-500">{errors.yearGroup.message}</p>
-                  )}
-                </motion.div>
-              </motion.div>
-            </CardContent>
-
-            <CardFooter className="flex flex-col gap-4">
-              <motion.div className="w-full" variants={staggerItem}>
-                <Button
-                  type="submit"
-                  variant="gradient"
-                  className="w-full"
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Organization Code */}
+          <div className="space-y-2">
+            <label htmlFor="orgCode" className="text-sm font-medium text-foreground">Organization Code</label>
+            <Controller
+              name="orgCode"
+              control={control}
+              render={({ field }) => (
+                <OrgCodeInput
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.orgCode?.message}
                   disabled={loading}
-                >
-                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Create Student Account
-                </Button>
-              </motion.div>
-              <motion.div
-                className="flex flex-col items-center gap-1 text-sm text-muted-foreground"
-                variants={staggerItem}
-              >
-                <p>
-                  Already have an account?{' '}
-                  <Link href="/auth/student/login" className="text-primary font-medium underline-offset-4 hover:underline transition-colors">
-                    Sign In
-                  </Link>
-                </p>
-                <p>
-                  Are you a parent?{' '}
-                  <Link href="/auth/parent/signup" className="text-primary font-medium underline-offset-4 hover:underline transition-colors">
-                    Register as Parent
-                  </Link>
-                </p>
-              </motion.div>
-            </CardFooter>
-          </form>
-        </Card>
-      </motion.div>
-    </motion.div>
+                />
+              )}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm font-medium text-foreground">Full Name</label>
+            <input id="name" placeholder="Enter your full name" {...register('name')} disabled={loading} className={inputClass} />
+            {errors.name && <p className="text-sm text-destructive animate-fade-in-up">{errors.name.message}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-foreground">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" {...register('email')} disabled={loading} className={inputClass} />
+            {errors.email && <p className="text-sm text-destructive animate-fade-in-up">{errors.email.message}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-medium text-foreground">Password</label>
+            <input id="password" type="password" placeholder="Create a password" {...register('password')} disabled={loading} className={inputClass} />
+            {errors.password && <p className="text-sm text-destructive animate-fade-in-up">{errors.password.message}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="yearGroup" className="text-sm font-medium text-foreground">Year Group</label>
+            <Controller
+              name="yearGroup"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange} disabled={loading}>
+                  <SelectTrigger className="rounded-xl">
+                    <SelectValue placeholder="Select your year group" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {YEAR_GROUPS.map((yg) => (
+                      <SelectItem key={yg.value} value={yg.value}>{yg.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
+            {errors.yearGroup && <p className="text-sm text-destructive animate-fade-in-up">{errors.yearGroup.message}</p>}
+          </div>
+
+          <Button type="submit" className="w-full h-10 rounded-xl font-medium" disabled={loading}>
+            {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+            Create Student Account
+          </Button>
+        </form>
+
+        <div className="flex flex-col items-center gap-1 text-sm text-muted-foreground">
+          <p>
+            Already have an account?{' '}
+            <Link href="/auth/student/login" className="text-primary hover:text-primary/80 font-medium transition-colors">Sign In</Link>
+          </p>
+          <p>
+            Are you a parent?{' '}
+            <Link href="/auth/parent/signup" className="text-primary hover:text-primary/80 font-medium transition-colors">Register as Parent</Link>
+          </p>
+        </div>
+      </div>
+    </GlassCard>
   );
 }

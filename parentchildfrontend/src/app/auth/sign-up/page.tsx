@@ -3,16 +3,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { GlassCard } from '@/components/ui/glass-card';
 import { Loader2, GraduationCap, Users, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { staggerContainer, staggerItem, scaleIn } from '@/lib/animations';
 
 export default function SignUpPage() {
   const { register } = useAuth();
@@ -62,175 +58,104 @@ export default function SignUpPage() {
     }
   };
 
+  const inputClass = "w-full px-4 py-2.5 rounded-xl border border-border/60 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 transition-all duration-200 disabled:opacity-50";
+
   return (
-    <motion.div
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.div variants={staggerItem}>
-        <Card variant="glass">
-          <CardHeader className="text-center">
-            <motion.div
-              className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-mid))]"
-              variants={scaleIn}
-              initial="hidden"
-              animate="visible"
-            >
-              <BookOpen className="h-6 w-6 text-white" />
-            </motion.div>
-            <CardTitle className="text-2xl">Create Account</CardTitle>
-            <CardDescription>Sign up to get started with PaperCraft</CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent>
-              <motion.div
-                className="space-y-4"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {/* Role Selector */}
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label>I am a...</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { role: 'student' as const, icon: GraduationCap, label: 'Student' },
-                      { role: 'parent' as const, icon: Users, label: 'Parent' },
-                    ].map(({ role, icon: Icon, label }) => (
-                      <motion.button
-                        key={role}
-                        type="button"
-                        onClick={() => updateField('role', role)}
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.97 }}
-                        className={cn(
-                          'flex flex-col items-center gap-2 rounded-lg border-2 p-4 transition-all',
-                          form.role === role
-                            ? 'border-primary bg-primary/5 text-primary shadow-md shadow-primary/10'
-                            : 'border-border hover:border-primary/50'
-                        )}
-                        disabled={loading}
-                      >
-                        <motion.div
-                          animate={form.role === role ? { scale: [1, 1.15, 1] } : {}}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <Icon className="h-6 w-6" />
-                        </motion.div>
-                        <span className="text-sm font-medium">{label}</span>
-                      </motion.button>
-                    ))}
-                  </div>
-                </motion.div>
+    <GlassCard className="p-8 animate-scale-in">
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="text-center space-y-3">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto shadow-lg shadow-primary/25 shine-effect">
+            <BookOpen className="w-7 h-7 text-primary-foreground" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gradient">Create account</h1>
+            <p className="text-sm text-muted-foreground mt-1">Sign up to get started with PaperCraft</p>
+          </div>
+        </div>
 
-                {/* Name fields */}
-                <motion.div className="grid grid-cols-2 gap-4" variants={staggerItem}>
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input
-                      id="firstName"
-                      placeholder="John"
-                      value={form.firstName}
-                      onChange={(e) => updateField('firstName', e.target.value)}
-                      disabled={loading}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      placeholder="Doe"
-                      value={form.lastName}
-                      onChange={(e) => updateField('lastName', e.target.value)}
-                      disabled={loading}
-                      required
-                    />
-                  </div>
-                </motion.div>
-
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={form.email}
-                    onChange={(e) => updateField('email', e.target.value)}
-                    disabled={loading}
-                    required
-                  />
-                </motion.div>
-
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Create a password"
-                    value={form.password}
-                    onChange={(e) => updateField('password', e.target.value)}
-                    disabled={loading}
-                    required
-                  />
-                </motion.div>
-
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="organizationCode">Organization Code</Label>
-                  <Input
-                    id="organizationCode"
-                    placeholder="Enter your institute code"
-                    value={form.organizationCode}
-                    onChange={(e) => updateField('organizationCode', e.target.value)}
-                    disabled={loading}
-                    required
-                  />
-                </motion.div>
-
-                <AnimatePresence>
-                  {form.role === 'parent' && (
-                    <motion.div
-                      className="space-y-2"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Label htmlFor="studentCode">Student Code</Label>
-                      <Input
-                        id="studentCode"
-                        placeholder="Enter your child's student code"
-                        value={form.studentCode}
-                        onChange={(e) => updateField('studentCode', e.target.value)}
-                        disabled={loading}
-                        required
-                      />
-                    </motion.div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Role selector */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">I am a...</label>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { role: 'student' as const, icon: GraduationCap, label: 'Student' },
+                { role: 'parent' as const, icon: Users, label: 'Parent' },
+              ].map(({ role, icon: Icon, label }) => (
+                <button
+                  key={role}
+                  type="button"
+                  onClick={() => updateField('role', role)}
+                  className={cn(
+                    'flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all duration-300',
+                    form.role === role
+                      ? 'border-primary/40 bg-primary/5 text-primary shadow-lg shadow-primary/10'
+                      : 'border-border/50 hover:border-primary/20 hover:bg-primary/5'
                   )}
-                </AnimatePresence>
-              </motion.div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-4">
-              <Button
-                type="submit"
-                variant="gradient"
-                className="w-full"
-                disabled={loading || !form.role}
-              >
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create Account
-              </Button>
-              <p className="text-sm text-muted-foreground">
-                Already have an account?{' '}
-                <Link href="/auth/sign-in" className="text-primary font-medium underline-offset-4 hover:underline transition-colors">
-                  Sign in
-                </Link>
-              </p>
-            </CardFooter>
-          </form>
-        </Card>
-      </motion.div>
-    </motion.div>
+                  disabled={loading}
+                >
+                  <div className={cn(
+                    "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300",
+                    form.role === role
+                      ? "bg-gradient-to-br from-primary to-accent shadow-lg shadow-primary/25"
+                      : "bg-muted"
+                  )}>
+                    <Icon className={cn("h-5 w-5", form.role === role ? "text-primary-foreground" : "text-primary")} />
+                  </div>
+                  <span className="text-sm font-medium">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <label htmlFor="firstName" className="text-sm font-medium text-foreground">First Name</label>
+              <input id="firstName" placeholder="John" value={form.firstName} onChange={(e) => updateField('firstName', e.target.value)} disabled={loading} required className={inputClass} />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="lastName" className="text-sm font-medium text-foreground">Last Name</label>
+              <input id="lastName" placeholder="Doe" value={form.lastName} onChange={(e) => updateField('lastName', e.target.value)} disabled={loading} required className={inputClass} />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-foreground">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" value={form.email} onChange={(e) => updateField('email', e.target.value)} disabled={loading} required className={inputClass} />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="password" className="text-sm font-medium text-foreground">Password</label>
+            <input id="password" type="password" placeholder="Create a password" value={form.password} onChange={(e) => updateField('password', e.target.value)} disabled={loading} required className={inputClass} />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="organizationCode" className="text-sm font-medium text-foreground">Organization Code</label>
+            <input id="organizationCode" placeholder="Enter your institute code" value={form.organizationCode} onChange={(e) => updateField('organizationCode', e.target.value)} disabled={loading} required className={inputClass} />
+          </div>
+
+          {form.role === 'parent' && (
+            <div className="space-y-2 animate-fade-in-up">
+              <label htmlFor="studentCode" className="text-sm font-medium text-foreground">Student Code</label>
+              <input id="studentCode" placeholder="Enter your child's student code" value={form.studentCode} onChange={(e) => updateField('studentCode', e.target.value)} disabled={loading} required className={inputClass} />
+            </div>
+          )}
+
+          <Button type="submit" className="w-full h-10 rounded-xl font-medium" disabled={loading || !form.role}>
+            {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+            Create account
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link href="/auth/sign-in" className="text-primary hover:text-primary/80 font-medium transition-colors">
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </GlassCard>
   );
 }

@@ -30,7 +30,7 @@ import {
 // ----------------------------------------------------------------------
 
 const CATEGORY_OPTIONS = [
-  { label: 'All Categories', value: '' },
+  { label: 'All Categories', value: '__all__' },
   { label: 'General', value: 'general' },
   { label: 'Questions', value: 'question' },
   { label: 'Announcements', value: 'announcement' },
@@ -68,7 +68,7 @@ export default function DiscussionsListPage() {
   const [error, setError] = useState(null);
   const [threads, setThreads] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('__all__');
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -84,7 +84,7 @@ export default function DiscussionsListPage() {
       setLoading(true);
       setError(null);
       const params = { page, pageSize: 20, sort: sortBy };
-      if (categoryFilter) params.category = categoryFilter;
+      if (categoryFilter && categoryFilter !== '__all__') params.category = categoryFilter;
       if (searchQuery.trim()) params.search = searchQuery.trim();
 
       const data = await listThreads(activeCompanyId, params);

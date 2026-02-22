@@ -3,15 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { GlassCard } from '@/components/ui/glass-card';
 import { Loader2, User, Users, BookOpen } from 'lucide-react';
-import { staggerContainer, staggerItem, scaleIn, fadeInUp } from '@/lib/animations';
 
 const TEST_ACCOUNTS = [
   {
@@ -70,124 +66,105 @@ export default function SignInPage() {
   };
 
   return (
-    <motion.div
-      className="flex flex-col gap-4 w-full"
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.div variants={staggerItem}>
-        <Card variant="glass">
-          <CardHeader className="text-center">
-            <motion.div
-              className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-mid))]"
-              variants={scaleIn}
-              initial="hidden"
-              animate="visible"
-            >
-              <BookOpen className="h-6 w-6 text-white" />
-            </motion.div>
-            <CardTitle className="text-2xl">Sign In</CardTitle>
-            <CardDescription>Enter your credentials to access your account</CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent>
-              <motion.div
-                className="space-y-4"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={loading}
-                    required
-                  />
-                </motion.div>
-                <motion.div className="space-y-2" variants={staggerItem}>
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    disabled={loading}
-                    required
-                  />
-                </motion.div>
-              </motion.div>
-            </CardContent>
-            <CardFooter className="flex flex-col gap-4">
-              <Button
-                type="submit"
-                variant="gradient"
-                className="w-full"
-                disabled={loading}
-              >
-                {loading ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : null}
-                Sign In
-              </Button>
-              <p className="text-sm text-muted-foreground">
-                Don&apos;t have an account?{' '}
-                <Link
-                  href="/auth/sign-up"
-                  className="text-primary font-medium underline-offset-4 hover:underline transition-colors"
-                >
-                  Sign up
-                </Link>
-              </p>
-            </CardFooter>
-          </form>
-        </Card>
-      </motion.div>
-
-      <motion.div variants={staggerItem}>
-        <Card className="border-dashed">
-          <CardHeader className="pb-3 pt-4 px-4">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quick Login — Test Accounts</span>
+    <div className="space-y-4">
+      <GlassCard className="p-8 animate-scale-in">
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="text-center space-y-3">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto shadow-lg shadow-primary/25 shine-effect">
+              <BookOpen className="w-7 h-7 text-primary-foreground" />
             </div>
-          </CardHeader>
-          <CardContent className="px-4 pb-4 pt-0 grid grid-cols-2 gap-3">
+            <div>
+              <h1 className="text-2xl font-bold text-gradient">Welcome back</h1>
+              <p className="text-sm text-muted-foreground mt-1">Sign in to PaperCraft</p>
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium text-foreground">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
+                className="w-full px-4 py-2.5 rounded-xl border border-border/60 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 transition-all duration-200 disabled:opacity-50"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium text-foreground">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+                className="w-full px-4 py-2.5 rounded-xl border border-border/60 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 transition-all duration-200 disabled:opacity-50"
+                placeholder="Enter your password"
+              />
+            </div>
+            <Button
+              type="submit"
+              className="w-full h-10 rounded-xl font-medium"
+              disabled={loading}
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+              Sign in
+            </Button>
+          </form>
+
+          {/* Sign up link */}
+          <p className="text-center text-sm text-muted-foreground">
+            Don&apos;t have an account?{' '}
+            <Link href="/auth/sign-up" className="text-primary hover:text-primary/80 font-medium transition-colors">
+              Sign up
+            </Link>
+          </p>
+        </div>
+      </GlassCard>
+
+      {/* Test accounts */}
+      <GlassCard className="p-4 animate-fade-in-up stagger-2">
+        <div className="space-y-3">
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Quick Login — Test Accounts</p>
+          <div className="grid grid-cols-2 gap-3">
             {TEST_ACCOUNTS.map((account) => {
               const Icon = account.icon;
               const isActive = email === account.email;
               return (
-                <motion.button
+                <button
                   key={account.role}
                   type="button"
                   onClick={() => fillCredentials(account)}
-                  whileHover={{ y: -2, scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`flex flex-col items-center gap-1.5 rounded-lg border p-3 text-center transition-all cursor-pointer ${
+                  className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 text-center transition-all duration-300 cursor-pointer ${
                     isActive
-                      ? 'border-primary bg-primary/5 shadow-md shadow-primary/10'
-                      : 'border-border hover:bg-accent hover:border-accent-foreground/20'
+                      ? 'border-primary/30 bg-primary/5 shadow-lg shadow-primary/10'
+                      : 'border-border/50 hover:border-primary/20 hover:bg-primary/5 hover:-translate-y-0.5'
                   }`}
                 >
-                  <div className={`flex h-8 w-8 items-center justify-center rounded-full ${isActive ? 'bg-primary/15' : 'bg-muted'}`}>
-                    <Icon className="h-4 w-4 text-primary" />
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${isActive ? 'bg-gradient-to-br from-primary to-accent' : 'bg-muted'}`}>
+                    <Icon className={`h-4 w-4 ${isActive ? 'text-primary-foreground' : 'text-primary'}`} />
                   </div>
                   <span className="text-sm font-medium">{account.name}</span>
                   <span className="text-[11px] text-muted-foreground leading-tight">{account.description}</span>
                   <span className="mt-1 inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">
                     {account.label}
                   </span>
-                </motion.button>
+                </button>
               );
             })}
-          </CardContent>
-        </Card>
-      </motion.div>
-    </motion.div>
+          </div>
+        </div>
+      </GlassCard>
+    </div>
   );
 }

@@ -23,7 +23,8 @@ export default function MappingStep({ subjects = [], subjectMapping, onSubjectMa
   const topics = subjects.filter((s) => s.parentId === subjectMapping.chapterId);
 
   const handleSubjectChange = (field, value) => {
-    const updated = { ...subjectMapping, [field]: value };
+    const actual = value === '__none__' ? '' : value;
+    const updated = { ...subjectMapping, [field]: actual };
     if (field === 'subjectId') { updated.chapterId = ''; updated.topicId = ''; }
     if (field === 'chapterId') { updated.topicId = ''; }
     onSubjectMappingChange(updated);
@@ -48,7 +49,7 @@ export default function MappingStep({ subjects = [], subjectMapping, onSubjectMa
                 <SelectValue placeholder="Select subject" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">None</SelectItem>
+                <SelectItem value="__none__">None</SelectItem>
                 {topLevel.map((s) => (
                   <SelectItem key={s._id} value={s._id}>{s.name}</SelectItem>
                 ))}
@@ -63,7 +64,7 @@ export default function MappingStep({ subjects = [], subjectMapping, onSubjectMa
                   <SelectValue placeholder="Select chapter" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="__none__">None</SelectItem>
                   {chapters.map((s) => (
                     <SelectItem key={s._id} value={s._id}>{s.name}</SelectItem>
                   ))}
@@ -79,7 +80,7 @@ export default function MappingStep({ subjects = [], subjectMapping, onSubjectMa
                   <SelectValue placeholder="Select topic" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="__none__">None</SelectItem>
                   {topics.map((s) => (
                     <SelectItem key={s._id} value={s._id}>{s.name}</SelectItem>
                   ))}

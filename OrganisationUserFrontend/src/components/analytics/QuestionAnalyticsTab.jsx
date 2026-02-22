@@ -49,7 +49,7 @@ export default function QuestionAnalyticsTab() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState('accuracy');
-  const [difficulty, setDifficulty] = useState('');
+  const [difficulty, setDifficulty] = useState('__all__');
   const [problematicCount, setProblematicCount] = useState(0);
   const [calibration, setCalibration] = useState(null);
 
@@ -60,7 +60,7 @@ export default function QuestionAnalyticsTab() {
       setError(null);
 
       const params = { page, pageSize: 20, sortBy, sortOrder: 'asc' };
-      if (difficulty) params.difficulty = difficulty;
+      if (difficulty && difficulty !== '__all__') params.difficulty = difficulty;
 
       const [listData, problematicData, calibrationData] = await Promise.all([
         listQuestionAnalytics(companyId, params),
@@ -108,7 +108,7 @@ export default function QuestionAnalyticsTab() {
             <SelectValue placeholder="Difficulty" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Difficulties</SelectItem>
+            <SelectItem value="__all__">All Difficulties</SelectItem>
             <SelectItem value="easy">Easy</SelectItem>
             <SelectItem value="medium">Medium</SelectItem>
             <SelectItem value="hard">Hard</SelectItem>

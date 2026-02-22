@@ -40,16 +40,16 @@ export default function ReportsListPage() {
   const [reports, setReports] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [filterType, setFilterType] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
+  const [filterType, setFilterType] = useState('__all__');
+  const [filterStatus, setFilterStatus] = useState('__all__');
 
   const loadReports = useCallback(async () => {
     if (!companyId) return;
     try {
       setLoading(true);
       const params = { page, pageSize: 20 };
-      if (filterType) params.type = filterType;
-      if (filterStatus) params.status = filterStatus;
+      if (filterType && filterType !== '__all__') params.type = filterType;
+      if (filterStatus && filterStatus !== '__all__') params.status = filterStatus;
       const data = await listReports(companyId, params);
       setReports(data?.reports || []);
       setTotal(data?.total || 0);
@@ -117,7 +117,7 @@ export default function ReportsListPage() {
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Types</SelectItem>
+              <SelectItem value="__all__">All Types</SelectItem>
               <SelectItem value="progress_report">Progress Report</SelectItem>
               <SelectItem value="mock_analysis">Mock Analysis</SelectItem>
               <SelectItem value="class_summary">Class Summary</SelectItem>
@@ -128,7 +128,7 @@ export default function ReportsListPage() {
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Statuses</SelectItem>
+              <SelectItem value="__all__">All Statuses</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="generating">Generating</SelectItem>
               <SelectItem value="completed">Completed</SelectItem>

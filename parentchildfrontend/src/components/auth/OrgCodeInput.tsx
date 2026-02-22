@@ -1,8 +1,6 @@
 'use client';
 
 import { useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Input } from '@/components/ui/input';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -29,68 +27,37 @@ export function OrgCodeInput({ value, onChange, error, disabled }: OrgCodeInputP
   return (
     <div className="space-y-1">
       <div className="relative">
-        <Input
+        <input
           value={value}
           onChange={handleChange}
           placeholder="ORG CODE"
           disabled={disabled}
           maxLength={10}
           className={cn(
-            'font-mono text-lg tracking-widest uppercase pr-10',
-            isValid && 'border-green-500 focus-visible:ring-green-500/50 focus-visible:border-green-500',
-            isInvalid && 'border-red-400 focus-visible:ring-red-400/50 focus-visible:border-red-400',
-            error && 'border-red-400 focus-visible:ring-red-400/50 focus-visible:border-red-400'
+            'w-full px-4 py-2.5 rounded-xl border bg-background/50 text-foreground font-mono text-lg tracking-widest uppercase pr-10 transition-all duration-200 disabled:opacity-50 focus:outline-none focus:ring-2',
+            isValid && 'border-green-500/60 focus:ring-green-500/30 focus:border-green-500/40',
+            isInvalid && 'border-red-400/60 focus:ring-red-400/30 focus:border-red-400/40',
+            error && 'border-red-400/60 focus:ring-red-400/30 focus:border-red-400/40',
+            !isValid && !isInvalid && !error && 'border-border/60 focus:ring-primary/30 focus:border-primary/40'
           )}
         />
-        <AnimatePresence mode="wait">
-          {isValid && (
-            <motion.div
-              key="valid"
-              className="absolute right-3 top-1/2 -translate-y-1/2"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            >
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
-            </motion.div>
-          )}
-          {isInvalid && (
-            <motion.div
-              key="invalid"
-              className="absolute right-3 top-1/2 -translate-y-1/2"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-            >
-              <XCircle className="h-5 w-5 text-red-400" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {isValid && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 animate-scale-in">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+          </div>
+        )}
+        {isInvalid && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 animate-scale-in">
+            <XCircle className="h-5 w-5 text-red-400" />
+          </div>
+        )}
       </div>
-      <AnimatePresence>
-        {error && (
-          <motion.p
-            className="text-sm text-red-500"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-          >
-            {error}
-          </motion.p>
-        )}
-        {isInvalid && !error && (
-          <motion.p
-            className="text-xs text-muted-foreground"
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-          >
-            Code must be 3-10 uppercase letters or numbers
-          </motion.p>
-        )}
-      </AnimatePresence>
+      {error && <p className="text-sm text-destructive animate-fade-in-up">{error}</p>}
+      {isInvalid && !error && (
+        <p className="text-xs text-muted-foreground animate-fade-in-up">
+          Code must be 3-10 uppercase letters or numbers
+        </p>
+      )}
     </div>
   );
 }
