@@ -4,6 +4,7 @@ import { CONFIG } from 'src/global-config';
 
 import { Toaster } from '@/components/ui/sonner';
 import { ProgressBar } from 'src/components/progress-bar';
+import { ThemeProvider } from 'src/components/theme-provider';
 import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { detectSettings } from 'src/components/settings/server';
 import { defaultSettings, SettingsProvider } from 'src/components/settings';
@@ -50,18 +51,20 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" dir={appConfig.dir} suppressHydrationWarning>
       <body className="bg-background text-foreground antialiased">
-        <AuthProvider>
-          <SettingsProvider
-            cookieSettings={appConfig.cookieSettings}
-            defaultSettings={defaultSettings}
-          >
-            <MotionLazy>
-              <ProgressBar />
-              <Toaster />
-              {children}
-            </MotionLazy>
-          </SettingsProvider>
-        </AuthProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            <SettingsProvider
+              cookieSettings={appConfig.cookieSettings}
+              defaultSettings={defaultSettings}
+            >
+              <MotionLazy>
+                <ProgressBar />
+                <Toaster />
+                {children}
+              </MotionLazy>
+            </SettingsProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

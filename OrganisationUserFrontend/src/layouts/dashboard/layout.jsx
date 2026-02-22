@@ -7,6 +7,7 @@ import { useAuthContext } from 'src/auth/hooks';
 
 import { NavMobile } from './nav-mobile';
 import { NavVertical } from './nav-vertical';
+import { ThemeSwitch } from '../components/theme-switch';
 import { AccountDropdown } from '../components/account-dropdown';
 import { MainSection, HeaderSection, LayoutSection } from '../core';
 import { WorkspacesPopover } from '../components/workspaces-popover';
@@ -57,7 +58,12 @@ export function DashboardLayout({ children, slotProps }) {
         <WorkspacesPopover />
       </>
     ),
-    rightArea: <AccountDropdown />,
+    rightArea: (
+      <>
+        <ThemeSwitch />
+        <AccountDropdown />
+      </>
+    ),
   };
 
   return (
