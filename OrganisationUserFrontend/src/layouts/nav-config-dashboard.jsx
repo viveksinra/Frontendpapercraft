@@ -16,6 +16,7 @@ import {
   TrendingUp,
   CreditCard,
   FileBarChart,
+  PlayCircle,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
@@ -36,6 +37,7 @@ const ICONS = {
   students: <GraduationCap />,
   announcements: <Megaphone />,
   fees: <Receipt />,
+  courses: <PlayCircle />,
   products: <ShoppingBag />,
   revenue: <TrendingUp />,
   stripe: <CreditCard />,
@@ -121,6 +123,15 @@ export const navData = [
         title: 'Fees',
         path: paths.dashboard.fees.root,
         icon: ICONS.fees,
+      },
+      {
+        title: 'Courses',
+        path: paths.dashboard.courses.root,
+        icon: ICONS.courses,
+        children: [
+          { title: 'All Courses', path: paths.dashboard.courses.root },
+          { title: 'Create Course', path: paths.dashboard.courses.create },
+        ],
       },
       {
         title: 'Products & Pricing',

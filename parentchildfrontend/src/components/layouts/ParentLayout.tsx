@@ -9,6 +9,7 @@ import {
   User,
   ShoppingBag,
   Receipt,
+  PlayCircle,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, type SidebarItem } from '@/components/layouts/Sidebar';
@@ -25,6 +26,7 @@ import { cn } from '@/lib/utils';
 const sidebarItems: SidebarItem[] = [
   { label: 'Dashboard', href: '/parent/dashboard', icon: LayoutDashboard },
   { label: 'Children', href: '/children', icon: Users },
+  { label: 'Courses', href: '/courses', icon: PlayCircle },
   { label: 'Store', href: '/store', icon: ShoppingBag },
   { label: 'My Purchases', href: '/purchases', icon: Receipt },
   { label: 'Profile', href: '/profile', icon: User },

@@ -78,6 +78,17 @@ export const paths = {
     revenue: {
       root: `${ROOTS.DASHBOARD}/revenue`,
     },
+    // Phase 8: Course Builder
+    courses: {
+      root: `${ROOTS.DASHBOARD}/courses`,
+      create: `${ROOTS.DASHBOARD}/courses/create`,
+      detail: (id) => `${ROOTS.DASHBOARD}/courses/${id}`,
+      edit: (id) => `${ROOTS.DASHBOARD}/courses/${id}/edit`,
+      builder: (id) => `${ROOTS.DASHBOARD}/courses/${id}/builder`,
+      preview: (id) => `${ROOTS.DASHBOARD}/courses/${id}/preview`,
+      analytics: (id) => `${ROOTS.DASHBOARD}/courses/${id}/analytics`,
+      enrollments: (id) => `${ROOTS.DASHBOARD}/courses/${id}/enrollments`,
+    },
     // Phase 7: Analytics & Reporting
     analytics: {
       root: `${ROOTS.DASHBOARD}/analytics`,

@@ -67,7 +67,13 @@ export function StudentDashboard() {
   }
 
   const firstName = user?.firstName || 'Student';
-  const stats = data?.stats || { testsTaken: 0, averageScore: null, streak: 0 };
+  const rawStats = data?.stats;
+  const stats = {
+    testsTaken: rawStats?.testsTaken ?? 0,
+    averageScore: rawStats?.averageScore ?? null,
+    streak: rawStats?.streak ?? 0,
+    orgName: rawStats?.orgName,
+  };
 
   return (
     <div className="space-y-6">

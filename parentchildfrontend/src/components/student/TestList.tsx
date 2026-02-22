@@ -31,7 +31,13 @@ export function TestList() {
       setTests(res.tests || []);
       setTotal(res.total || 0);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to load tests');
+      const msg = err instanceof Error ? err.message : 'Failed to load tests';
+      // Make common backend errors more user-friendly
+      if (msg.toLowerCase().includes('student not found') || msg.toLowerCase().includes('user account not found')) {
+        setError('Your student profile is being set up. Please refresh the page in a moment, or contact your school administrator if this persists.');
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }

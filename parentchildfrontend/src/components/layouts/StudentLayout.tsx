@@ -13,6 +13,9 @@ import {
   User,
   ShoppingBag,
   Receipt,
+  PlayCircle,
+  GraduationCap,
+  Award,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, type SidebarItem } from '@/components/layouts/Sidebar';
@@ -30,6 +33,9 @@ const sidebarItems: SidebarItem[] = [
   { label: 'Dashboard', href: '/student/dashboard', icon: LayoutDashboard },
   { label: 'My Tests', href: '/student/tests', icon: FileText },
   { label: 'Results', href: '/student/results', icon: BarChart2 },
+  { label: 'Courses', href: '/student/courses', icon: PlayCircle },
+  { label: 'My Courses', href: '/student/my-courses', icon: GraduationCap },
+  { label: 'Certificates', href: '/student/certificates', icon: Award },
   { label: 'Progress', href: '/student/performance', icon: TrendingUp },
   { label: 'Homework', href: '/student/homework', icon: BookOpen },
   { label: 'Announcements', href: '/student/announcements', icon: Megaphone },

@@ -11,6 +11,7 @@ import StudentAnalyticsTab from 'src/components/analytics/StudentAnalyticsTab';
 import ClassAnalyticsTab from 'src/components/analytics/ClassAnalyticsTab';
 import InstituteAnalyticsTab from 'src/components/analytics/InstituteAnalyticsTab';
 import QuestionAnalyticsTab from 'src/components/analytics/QuestionAnalyticsTab';
+import InstituteCourseAnalytics from 'src/components/courses/analytics/InstituteCourseAnalytics';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +48,7 @@ export default function AnalyticsDashboardPage() {
             <TabsTrigger value="class">Class</TabsTrigger>
             {isAdmin && <TabsTrigger value="institute">Institute</TabsTrigger>}
             <TabsTrigger value="questions">Questions</TabsTrigger>
+            {isAdmin && <TabsTrigger value="courses">Courses</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="student">
@@ -66,6 +68,12 @@ export default function AnalyticsDashboardPage() {
           <TabsContent value="questions">
             <QuestionAnalyticsTab />
           </TabsContent>
+
+          {isAdmin && (
+            <TabsContent value="courses">
+              <InstituteCourseAnalytics />
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>

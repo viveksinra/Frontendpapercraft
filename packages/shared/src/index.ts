@@ -10,3 +10,4 @@ export * from "./components/due-date-display/DueDateDisplay";
 export * from "./components/price-badge/PriceBadge";
 export * from "./components/purchase-status-badge/PurchaseStatusBadge";
 export * from "./components/charts";
+export * from "./components/course";

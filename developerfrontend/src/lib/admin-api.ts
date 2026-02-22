@@ -213,3 +213,33 @@ export async function getConnectedAccounts(params?: { status?: string; search?: 
   const res = await axiosInstance.get('/api/v2/admin/stripe-accounts', { params });
   return res.data;
 }
+
+// --- Platform Course Analytics ---
+
+export interface PlatformCourseAnalytics {
+  totalCourses: number;
+  publishedCourses: number;
+  totalEnrollments: number;
+  courseRevenue: number;
+  orgMetrics: Array<{
+    orgId: string;
+    orgName: string;
+    totalCourses: number;
+    publishedCourses: number;
+    totalEnrollments: number;
+    revenue: number;
+  }>;
+  topCourses: Array<{
+    courseId: string;
+    title: string;
+    orgName: string;
+    enrollmentCount: number;
+    avgRating: number;
+    status: string;
+  }>;
+}
+
+export async function getPlatformCourseAnalytics(): Promise<PlatformCourseAnalytics> {
+  const res = await axiosInstance.get('/api/v2/admin/course-analytics');
+  return res.data;
+}

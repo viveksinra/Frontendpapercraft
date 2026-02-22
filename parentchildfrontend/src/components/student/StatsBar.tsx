@@ -9,11 +9,11 @@ interface StatsBarProps {
   streak: number;
 }
 
-export function StatsBar({ testsTaken, averageScore, streak }: StatsBarProps) {
+export function StatsBar({ testsTaken = 0, averageScore = null, streak = 0 }: StatsBarProps) {
   const stats = [
     {
       label: 'Tests Taken',
-      value: testsTaken.toString(),
+      value: (testsTaken ?? 0).toString(),
       icon: FileCheck,
       color: 'text-blue-600 dark:text-blue-400',
     },
@@ -25,7 +25,7 @@ export function StatsBar({ testsTaken, averageScore, streak }: StatsBarProps) {
     },
     {
       label: 'Streak',
-      value: `${streak} days`,
+      value: `${streak ?? 0} days`,
       icon: Flame,
       color: 'text-orange-600 dark:text-orange-400',
     },

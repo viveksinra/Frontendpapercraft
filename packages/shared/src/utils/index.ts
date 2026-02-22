@@ -4,3 +4,4 @@ export * from "./grading";
 export * from "./homework";
 export * from "./pricing";
 export * from "./analytics";
+export * from "./course";

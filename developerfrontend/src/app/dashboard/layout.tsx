@@ -3,7 +3,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Building2, Users, UserPlus, LogOut, Menu, Bug, BarChart3, Search, UserSearch, ClipboardList, GraduationCap, TrendingUp, CreditCard, Sparkles } from 'lucide-react';
+import {
+  Building2, Users, UserPlus, Menu, Bug, BarChart3, Search, UserSearch,
+  ClipboardList, GraduationCap, TrendingUp, CreditCard, Sparkles, PlayCircle,
+} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { SuperAdminGuard } from '@/components/super-admin-guard';
 import { Navbar } from '@/components/navbar';
@@ -28,6 +31,7 @@ const navGroups = [
       { href: '/dashboard/registration-stats', label: 'Registration Stats', icon: ClipboardList },
       { href: '/dashboard/class-stats', label: 'Class Stats', icon: GraduationCap },
       { href: '/dashboard/revenue', label: 'Platform Revenue', icon: TrendingUp },
+      { href: '/dashboard/courses', label: 'Courses', icon: PlayCircle },
       { href: '/dashboard/stripe-accounts', label: 'Stripe Accounts', icon: CreditCard },
     ],
   },
@@ -42,32 +46,40 @@ const navGroups = [
 ];
 
 function SidebarNav({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
+  const { user } = useAuth();
+
+  const initials = user
+    ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase()
+    : '??';
+
   return (
-    <div className="flex h-full flex-col text-sidebar-foreground">
-      {/* Logo */}
-      <div className="px-5 pt-6 pb-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/25">
-            <Sparkles className="h-4.5 w-4.5 text-white" />
+    <div className="flex h-full flex-col">
+      {/* Logo lockup */}
+      <div className="px-4 pt-5 pb-4">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-md shadow-primary/30">
+            <Sparkles className="h-4 w-4 text-white" />
           </div>
-          <div>
-            <h1 className="text-[15px] font-bold tracking-tight text-sidebar-accent-foreground">PaperCraft</h1>
-            <p className="text-[11px] text-sidebar-muted leading-none">Admin Console</p>
+          <div className="leading-none">
+            <p className="text-[14px] font-bold tracking-tight text-sidebar-accent-foreground">
+              PaperCraft
+            </p>
+            <p className="text-[10px] font-medium text-sidebar-muted mt-0.5">Admin Console</p>
           </div>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="mx-4 h-px bg-sidebar-border" />
+      {/* Separator */}
+      <div className="mx-3 h-px bg-sidebar-border/60" />
 
-      {/* Nav Groups */}
-      <nav className="flex-1 overflow-y-auto px-3 pt-5 pb-3 space-y-5">
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-2.5 pt-4 pb-2 space-y-4">
         {navGroups.map((group) => (
           <div key={group.label}>
-            <p className="mb-1.5 px-3 text-[10px] font-bold uppercase tracking-[0.08em] text-sidebar-muted">
+            <p className="mb-1 px-2.5 text-[10px] font-bold uppercase tracking-[0.1em] text-sidebar-muted/60">
               {group.label}
             </p>
-            <div className="space-y-0.5">
+            <div className="space-y-px">
               {group.items.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname.startsWith(item.href);
@@ -77,20 +89,21 @@ function SidebarNav({ pathname, onNavigate }: { pathname: string; onNavigate?: (
                     href={item.href}
                     onClick={onNavigate}
                     className={cn(
-                      'group flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-150',
+                      'group relative flex items-center gap-2.5 rounded-md px-2.5 py-[7px] text-[13px] font-medium transition-all duration-150',
                       isActive
-                        ? 'bg-primary/15 text-white shadow-sm'
-                        : 'text-sidebar-muted hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                        ? 'text-sidebar-accent-foreground bg-sidebar-accent'
+                        : 'text-sidebar-muted hover:text-sidebar-foreground hover:bg-sidebar-accent/50 hover:translate-x-0.5'
                     )}
                   >
-                    <Icon className={cn(
-                      'h-4 w-4 shrink-0 transition-colors',
-                      isActive ? 'text-primary' : 'text-sidebar-muted group-hover:text-sidebar-accent-foreground'
-                    )} />
-                    {item.label}
+                    {/* Active indicator bar */}
                     {isActive && (
-                      <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary shadow-sm shadow-primary/50" />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-[3px] rounded-r-full bg-primary shadow-sm shadow-primary/50" />
                     )}
+                    <Icon className={cn(
+                      'h-[15px] w-[15px] shrink-0 transition-colors duration-150',
+                      isActive ? 'text-primary' : 'text-sidebar-muted/70 group-hover:text-sidebar-foreground'
+                    )} />
+                    <span className="truncate">{item.label}</span>
                   </Link>
                 );
               })}
@@ -99,10 +112,20 @@ function SidebarNav({ pathname, onNavigate }: { pathname: string; onNavigate?: (
         ))}
       </nav>
 
-      {/* Sidebar footer - version */}
-      <div className="mx-4 h-px bg-sidebar-border" />
-      <div className="px-5 py-4">
-        <p className="text-[10px] text-sidebar-muted">v1.0.0</p>
+      {/* Footer */}
+      <div className="mx-3 h-px bg-sidebar-border/60" />
+      <div className="p-3">
+        <div className="flex items-center gap-2.5 rounded-md px-2 py-1.5">
+          <div className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/70 to-primary text-[10px] font-bold text-white">
+            {initials}
+            <div className="absolute -bottom-px -right-px h-2 w-2 rounded-full border-[1.5px] border-sidebar bg-emerald-500" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[12px] font-medium text-sidebar-foreground">
+              {user?.firstName} {user?.lastName}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -116,7 +139,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <SuperAdminGuard>
       <div className="flex min-h-screen">
         {/* Desktop sidebar */}
-        <aside className="hidden w-[260px] shrink-0 border-r border-sidebar-border bg-sidebar md:block">
+        <aside className="hidden w-[240px] shrink-0 border-r border-sidebar-border/50 bg-sidebar md:block">
           <div className="sticky top-0 h-screen overflow-hidden">
             <SidebarNav pathname={pathname} />
           </div>
@@ -125,15 +148,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Main area */}
         <div className="flex flex-1 flex-col min-w-0">
           {/* Mobile header */}
-          <header className="flex h-14 items-center gap-4 border-b bg-background/80 backdrop-blur-xl px-4 md:hidden">
+          <header className="flex h-[52px] items-center gap-3 border-b border-border/50 bg-background/70 backdrop-blur-xl px-4 md:hidden">
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Menu className="h-4.5 w-4.5" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[260px] p-0 bg-sidebar border-sidebar-border">
+              <SheetContent side="left" className="w-[240px] p-0 bg-sidebar border-sidebar-border/50">
                 <SheetHeader className="sr-only">
                   <SheetTitle>Navigation</SheetTitle>
                 </SheetHeader>
@@ -141,12 +164,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </SheetContent>
             </Sheet>
             <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary">
-                <Sparkles className="h-3.5 w-3.5 text-white" />
+              <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary">
+                <Sparkles className="h-3 w-3 text-white" />
               </div>
-              <span className="text-sm font-bold">PaperCraft</span>
+              <span className="text-sm font-bold tracking-tight">PaperCraft</span>
             </div>
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center gap-1">
               <ThemeToggle />
             </div>
           </header>
@@ -156,7 +179,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Navbar />
           </div>
 
-          <main className="flex-1 overflow-auto bg-muted/40 p-5 lg:p-8">
+          {/* Content */}
+          <main className="flex-1 overflow-auto bg-muted/30 p-4 lg:p-6">
             <div className="mx-auto max-w-7xl animate-fade-in">
               {children}
             </div>

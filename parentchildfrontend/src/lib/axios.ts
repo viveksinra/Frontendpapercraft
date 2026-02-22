@@ -103,6 +103,41 @@ export const endpoints = {
   parentPurchases: {
     list: '/api/v2/parent/purchases',
   },
+  // Phase 8: Course Builder
+  courseCatalog: {
+    browse: (companyId: string) => `/api/v2/companies/${companyId}/catalog`,
+    detail: (companyId: string, courseSlugOrId: string) =>
+      `/api/v2/companies/${companyId}/catalog/${courseSlugOrId}`,
+    reviews: (companyId: string, courseSlugOrId: string) =>
+      `/api/v2/companies/${companyId}/catalog/${courseSlugOrId}/reviews`,
+  },
+  courseEnrollment: {
+    enroll: (courseId: string) => `/api/v2/courses/${courseId}/enroll`,
+    myEnrollments: '/api/v2/courses/my-enrollments',
+    progress: (courseId: string) => `/api/v2/courses/${courseId}/progress`,
+    complete: (courseId: string) => `/api/v2/courses/${courseId}/complete`,
+    incomplete: (courseId: string) => `/api/v2/courses/${courseId}/incomplete`,
+    trackTime: (courseId: string) => `/api/v2/courses/${courseId}/track-time`,
+    content: (courseId: string, sectionId: string, lessonId: string) =>
+      `/api/v2/courses/${courseId}/content/${sectionId}/${lessonId}`,
+    rate: (courseId: string) => `/api/v2/courses/${courseId}/rate`,
+    drop: (courseId: string) => `/api/v2/courses/${courseId}/drop`,
+    currentLesson: (courseId: string) => `/api/v2/courses/${courseId}/current-lesson`,
+  },
+  certificates: {
+    myCertificates: '/api/v2/certificates/my-certificates',
+    get: (enrollmentId: string) => `/api/v2/certificates/${enrollmentId}`,
+    download: (enrollmentId: string) => `/api/v2/certificates/${enrollmentId}/download`,
+  },
+  parentCourses: {
+    childCourses: (childId: string) => `/api/v2/parent/children/${childId}/courses`,
+    childProgress: (childId: string, courseId: string) =>
+      `/api/v2/parent/children/${childId}/courses/${courseId}/progress`,
+    enrollChild: (childId: string, courseId: string) =>
+      `/api/v2/parent/children/${childId}/courses/${courseId}/enroll`,
+    childCertificates: (childId: string) =>
+      `/api/v2/parent/children/${childId}/certificates`,
+  },
   // Phase 7: Analytics & Reporting
   studentAnalytics: {
     analytics: '/api/v2/student/analytics',

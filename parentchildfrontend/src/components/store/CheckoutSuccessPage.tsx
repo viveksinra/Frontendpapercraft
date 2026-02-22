@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 import { verifyCheckout } from '@/lib/store-api';
+import { enrollInCourse } from '@/lib/course-api';
 
 interface CheckoutSuccessPageProps {
   sessionId: string;
@@ -37,7 +38,19 @@ export function CheckoutSuccessPage({ sessionId, storePath, childName }: Checkou
     async function verify() {
       try {
         const data = await verifyCheckout(sessionId);
-        if (!cancelled) setPurchase(data?.purchase || data);
+        const purchaseData = data?.purchase || data;
+        if (!cancelled) setPurchase(purchaseData);
+
+        // Auto-enroll for course purchases
+        if (purchaseData?.productType === 'course' && purchaseData?.productRefId) {
+          try {
+            await enrollInCourse(purchaseData.productRefId, {
+              purchaseId: purchaseData._id || purchaseData.id,
+            });
+          } catch {
+            // Enrollment may already exist (page refresh), ignore gracefully
+          }
+        }
       } catch (err: any) {
         if (!cancelled) setError(err.message || 'Failed to verify payment');
       } finally {
@@ -114,6 +127,13 @@ export function CheckoutSuccessPage({ sessionId, storePath, childName }: Checkou
       </Card>
 
       <div className="flex flex-col gap-2">
+        {purchase?.productType === 'course' && purchase?.courseSlug && (
+          <Button asChild>
+            <Link href={`/student/courses/${purchase.courseSlug}/learn`}>
+              Start Learning
+            </Link>
+          </Button>
+        )}
         {purchase?.receiptUrl && (
           <Button variant="outline" asChild>
             <a href={purchase.receiptUrl} target="_blank" rel="noopener noreferrer">
@@ -122,7 +142,7 @@ export function CheckoutSuccessPage({ sessionId, storePath, childName }: Checkou
             </a>
           </Button>
         )}
-        <Button asChild>
+        <Button variant={purchase?.productType === 'course' ? 'outline' : 'default'} asChild>
           <Link href={storePath}>Back to Store</Link>
         </Button>
       </div>
