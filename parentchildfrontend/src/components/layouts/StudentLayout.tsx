@@ -16,6 +16,11 @@ import {
   PlayCircle,
   GraduationCap,
   Award,
+  MessageSquare,
+  MessageCircle,
+  Trophy,
+  Medal,
+  Bell,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, type SidebarItem } from '@/components/layouts/Sidebar';
@@ -41,6 +46,11 @@ const sidebarItems: SidebarItem[] = [
   { label: 'Announcements', href: '/student/announcements', icon: Megaphone },
   { label: 'Store', href: '/student/store', icon: ShoppingBag },
   { label: 'My Purchases', href: '/student/purchases', icon: Receipt },
+  { label: 'Messages', href: '/student/messages', icon: MessageSquare },
+  { label: 'Discussions', href: '/student/discussions', icon: MessageCircle },
+  { label: 'Gamification', href: '/student/gamification', icon: Trophy },
+  { label: 'Leaderboard', href: '/student/leaderboard', icon: Medal },
+  { label: 'Notifications', href: '/student/notifications', icon: Bell },
   { label: 'Profile', href: '/student/profile', icon: User },
 ];
 

@@ -10,6 +10,9 @@ import {
   ShoppingBag,
   Receipt,
   PlayCircle,
+  MessageSquare,
+  Trophy,
+  Bell,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Sidebar, type SidebarItem } from '@/components/layouts/Sidebar';
@@ -29,6 +32,9 @@ const sidebarItems: SidebarItem[] = [
   { label: 'Courses', href: '/courses', icon: PlayCircle },
   { label: 'Store', href: '/store', icon: ShoppingBag },
   { label: 'My Purchases', href: '/purchases', icon: Receipt },
+  { label: 'Messages', href: '/parent/messages', icon: MessageSquare },
+  { label: 'Achievements', href: '/parent/achievements', icon: Trophy },
+  { label: 'Notifications', href: '/parent/notifications', icon: Bell },
   { label: 'Profile', href: '/profile', icon: User },
 ];
 

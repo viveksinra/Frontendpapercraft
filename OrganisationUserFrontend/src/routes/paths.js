@@ -118,12 +118,26 @@ export const paths = {
       root: `${ROOTS.DASHBOARD}/reports`,
       generate: `${ROOTS.DASHBOARD}/reports/generate`,
     },
+    // Phase 9: Communication, Gamification & Engagement
+    messages: {
+      root: `${ROOTS.DASHBOARD}/messages`,
+      conversation: (id) => `${ROOTS.DASHBOARD}/messages/${id}`,
+    },
+    discussions: {
+      root: `${ROOTS.DASHBOARD}/discussions`,
+      detail: (id) => `${ROOTS.DASHBOARD}/discussions/${id}`,
+    },
+    gamification: {
+      root: `${ROOTS.DASHBOARD}/gamification`,
+      leaderboard: `${ROOTS.DASHBOARD}/gamification/leaderboard`,
+    },
     settings: {
       root: `${ROOTS.DASHBOARD}/settings`,
       company: `${ROOTS.DASHBOARD}/settings/company`,
       brand: `${ROOTS.DASHBOARD}/settings/brand`,
       members: `${ROOTS.DASHBOARD}/settings/members`,
       stripe: `${ROOTS.DASHBOARD}/settings/stripe`,
+      notifications: `${ROOTS.DASHBOARD}/settings/notifications`,
     },
   },
 };

@@ -148,4 +148,56 @@ export const endpoints = {
     downloadReport: (reportId: string) => `/api/v2/student/reports/${reportId}/download`,
     topicDrilldown: (subjectId: string) => `/api/v2/student/analytics/topic-drilldown/${subjectId}`,
   },
+  // Phase 9: Communication, Gamification & Engagement
+  messages: {
+    send: (companyId: string) => `/api/v2/companies/${companyId}/messages`,
+    conversations: (companyId: string) => `/api/v2/companies/${companyId}/messages/conversations`,
+    conversation: (companyId: string, otherUserId: string) =>
+      `/api/v2/companies/${companyId}/messages/conversation/${otherUserId}`,
+    conversationRead: (companyId: string, otherUserId: string) =>
+      `/api/v2/companies/${companyId}/messages/conversation/${otherUserId}/read`,
+    read: (companyId: string, messageId: string) =>
+      `/api/v2/companies/${companyId}/messages/${messageId}/read`,
+    delete: (companyId: string, messageId: string) =>
+      `/api/v2/companies/${companyId}/messages/${messageId}`,
+    unreadCount: (companyId: string) => `/api/v2/companies/${companyId}/messages/unread-count`,
+    search: (companyId: string) => `/api/v2/companies/${companyId}/messages/search`,
+    sent: (companyId: string) => `/api/v2/companies/${companyId}/messages/sent`,
+  },
+  notifications: {
+    list: (companyId: string) => `/api/v2/companies/${companyId}/notifications`,
+    unreadCount: (companyId: string) => `/api/v2/companies/${companyId}/notifications/unread-count`,
+    read: (companyId: string, notificationId: string) =>
+      `/api/v2/companies/${companyId}/notifications/${notificationId}/read`,
+    readAll: (companyId: string) => `/api/v2/companies/${companyId}/notifications/read-all`,
+    archive: (companyId: string, notificationId: string) =>
+      `/api/v2/companies/${companyId}/notifications/${notificationId}`,
+  },
+  notificationPreferences: {
+    get: (companyId: string) => `/api/v2/companies/${companyId}/notification-preferences`,
+    update: (companyId: string) => `/api/v2/companies/${companyId}/notification-preferences`,
+  },
+  discussions: {
+    list: (companyId: string) => `/api/v2/companies/${companyId}/discussions`,
+    create: (companyId: string) => `/api/v2/companies/${companyId}/discussions`,
+    detail: (companyId: string, threadId: string) =>
+      `/api/v2/companies/${companyId}/discussions/${threadId}`,
+    replies: (companyId: string, threadId: string) =>
+      `/api/v2/companies/${companyId}/discussions/${threadId}/replies`,
+    upvote: (companyId: string, threadId: string) =>
+      `/api/v2/companies/${companyId}/discussions/${threadId}/upvote`,
+    flag: (companyId: string, threadId: string) =>
+      `/api/v2/companies/${companyId}/discussions/${threadId}/flag`,
+    upvoteReply: (companyId: string, replyId: string) =>
+      `/api/v2/companies/${companyId}/discussions/replies/${replyId}/upvote`,
+  },
+  gamification: {
+    profile: (companyId: string) => `/api/v2/companies/${companyId}/gamification/profile`,
+    studentProfile: (companyId: string, studentUserId: string) =>
+      `/api/v2/companies/${companyId}/gamification/profile/${studentUserId}`,
+    pointsHistory: (companyId: string) => `/api/v2/companies/${companyId}/gamification/points-history`,
+    leaderboard: (companyId: string) => `/api/v2/companies/${companyId}/gamification/leaderboard`,
+    badges: (companyId: string) => `/api/v2/companies/${companyId}/gamification/badges`,
+    streak: (companyId: string) => `/api/v2/companies/${companyId}/gamification/streak`,
+  },
 };

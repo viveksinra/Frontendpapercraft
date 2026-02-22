@@ -17,6 +17,10 @@ import {
   CreditCard,
   FileBarChart,
   PlayCircle,
+  MessageSquare,
+  MessageCircle,
+  Trophy,
+  Bell,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
@@ -42,6 +46,10 @@ const ICONS = {
   revenue: <TrendingUp />,
   stripe: <CreditCard />,
   reports: <FileBarChart />,
+  messages: <MessageSquare />,
+  discussions: <MessageCircle />,
+  gamification: <Trophy />,
+  notifications: <Bell />,
 };
 
 export const navData = [
@@ -147,6 +155,16 @@ export const navData = [
           { title: 'Create Product', path: paths.dashboard.products.create },
         ],
       },
+      {
+        title: 'Messages',
+        path: paths.dashboard.messages.root,
+        icon: ICONS.messages,
+      },
+      {
+        title: 'Discussions',
+        path: paths.dashboard.discussions.root,
+        icon: ICONS.discussions,
+      },
     ],
   },
   {
@@ -178,6 +196,15 @@ export const navData = [
         path: paths.dashboard.revenue.root,
         icon: ICONS.revenue,
       },
+      {
+        title: 'Gamification',
+        path: paths.dashboard.gamification.root,
+        icon: ICONS.gamification,
+        children: [
+          { title: 'Configuration', path: paths.dashboard.gamification.root },
+          { title: 'Leaderboard', path: paths.dashboard.gamification.leaderboard },
+        ],
+      },
     ],
   },
   {
@@ -187,6 +214,7 @@ export const navData = [
       { title: 'Branding', path: paths.dashboard.settings.brand, icon: ICONS.brand },
       { title: 'Team Members', path: paths.dashboard.settings.members, icon: ICONS.members },
       { title: 'Stripe Connect', path: paths.dashboard.settings.stripe, icon: ICONS.stripe },
+      { title: 'Notifications', path: paths.dashboard.settings.notifications, icon: ICONS.notifications },
     ],
   },
 ];
