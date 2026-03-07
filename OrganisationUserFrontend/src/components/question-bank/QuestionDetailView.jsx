@@ -1,10 +1,11 @@
 'use client';
 
 import { Card, CardContent } from '@/components/ui/card';
+
 import QuestionPreview from './QuestionPreview';
 import QuestionTypeBadge from './QuestionTypeBadge';
-import QuestionDifficultyBadge from './QuestionDifficultyBadge';
 import SubjectBreadcrumb from './SubjectBreadcrumb';
+import QuestionDifficultyBadge from './QuestionDifficultyBadge';
 
 export default function QuestionDetailView({ question }) {
   if (!question) return null;

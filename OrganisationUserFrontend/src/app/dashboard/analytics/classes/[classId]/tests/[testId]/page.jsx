@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, FileText } from 'lucide-react';
+import { Loader2, FileText, ArrowLeft } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getClassTestAnalytics, getClassRankings } from 'src/lib/analytics-api';
 import { paths } from 'src/routes/paths';
 
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { getClassRankings, getClassTestAnalytics } from 'src/lib/analytics-api';
+
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 

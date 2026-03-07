@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { MoreHorizontal, Eye, Pencil, Copy, Archive, Send, Trash2, RotateCcw } from 'lucide-react';
+import { Eye, Copy, Send, Pencil, Archive, RotateCcw, MoreHorizontal } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
 
@@ -24,8 +24,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import QuestionTypeBadge from './QuestionTypeBadge';
-import QuestionDifficultyBadge from './QuestionDifficultyBadge';
 import SubjectBreadcrumb from './SubjectBreadcrumb';
+import QuestionDifficultyBadge from './QuestionDifficultyBadge';
 
 function truncateHtml(text, maxLen = 80) {
   if (!text) return '';
@@ -104,7 +104,7 @@ export default function QuestionListTable({
               <TableCell className="text-right">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0" aria-label="Actions menu">
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>

@@ -1,10 +1,9 @@
 'use client';
 
-import { ArrowUp, ArrowDown, Trash2 } from 'lucide-react';
+import { Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
 import PaperStatusBadge from 'src/components/papers/PaperStatusBadge';
 
 export default function PaperSetPaperList({ papers = [], onRemove, onReorder }) {

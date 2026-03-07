@@ -69,6 +69,7 @@ export default function UserLookupPage() {
           <Input
             type="email"
             placeholder="user@example.com"
+            aria-label="User email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="pl-9"

@@ -632,7 +632,7 @@ export default function MembersSettingsPage() {
       {error && (
         <div className="flex items-start justify-between gap-2 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200">
           <span>{error}</span>
-          <button onClick={() => setError(null)} className="shrink-0 text-red-500 hover:text-red-700">
+          <button type="button" aria-label="Dismiss error" onClick={() => setError(null)} className="shrink-0 text-red-500 hover:text-red-700">
             <X className="size-4" />
           </button>
         </div>
@@ -640,7 +640,7 @@ export default function MembersSettingsPage() {
       {success && (
         <div className="flex items-start justify-between gap-2 rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/50 dark:text-green-200">
           <span>{success}</span>
-          <button onClick={() => setSuccess(null)} className="shrink-0 text-green-500 hover:text-green-700">
+          <button type="button" aria-label="Dismiss message" onClick={() => setSuccess(null)} className="shrink-0 text-green-500 hover:text-green-700">
             <X className="size-4" />
           </button>
         </div>
@@ -649,6 +649,7 @@ export default function MembersSettingsPage() {
       {/* Role Permissions Reference */}
       <Card className="gap-0 overflow-hidden py-0">
         <button
+          type="button"
           onClick={() => setShowPermissions(!showPermissions)}
           className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted/50"
         >

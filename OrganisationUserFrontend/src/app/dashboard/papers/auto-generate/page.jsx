@@ -1,20 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
-  autoGeneratePaper,
-  finalizePaper,
   swapQuestion,
+  finalizePaper,
+  autoGeneratePaper,
   getSuggestedSwaps,
 } from 'src/lib/paper-api';
 
 import { Button } from '@/components/ui/button';
-
 import AutoGenerateWizard from 'src/components/auto-generate/AutoGenerateWizard';
 
 export default function AutoGeneratePage() {

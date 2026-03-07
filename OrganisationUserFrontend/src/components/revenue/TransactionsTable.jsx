@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, Receipt } from 'lucide-react';
+import { Receipt, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

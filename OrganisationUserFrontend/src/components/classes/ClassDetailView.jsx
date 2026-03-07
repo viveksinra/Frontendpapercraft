@@ -1,25 +1,26 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, Users, GraduationCap, UserPlus, Trash2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Users, Trash2, Loader2, UserPlus, ArrowLeft, GraduationCap } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   getClass,
+  deleteClass,
   getClassStudents,
+  addTeacherToClass,
   addStudentsToClass,
   removeStudentFromClass,
-  addTeacherToClass,
   removeTeacherFromClass,
-  deleteClass,
 } from 'src/lib/class-api';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableRow,
@@ -30,11 +31,11 @@ import {
 } from '@/components/ui/table';
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogHeader,
   DialogFooter,
+  DialogContent,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 
 // ----------------------------------------------------------------------

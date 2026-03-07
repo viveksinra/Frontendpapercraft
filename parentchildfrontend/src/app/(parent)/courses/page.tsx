@@ -25,7 +25,11 @@ export default function ParentCourseCatalogPage() {
   });
 
   const fetchCourses = useCallback(async () => {
-    if (!companyId) return;
+    if (!companyId) {
+      setLoading(false);
+      setCourses([]);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {

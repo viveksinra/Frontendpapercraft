@@ -15,6 +15,8 @@ import {
   getImprovementLabel,
   getQualificationBandColor,
   getTrendArrow,
+  ScoreTrendLineChart,
+  SubjectRadarChart,
 } from '@papercraft/shared';
 
 import { Button } from '@/components/ui/button';
@@ -202,6 +204,8 @@ export function PerformanceDashboard() {
   const [analytics, setAnalytics] = useState<Record<string, unknown> | null>(null);
   const [elevenPlus, setElevenPlus] = useState<Record<string, unknown> | null>(null);
   const [reports, setReports] = useState<Array<Record<string, unknown>>>([]);
+  const [scoreTrend, setScoreTrend] = useState<Array<{ date: string; score: number; classAvg?: number }>>([]);
+  const [subjectRadar, setSubjectRadar] = useState<Array<{ subject: string; studentAvg: number; classAvg?: number }>>([]);
 
   useEffect(() => {
     async function load() {
@@ -213,14 +217,20 @@ export function PerformanceDashboard() {
         setAnalytics(analyticsData);
         setReports(reportsData?.reports || []);
 
-        // Load 11+ data (best-effort)
-        try {
-          const elevenPlusData = await getElevenPlusAnalytics();
-          if (elevenPlusData?.band?.band) {
-            setElevenPlus(elevenPlusData);
-          }
-        } catch {
-          // 11+ data is optional
+        // Load chart and 11+ data (best-effort, non-blocking)
+        const [trendRes, radarRes, elevenPlusRes] = await Promise.allSettled([
+          getScoreTrend(),
+          getSubjectRadar(),
+          getElevenPlusAnalytics(),
+        ]);
+        if (trendRes.status === 'fulfilled' && trendRes.value?.trend) {
+          setScoreTrend(trendRes.value.trend);
+        }
+        if (radarRes.status === 'fulfilled' && radarRes.value?.subjects) {
+          setSubjectRadar(radarRes.value.subjects);
+        }
+        if (elevenPlusRes.status === 'fulfilled' && elevenPlusRes.value?.band?.band) {
+          setElevenPlus(elevenPlusRes.value);
         }
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'Failed to load analytics');
@@ -285,16 +295,13 @@ export function PerformanceDashboard() {
 
       {subjects && <ImprovementBadge subjects={subjects} />}
 
-      {/* Charts placeholders — will use shared Recharts components */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Score Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Your score trend chart will render here using ScoreTrendLineChart.
-            </p>
+            <ScoreTrendLineChart data={scoreTrend} height={300} showClassAvg />
           </CardContent>
         </Card>
         <Card>
@@ -302,9 +309,7 @@ export function PerformanceDashboard() {
             <CardTitle>Subject Breakdown</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Your subject radar chart will render here using SubjectRadarChart.
-            </p>
+            <SubjectRadarChart data={subjectRadar} height={300} />
           </CardContent>
         </Card>
       </div>

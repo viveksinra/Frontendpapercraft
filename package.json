@@ -19,5 +19,9 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "eslint-config-next": "^16.1.6",
+    "socket.io-client": "^4.8.3"
   }
 }

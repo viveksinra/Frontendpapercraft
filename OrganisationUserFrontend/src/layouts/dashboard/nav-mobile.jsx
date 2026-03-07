@@ -3,7 +3,7 @@
 import { X, LogOut } from 'lucide-react';
 import { useEffect, useCallback } from 'react';
 
-import { usePathname, useRouter } from 'src/routes/hooks';
+import { useRouter, usePathname } from 'src/routes/hooks';
 
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';

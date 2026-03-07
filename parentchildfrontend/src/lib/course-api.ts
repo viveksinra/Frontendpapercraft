@@ -94,8 +94,8 @@ export async function markLessonComplete(
   data: { sectionId: string; lessonId: string; quizScore?: number }
 ) {
   const res = await axiosInstance.post(
-    endpoints.courseEnrollment.complete(courseId),
-    data
+    endpoints.courseEnrollment.complete(courseId, data.lessonId),
+    { sectionId: data.sectionId, quizScore: data.quizScore }
   );
   return res.data;
 }
@@ -105,8 +105,8 @@ export async function markLessonIncomplete(
   data: { sectionId: string; lessonId: string }
 ) {
   const res = await axiosInstance.post(
-    endpoints.courseEnrollment.incomplete(courseId),
-    data
+    endpoints.courseEnrollment.incomplete(courseId, data.lessonId),
+    { sectionId: data.sectionId }
   );
   return res.data;
 }
@@ -116,8 +116,8 @@ export async function trackTimeSpent(
   data: { sectionId: string; lessonId: string; seconds: number }
 ) {
   const res = await axiosInstance.post(
-    endpoints.courseEnrollment.trackTime(courseId),
-    data
+    endpoints.courseEnrollment.trackTime(courseId, data.lessonId),
+    { sectionId: data.sectionId, additionalSeconds: data.seconds }
   );
   return res.data;
 }
@@ -158,16 +158,16 @@ export async function getMyCertificates(params?: {
   return res.data;
 }
 
-export async function getCourseCertificate(enrollmentId: string) {
+export async function getCourseCertificate(courseId: string) {
   const res = await axiosInstance.get(
-    endpoints.certificates.get(enrollmentId)
+    endpoints.certificates.get(courseId)
   );
   return res.data;
 }
 
-export async function downloadCertificate(enrollmentId: string) {
+export async function downloadCertificate(courseId: string) {
   const res = await axiosInstance.get(
-    endpoints.certificates.download(enrollmentId)
+    endpoints.certificates.download(courseId)
   );
   return res.data;
 }

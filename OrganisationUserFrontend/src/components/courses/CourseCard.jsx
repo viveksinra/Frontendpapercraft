@@ -4,19 +4,19 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Eye,
+  Copy,
+  Star,
+  Clock,
   Pencil,
   Hammer,
+  Trash2,
+  Archive,
+  BookOpen,
   BarChart3,
   MoreVertical,
-  Copy,
   ArrowUpCircle,
   ArrowDownCircle,
-  Archive,
-  Trash2,
-  Clock,
   Users as UsersIcon,
-  Star,
-  BookOpen,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
@@ -157,6 +157,7 @@ export default function CourseCard({
             variant="ghost"
             size="icon"
             className="h-7 w-7"
+            aria-label="More options"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <MoreVertical className="h-3.5 w-3.5" />
@@ -164,6 +165,7 @@ export default function CourseCard({
           {menuOpen && (
             <div className="absolute right-0 top-8 z-10 w-40 rounded-md border bg-popover p-1 shadow-md">
               <button
+                type="button"
                 className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
                 onClick={() => { setMenuOpen(false); onDuplicate?.(id); }}
               >
@@ -171,6 +173,7 @@ export default function CourseCard({
               </button>
               {isDraft && (
                 <button
+                  type="button"
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
                   onClick={() => { setMenuOpen(false); onPublish?.(id); }}
                 >
@@ -180,12 +183,14 @@ export default function CourseCard({
               {isPublished && (
                 <>
                   <button
+                    type="button"
                     className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
                     onClick={() => { setMenuOpen(false); onUnpublish?.(id); }}
                   >
                     <ArrowDownCircle className="h-3.5 w-3.5" /> Unpublish
                   </button>
                   <button
+                    type="button"
                     className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
                     onClick={() => { setMenuOpen(false); onArchive?.(id); }}
                   >
@@ -195,6 +200,7 @@ export default function CourseCard({
               )}
               {isDraft && (
                 <button
+                  type="button"
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-red-600 hover:bg-accent"
                   onClick={() => { setMenuOpen(false); onDelete?.(id); }}
                 >

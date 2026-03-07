@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2, Trophy, Target, Clock, BookOpen } from 'lucide-react';
+import { Clock, Trophy, Target, Loader2, BookOpen } from 'lucide-react';
 
 import axiosInstance from '@/lib/axios';
 import { v2Endpoints } from '@/lib/v2-endpoints';
 
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 import {
   Table,
   TableRow,

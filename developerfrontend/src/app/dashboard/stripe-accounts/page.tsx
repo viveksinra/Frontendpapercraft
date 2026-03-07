@@ -77,6 +77,7 @@ export default function StripeAccountsPage() {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search by org name..."
+              aria-label="Search by organization name"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-64 pl-9"
@@ -87,7 +88,7 @@ export default function StripeAccountsPage() {
           </Button>
         </form>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-40" aria-label="Filter by status">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>

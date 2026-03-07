@@ -1,20 +1,21 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
 import {
-  Loader2,
-  Search,
-  Plus,
-  MessageSquare,
-  ThumbsUp,
   Pin,
+  Plus,
   Lock,
+  Search,
+  Loader2,
+  ThumbsUp,
+  MessageSquare,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
 import { listThreads } from 'src/lib/discussion-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';

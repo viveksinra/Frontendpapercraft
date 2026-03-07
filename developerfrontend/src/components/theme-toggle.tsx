@@ -18,9 +18,10 @@ const modes = [
 ] as const;
 
 export function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- standard hydration-safe mount detection
   useEffect(() => setMounted(true), []);
 
   const current = modes.find((m) => m.key === theme) ?? modes[2];

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { Upload, X, Loader2 } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { X, Upload, Loader2 } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { getUploadUrl, confirmUpload } from 'src/lib/course-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Button } from '@/components/ui/button';
 

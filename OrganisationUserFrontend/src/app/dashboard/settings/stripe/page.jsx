@@ -1,20 +1,19 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
+  getBalance,
   connectAccount,
   getAccountStatus,
   getDashboardLink,
-  getBalance,
-  getOnboardingLink,
 } from 'src/lib/stripe-connect-api';
 
+import StripeBalanceCard from 'src/components/stripe/StripeBalanceCard';
 import StripeConnectSetup from 'src/components/stripe/StripeConnectSetup';
 import StripeAccountStatus from 'src/components/stripe/StripeAccountStatus';
-import StripeBalanceCard from 'src/components/stripe/StripeBalanceCard';
 
 // ─────────────────────────────────────────────────────────────────
 
@@ -30,7 +29,7 @@ export default function StripeSettingsPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     try {

@@ -2,10 +2,10 @@
 
 import {
   Clock,
-  CalendarClock,
-  RefreshCw,
   Users,
   Timer,
+  RefreshCw,
+  CalendarClock,
 } from 'lucide-react';
 
 const MODES = [

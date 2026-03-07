@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 export default function PaperReviewPanel({ title, templateName, sections = [] }) {
   const totalQuestions = sections.reduce((sum, s) => sum + (s.questions?.length || 0), 0);

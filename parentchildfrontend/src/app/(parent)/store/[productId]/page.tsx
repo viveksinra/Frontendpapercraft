@@ -5,25 +5,24 @@ import { useParams } from 'next/navigation';
 import { ProductDetailPage } from '@/components/store/ProductDetailPage';
 import { ChildSelector } from '@/components/store/ChildSelector';
 
-// TODO: Get companyId from child's org membership
-const COMPANY_ID = '';
-
 export default function ParentProductDetailPage() {
   const { productId } = useParams<{ productId: string }>();
   const [selectedChildId, setSelectedChildId] = useState('');
   const [selectedChildName, setSelectedChildName] = useState('');
+  const [companyId, setCompanyId] = useState('');
 
   return (
     <div className="space-y-4">
       <ChildSelector
         selectedChildId={selectedChildId}
-        onSelect={(id, name) => {
+        onSelect={(id, name, childCompanyId) => {
           setSelectedChildId(id);
           setSelectedChildName(name);
+          setCompanyId(childCompanyId);
         }}
       />
       <ProductDetailPage
-        companyId={COMPANY_ID}
+        companyId={companyId}
         productId={productId}
         studentUserId={selectedChildId || undefined}
         storePath="/store"

@@ -2,7 +2,7 @@
 
 import { getQualificationBandColor } from '@papercraft/shared';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 

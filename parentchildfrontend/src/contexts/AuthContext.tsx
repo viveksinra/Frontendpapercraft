@@ -22,7 +22,7 @@ type AuthState = {
   authenticated: boolean;
   unauthenticated: boolean;
   checkUserSession: () => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
   registerStudent: (email: string, password: string, name: string, orgCode: string) => Promise<{ studentCode: string }>;
   registerParent: (email: string, password: string, name: string) => Promise<void>;
   register: (payload: {
@@ -89,6 +89,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [setState]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { checkUserSession(); }, []);
 
   const login = useCallback(async (email: string, password: string) => {

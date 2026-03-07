@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Loader2, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function FeasibilityChecker({ companyId, blueprintId, onCheck }) {
   const [result, setResult] = useState(null);

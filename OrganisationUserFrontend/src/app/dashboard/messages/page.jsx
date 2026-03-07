@@ -2,15 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Search, Plus, Mail, Circle } from 'lucide-react';
+import { Plus, Mail, Search, Loader2 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
+import { getConversations } from 'src/lib/message-api';
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getConversations, searchMessages } from 'src/lib/message-api';
 
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogTitle,
@@ -58,7 +59,7 @@ export default function MessagesInboxPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;
@@ -166,6 +167,7 @@ export default function MessagesInboxPage() {
 
               return (
                 <button
+                  type="button"
                   key={otherId || index}
                   onClick={() => handleOpenConversation(conv)}
                   className={`flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50 ${

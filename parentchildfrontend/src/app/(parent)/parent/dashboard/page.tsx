@@ -105,7 +105,7 @@ export default function ParentDashboardPage() {
 
       {/* Child selector tabs */}
       <ChildSelectorTabs
-        children={children}
+        linkedChildren={children}
         selectedIndex={selectedIndex}
         onSelect={setSelectedIndex}
         onLinkChild={() => router.push('/link-child')}

@@ -4,21 +4,21 @@ import { Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ChildSelectorTabsProps {
-  children: any[];
+  linkedChildren: any[];
   selectedIndex: number;
   onSelect: (index: number) => void;
   onLinkChild?: () => void;
 }
 
 export function ChildSelectorTabs({
-  children,
+  linkedChildren,
   selectedIndex,
   onSelect,
   onLinkChild,
 }: ChildSelectorTabsProps) {
   return (
-    <div className="flex items-center gap-1 overflow-x-auto border-b pb-px scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      {children.map((child: any, index: number) => {
+    <div className="flex items-center gap-1 overflow-x-auto border-b pb-px scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="tablist" aria-label="Select child">
+      {linkedChildren.map((child: any, index: number) => {
         const name =
           child.student?.name ||
           child.student?.firstName ||
@@ -31,6 +31,8 @@ export function ChildSelectorTabs({
           <button
             key={child.student?.id || child.id || index}
             type="button"
+            role="tab"
+            aria-selected={selectedIndex === index}
             onClick={() => onSelect(index)}
             className={cn(
               'relative flex shrink-0 items-center gap-2 rounded-t-md px-4 py-2.5 text-sm font-medium transition-colors',

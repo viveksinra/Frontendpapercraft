@@ -1,15 +1,13 @@
 'use client';
 
 import { useMemo } from 'react';
-import { AlertTriangle, Clock } from 'lucide-react';
+import { Clock, AlertTriangle } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 export default function SectionTimedConfigurator({ sections, onChange }) {
-  const totalMinutes = useMemo(() => {
-    return (sections || []).reduce((sum, s) => sum + (Number(s.timeLimit) || 0), 0);
-  }, [sections]);
+  const totalMinutes = useMemo(() => (sections || []).reduce((sum, s) => sum + (Number(s.timeLimit) || 0), 0), [sections]);
 
   const handleTimeLimitChange = (index, minutes) => {
     const updated = (sections || []).map((s, i) =>

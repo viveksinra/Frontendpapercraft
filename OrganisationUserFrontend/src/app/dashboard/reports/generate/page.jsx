@@ -1,16 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { paths } from 'src/routes/paths';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { generateReport, bulkGenerateReports } from 'src/lib/reports-api';
-import { paths } from 'src/routes/paths';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 import {
   Select,
   SelectItem,
@@ -40,7 +41,7 @@ export default function ReportGeneratePage() {
   const needsClass = reportType === 'class_summary';
 
   const handleGenerate = async () => {
-    if (!companyId) return;
+    if (!companyId) return undefined;
     try {
       setLoading(true);
       setError(null);

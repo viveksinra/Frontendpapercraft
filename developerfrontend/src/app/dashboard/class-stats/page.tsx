@@ -7,25 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import axiosInstance from '@/lib/axios';
-
-interface ClassStatsData {
-  organizationId: string;
-  organizationName: string;
-  totalClasses: number;
-  activeClasses: number;
-  archivedClasses: number;
-  totalStudentsEnrolled: number;
-  totalHomework: number;
-  totalAnnouncements: number;
-  classes: Array<{
-    id: string;
-    name: string;
-    studentCount: number;
-    homeworkCount: number;
-    status: string;
-  }>;
-}
+import { getClassStats, type ClassStatsData } from '@/lib/admin-api';
 
 export default function ClassStatsPage() {
   const [orgId, setOrgId] = useState('');
@@ -38,8 +20,8 @@ export default function ClassStatsPage() {
     try {
       setLoading(true);
       setError(null);
-      const res = await axiosInstance.get(`/api/v2/admin/organizations/${orgId.trim()}/class-stats`);
-      setData(res.data);
+      const result = await getClassStats(orgId.trim());
+      setData(result);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch class stats');
       setData(null);

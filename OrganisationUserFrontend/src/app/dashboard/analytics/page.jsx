@@ -1,17 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import ClassAnalyticsTab from 'src/components/analytics/ClassAnalyticsTab';
+import StudentAnalyticsTab from 'src/components/analytics/StudentAnalyticsTab';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import QuestionAnalyticsTab from 'src/components/analytics/QuestionAnalyticsTab';
+import InstituteAnalyticsTab from 'src/components/analytics/InstituteAnalyticsTab';
+import InstituteCourseAnalytics from 'src/components/courses/analytics/InstituteCourseAnalytics';
 
 import { useAuthContext } from 'src/auth/hooks';
-
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-
-import StudentAnalyticsTab from 'src/components/analytics/StudentAnalyticsTab';
-import ClassAnalyticsTab from 'src/components/analytics/ClassAnalyticsTab';
-import InstituteAnalyticsTab from 'src/components/analytics/InstituteAnalyticsTab';
-import QuestionAnalyticsTab from 'src/components/analytics/QuestionAnalyticsTab';
-import InstituteCourseAnalytics from 'src/components/courses/analytics/InstituteCourseAnalytics';
 
 // ----------------------------------------------------------------------
 

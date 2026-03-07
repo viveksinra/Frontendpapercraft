@@ -187,11 +187,11 @@ export default function StudentNotificationsPage() {
                   </div>
                   <div className="flex shrink-0 gap-1">
                     {!notif.isRead && (
-                      <Button variant="ghost" size="sm" onClick={() => handleMarkRead(id)}>
+                      <Button variant="ghost" size="sm" aria-label="Mark as read" onClick={() => handleMarkRead(id)}>
                         <CheckCheck className="h-4 w-4" />
                       </Button>
                     )}
-                    <Button variant="ghost" size="sm" onClick={() => handleArchive(id)}>
+                    <Button variant="ghost" size="sm" aria-label="Archive notification" onClick={() => handleArchive(id)}>
                       <Trash2 className="h-4 w-4 text-muted-foreground" />
                     </Button>
                   </div>

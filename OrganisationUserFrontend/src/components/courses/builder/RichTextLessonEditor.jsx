@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Bold, Italic, Heading1, Heading2, List, Link as LinkIcon } from 'lucide-react';
+import { Bold, List, Italic, Heading1, Heading2, Link as LinkIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 

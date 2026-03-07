@@ -8,8 +8,8 @@ import { paths } from 'src/routes/paths';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
-import ProductStatusBadge from './ProductStatusBadge';
 import ProductStatsCard from './ProductStatsCard';
+import ProductStatusBadge from './ProductStatusBadge';
 
 // ─────────────────────────────────────────────────────────────────
 

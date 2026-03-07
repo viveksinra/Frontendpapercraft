@@ -167,6 +167,7 @@ export default function ParentNotificationsPage() {
                       <Button
                         variant="ghost"
                         size="sm"
+                        aria-label="Mark as read"
                         onClick={() => handleMarkRead(notification._id)}
                       >
                         <Check className="h-4 w-4" />

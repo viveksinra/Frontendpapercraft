@@ -1,34 +1,35 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Plus, ArrowLeft, Eye, Upload as UploadIcon } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Eye, Plus, Loader2, ArrowLeft, Upload as UploadIcon } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   getCourse,
-  publishCourse,
-  addSection,
-  updateSection,
-  deleteSection,
   addLesson,
+  addSection,
   updateLesson,
   deleteLesson,
+  publishCourse,
+  updateSection,
+  deleteSection,
   setLessonContent,
 } from 'src/lib/course-api';
 
 import { Button } from '@/components/ui/button';
 
-import CourseStatusBadge from '../CourseStatusBadge';
 import SectionForm from './SectionForm';
 import SectionItem from './SectionItem';
-import LessonEditor from './LessonEditor';
-import VideoUploader from './VideoUploader';
 import PdfUploader from './PdfUploader';
-import RichTextLessonEditor from './RichTextLessonEditor';
+import LessonEditor from './LessonEditor';
 import QuizSelector from './QuizSelector';
+import VideoUploader from './VideoUploader';
 import ResourceUploader from './ResourceUploader';
+import CourseStatusBadge from '../CourseStatusBadge';
+import RichTextLessonEditor from './RichTextLessonEditor';
 
 // ─────────────────────────────────────────────────────────────────
 

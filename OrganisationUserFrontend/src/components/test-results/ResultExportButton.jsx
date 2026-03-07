@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Download, Loader2 } from 'lucide-react';
+import { Loader2, Download } from 'lucide-react';
 
 import axiosInstance from '@/lib/axios';
 import { v2Endpoints } from '@/lib/v2-endpoints';

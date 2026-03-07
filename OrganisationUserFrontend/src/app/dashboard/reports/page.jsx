@@ -1,17 +1,17 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Plus, Download, Trash2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Plus, Trash2, Loader2, Download } from 'lucide-react';
+
+import { paths } from 'src/routes/paths';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { listReports, deleteReport, downloadReport } from 'src/lib/reports-api';
-import { paths } from 'src/routes/paths';
-import { useAuthContext } from 'src/auth/hooks';
 
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Select,
   SelectItem,
@@ -19,6 +19,8 @@ import {
   SelectContent,
   SelectTrigger,
 } from '@/components/ui/select';
+
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 

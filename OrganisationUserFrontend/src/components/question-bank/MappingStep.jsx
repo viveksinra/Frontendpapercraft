@@ -94,7 +94,7 @@ export default function MappingStep({ subjects = [], subjectMapping, onSubjectMa
       <div>
         <h3 className="text-sm font-semibold mb-3">Default Metadata</h3>
         <p className="text-xs text-muted-foreground mb-4">
-          These defaults apply to questions that don't have metadata set in the file.
+          These defaults apply to questions that don&apos;t have metadata set in the file.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="space-y-2">

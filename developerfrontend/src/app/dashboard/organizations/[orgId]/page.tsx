@@ -162,7 +162,7 @@ export default function OrganizationDetailPage() {
             </div>
             <CardTitle>Usage Statistics</CardTitle>
           </div>
-          <CardDescription>Usage metrics for this organization.</CardDescription>
+          <CardDescription>Usage metrics are not yet available for this organization.</CardDescription>
         </CardHeader>
         <CardContent>
           <dl className="grid gap-4 sm:grid-cols-3">

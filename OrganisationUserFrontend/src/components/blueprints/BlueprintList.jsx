@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, Copy, Pencil, Trash2 } from 'lucide-react';
+import { Copy, Search, Pencil, Trash2 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';

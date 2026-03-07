@@ -1,31 +1,26 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, RefreshCw, FileText, ArrowLeft } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Loader2, FileText, RefreshCw, ArrowLeft } from 'lucide-react';
+
+import { paths } from 'src/routes/paths';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
+  getElevenPlusBand,
   getStudentAnalytics,
+  getStudentTimeTrend,
   getStudentScoreTrend,
   getStudentSubjectRadar,
-  getStudentTimeTrend,
-  getElevenPlusBand,
   getElevenPlusComponents,
   getElevenPlusCohortPercentile,
 } from 'src/lib/analytics-api';
-import { paths } from 'src/routes/paths';
-import {
-  formatPercentile,
-  getImprovementLabel,
-  getQualificationBandColor,
-} from '@papercraft/shared';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import StudentKPICards from 'src/components/analytics/StudentKPICards';
 import ElevenPlusPanel from 'src/components/analytics/ElevenPlusPanel';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 
@@ -44,7 +39,7 @@ export default function StudentAnalyticsDetailPage() {
 
   const loadData = useCallback(
     async (forceRefresh = false) => {
-      if (!companyId || !studentId) return;
+      if (!companyId || !studentId) return undefined;
       try {
         setLoading(true);
         setError(null);

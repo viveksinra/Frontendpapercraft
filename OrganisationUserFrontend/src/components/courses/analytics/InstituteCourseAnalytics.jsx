@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2, BookOpen, Users, CheckCircle2, TrendingUp } from 'lucide-react';
+import { Users, Loader2, BookOpen, TrendingUp, CheckCircle2 } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { getInstituteCourseAnalytics } from 'src/lib/course-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Badge } from '@/components/ui/badge';
 

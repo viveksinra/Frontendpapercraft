@@ -8,7 +8,7 @@ export async function startTest(testId: string) {
 }
 
 export async function getAttemptState(testId: string) {
-  const res = await axiosInstance.get(`${BASE}/${testId}/state`);
+  const res = await axiosInstance.get(`${BASE}/${testId}/attempt`);
   return res.data;
 }
 
@@ -20,8 +20,8 @@ export async function submitAnswer(testId: string, questionId: string, answer: a
   return res.data;
 }
 
-export async function flagQuestion(testId: string, questionId: string) {
-  const res = await axiosInstance.post(`${BASE}/${testId}/flag`, { questionId });
+export async function flagQuestion(testId: string, questionId: string, flagged: boolean = true) {
+  const res = await axiosInstance.post(`${BASE}/${testId}/flag`, { questionId, flagged });
   return res.data;
 }
 
@@ -36,13 +36,11 @@ export async function getResult(testId: string) {
 }
 
 export async function startSection(testId: string, sectionIndex: number) {
-  const res = await axiosInstance.post(`${BASE}/${testId}/section/start`, {
-    sectionIndex,
-  });
+  const res = await axiosInstance.post(`${BASE}/${testId}/section/${sectionIndex}/start`);
   return res.data;
 }
 
-export async function getSectionStatus(testId: string) {
-  const res = await axiosInstance.get(`${BASE}/${testId}/section/status`);
+export async function getSectionStatus(testId: string, sectionIndex: number) {
+  const res = await axiosInstance.get(`${BASE}/${testId}/section/${sectionIndex}/status`);
   return res.data;
 }

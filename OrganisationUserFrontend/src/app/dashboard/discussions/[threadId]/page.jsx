@@ -3,26 +3,27 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
-  Loader2,
-  ArrowLeft,
-  ThumbsUp,
-  MessageSquare,
-  Flag,
   Pin,
+  Flag,
   Lock,
+  Loader2,
+  ThumbsUp,
+  ArrowLeft,
   CheckCircle,
+  MessageSquare,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   getThread,
-  getReplies,
-  createReply,
-  upvoteThread,
-  upvoteReply,
-  flagThread,
   flagReply,
+  getReplies,
+  flagThread,
+  createReply,
+  upvoteReply,
+  upvoteThread,
 } from 'src/lib/discussion-api';
 
 import { Badge } from '@/components/ui/badge';
@@ -65,7 +66,7 @@ export default function ThreadDetailPage() {
     if (!activeCompanyId || !threadId) {
       setError('Missing company or thread');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;

@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Search, Plus } from 'lucide-react';
+import { Plus, Search, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { listProducts, publishProduct, unpublishProduct } from 'src/lib/product-api';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
 import ProductList from 'src/components/products/ProductList';
 
 // ─────────────────────────────────────────────────────────────────

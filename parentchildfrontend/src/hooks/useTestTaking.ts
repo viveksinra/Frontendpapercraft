@@ -149,6 +149,7 @@ const initialState: TestState = {
 export function useTestTaking(testId: string) {
   const [state, dispatch] = useReducer(reducer, { ...initialState, testId });
   const initialized = useRef(false);
+  const submittingRef = useRef(false);
 
   // Auto-save handler
   const handleAutoSave = useCallback(
@@ -227,14 +228,16 @@ export function useTestTaking(testId: string) {
 
   const toggleFlag = useCallback(
     async (questionId: string) => {
+      const existing = state.answers.find((a) => a.questionId === questionId);
+      const newFlagged = !(existing?.flagged ?? false);
       dispatch({ type: 'TOGGLE_FLAG', questionId });
       try {
-        await flagQuestion(testId, questionId);
+        await flagQuestion(testId, questionId, newFlagged);
       } catch {
         // Silently fail - flag state is local
       }
     },
-    [testId]
+    [testId, state.answers]
   );
 
   const navigateTo = useCallback((index: number) => {
@@ -250,12 +253,16 @@ export function useTestTaking(testId: string) {
   }, [state.currentIndex]);
 
   const handleSubmit = useCallback(async () => {
+    // Prevent double submission from timer expiry + manual submit race
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     dispatch({ type: 'SET_PHASE', phase: 'submitting' });
     try {
       await submitTest(testId);
       const result = await getResult(testId);
       dispatch({ type: 'SET_RESULT', result });
     } catch (err: unknown) {
+      submittingRef.current = false;
       const message = err instanceof Error ? err.message : 'Failed to submit test';
       dispatch({ type: 'SET_ERROR', error: message });
     }
@@ -291,6 +298,17 @@ export function useTestTaking(testId: string) {
     return { answered, flagged, unanswered, total: state.questions.length };
   }, [state.answers, state.questions]);
 
+  // Allow retry from error state - re-attempt loading the test
+  const retryLoad = useCallback(async () => {
+    dispatch({ type: 'SET_PHASE', phase: 'loading' });
+    try {
+      await loadState();
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to load test state';
+      dispatch({ type: 'SET_ERROR', error: message });
+    }
+  }, [loadState]);
+
   return {
     ...state,
     autoSaveStatus,
@@ -305,6 +323,7 @@ export function useTestTaking(testId: string) {
     handleSubmit,
     handleSectionComplete,
     handleTimeUp,
+    retryLoad,
     dispatch,
   };
 }

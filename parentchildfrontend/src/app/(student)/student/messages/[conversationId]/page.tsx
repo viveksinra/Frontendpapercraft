@@ -129,12 +129,13 @@ export default function StudentConversationPage() {
           <div className="flex gap-2">
             <Input
               placeholder="Type your message..."
+              aria-label="Message text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
               disabled={sending}
             />
-            <Button onClick={handleSend} disabled={sending || !newMessage.trim()}>
+            <Button aria-label="Send message" onClick={handleSend} disabled={sending || !newMessage.trim()}>
               {sending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (

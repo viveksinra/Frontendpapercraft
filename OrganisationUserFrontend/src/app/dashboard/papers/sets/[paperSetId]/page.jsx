@@ -1,25 +1,25 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
+
+import { listPapers } from 'src/lib/paper-api';
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
-  getPaperSet,
-  addPaperToSet,
-  removePaperFromSet,
   uploadPdf,
+  getPaperSet,
+  downloadZip,
+  addPaperToSet,
+  updatePaperSet,
   publishPaperSet,
   archivePaperSet,
-  downloadZip,
-  updatePaperSet,
+  removePaperFromSet,
 } from 'src/lib/paper-set-api';
-import { listPapers } from 'src/lib/paper-api';
 
 import { Button } from '@/components/ui/button';
-
 import PaperSetDetail from 'src/components/paper-sets/PaperSetDetail';
 
 export default function PaperSetDetailPage() {

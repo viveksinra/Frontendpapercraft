@@ -1,22 +1,22 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Plus, Upload, BookOpen, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Plus, Clock, Upload, Loader2, XCircle, BookOpen, CheckCircle } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { listQuestions, archiveQuestion, duplicateQuestion, submitForReview, getQuestionStats } from 'src/lib/question-api';
+
 import { getSubjectTree } from 'src/lib/subject-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { listQuestions, archiveQuestion, submitForReview, getQuestionStats, duplicateQuestion } from 'src/lib/question-api';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
+import BulkActionBar from 'src/components/question-bank/BulkActionBar';
 import QuestionListTable from 'src/components/question-bank/QuestionListTable';
 import QuestionFilterBar from 'src/components/question-bank/QuestionFilterBar';
 import QuestionStatusTabs from 'src/components/question-bank/QuestionStatusTabs';
 import SubjectTreeSidebar from 'src/components/question-bank/SubjectTreeSidebar';
-import BulkActionBar from 'src/components/question-bank/BulkActionBar';
 
 export default function QuestionBankPage() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function QuestionBankPage() {
   const [stats, setStats] = useState(null);
 
   const fetchQuestions = useCallback(async () => {
-    if (!companyId) return;
+    if (!companyId) return undefined;
     try {
       setLoading(true);
       const params = { page, limit: 20 };
@@ -66,13 +66,14 @@ export default function QuestionBankPage() {
   }, [fetchQuestions]);
 
   useEffect(() => {
-    if (!companyId) return;
+    if (!companyId) return undefined;
     getSubjectTree(companyId).then((data) => {
       setSubjects(data.subjects || []);
     }).catch(() => {});
     getQuestionStats(companyId).then((data) => {
       setStats(data.stats || null);
     }).catch(() => {});
+    return undefined;
   }, [companyId]);
 
   const handleArchive = async (questionId) => {
@@ -104,7 +105,7 @@ export default function QuestionBankPage() {
 
   const handleBulkArchive = async () => {
     for (const id of selectedIds) {
-      try { await archiveQuestion(companyId, id); } catch {}
+      try { await archiveQuestion(companyId, id); } catch { /* ignore individual failures */ }
     }
     setSelectedIds([]);
     fetchQuestions();
@@ -112,7 +113,7 @@ export default function QuestionBankPage() {
 
   const handleBulkSubmitForReview = async () => {
     for (const id of selectedIds) {
-      try { await submitForReview(companyId, id); } catch {}
+      try { await submitForReview(companyId, id); } catch { /* ignore individual failures */ }
     }
     setSelectedIds([]);
     fetchQuestions();

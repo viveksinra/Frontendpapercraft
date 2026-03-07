@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ExternalLink, Loader2, Wallet } from 'lucide-react';
+import { Wallet, Loader2, ExternalLink } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 

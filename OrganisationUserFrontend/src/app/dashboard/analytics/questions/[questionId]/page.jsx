@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { getQuestionAnalytics } from 'src/lib/analytics-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 

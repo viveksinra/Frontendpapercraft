@@ -1,5 +1,6 @@
 export * from "./types";
 export * from "./utils";
+export * from "./api";
 export * from "./components/timer/TimerComponent";
 export * from "./components/question-navigator/QuestionNavigator";
 export * from "./components/section-timed/SectionTimedController";

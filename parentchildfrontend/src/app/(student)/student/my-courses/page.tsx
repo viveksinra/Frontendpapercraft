@@ -49,10 +49,13 @@ export default function MyCoursesPage() {
         </p>
       </div>
 
-      <div className="flex gap-1 border-b">
+      <div className="flex gap-1 border-b" role="tablist" aria-label="Course filters">
         {tabs.map((t) => (
           <button
             key={t.key}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.key}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
               tab === t.key
                 ? 'border-primary text-primary'
@@ -73,7 +76,7 @@ export default function MyCoursesPage() {
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <AlertCircle className="h-8 w-8 text-destructive" />
           <p className="mt-2 text-sm text-destructive">{error}</p>
-          <button className="mt-4 px-4 py-2 text-sm rounded-md border" onClick={fetchEnrollments}>
+          <button type="button" className="mt-4 px-4 py-2 text-sm rounded-md border" onClick={fetchEnrollments}>
             Try Again
           </button>
         </div>

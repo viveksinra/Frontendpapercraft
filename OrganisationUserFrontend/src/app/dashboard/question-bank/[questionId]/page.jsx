@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Pencil, Copy, Archive, Loader2 } from 'lucide-react';
+import { Copy, Pencil, Archive, Loader2, ArrowLeft } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getQuestion, archiveQuestion, duplicateQuestion, submitForReview, approveQuestion, rejectQuestion } from 'src/lib/question-api';
+import { getQuestion, rejectQuestion, archiveQuestion, submitForReview, approveQuestion, duplicateQuestion } from 'src/lib/question-api';
 
 import { Button } from '@/components/ui/button';
-
-import QuestionDetailView from 'src/components/question-bank/QuestionDetailView';
 import ReviewActionPanel from 'src/components/question-bank/ReviewActionPanel';
+import QuestionDetailView from 'src/components/question-bank/QuestionDetailView';
 
 export default function QuestionDetailPage() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function QuestionDetailPage() {
   const [error, setError] = useState(null);
 
   const fetchQuestion = async () => {
-    if (!companyId || !questionId) return;
+    if (!companyId || !questionId) return undefined;
     try {
       setLoading(true);
       const data = await getQuestion(companyId, questionId);

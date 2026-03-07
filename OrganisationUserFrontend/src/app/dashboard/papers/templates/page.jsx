@@ -1,21 +1,20 @@
 'use client';
 
+import { Plus, Loader2 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2, Plus } from 'lucide-react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   listTemplates,
+  cloneTemplate,
   createTemplate,
   updateTemplate,
   deleteTemplate,
-  cloneTemplate,
 } from 'src/lib/paper-template-api';
 
 import { Button } from '@/components/ui/button';
-
-import TemplateGallery from 'src/components/templates/TemplateGallery';
 import TemplateEditor from 'src/components/templates/TemplateEditor';
+import TemplateGallery from 'src/components/templates/TemplateGallery';
 
 export default function TemplatesPage() {
   const companyId = getActiveCompanyIdFromCookie();

@@ -1,6 +1,6 @@
 'use client';
 
-import { TrendingUp, TrendingDown, DollarSign, ShoppingCart, BarChart3 } from 'lucide-react';
+import { BarChart3, TrendingUp, DollarSign, TrendingDown, ShoppingCart } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────
 

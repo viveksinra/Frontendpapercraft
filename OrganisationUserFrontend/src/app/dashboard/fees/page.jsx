@@ -1,16 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Loader2, Search, Receipt } from 'lucide-react';
+import { Search, Loader2, Receipt } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { listClasses } from 'src/lib/class-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { listFees, updateFee, sendFeeReminder } from 'src/lib/fee-api';
 
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+} from '@/components/ui/dialog';
 import {
   Table,
   TableRow,
@@ -19,13 +26,6 @@ import {
   TableHead,
   TableHeader,
 } from '@/components/ui/table';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ export default function FeesPage() {
 
   // Load classes
   useEffect(() => {
-    if (!activeCompanyId) return;
+    if (!activeCompanyId) return undefined;
     let cancelled = false;
     async function load() {
       try {
@@ -79,7 +79,7 @@ export default function FeesPage() {
 
   // Load fees for selected class
   useEffect(() => {
-    if (!activeCompanyId || !selectedClassId) return;
+    if (!activeCompanyId || !selectedClassId) return undefined;
     let cancelled = false;
     async function load() {
       try {

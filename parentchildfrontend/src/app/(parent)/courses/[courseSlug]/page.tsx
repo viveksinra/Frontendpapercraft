@@ -90,7 +90,7 @@ export default function ParentCourseDetailPage({
               isEnrolled={false}
               courseSlug={courseSlug}
               isParent
-              children={linkedChildren}
+              linkedChildren={linkedChildren}
             />
           </div>
           <CourseInstructorCard course={course} />

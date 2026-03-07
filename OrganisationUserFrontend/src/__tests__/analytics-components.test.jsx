@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { it, vi, expect, describe, beforeEach } from 'vitest';
 
 // ---- Mock shared package ----
 vi.mock('@papercraft/shared', () => ({

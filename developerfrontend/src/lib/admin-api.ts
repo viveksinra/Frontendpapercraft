@@ -243,3 +243,75 @@ export async function getPlatformCourseAnalytics(): Promise<PlatformCourseAnalyt
   const res = await axiosInstance.get('/api/v2/admin/course-analytics');
   return res.data;
 }
+
+// --- Test Stats ---
+
+export interface TestStats {
+  totalTests: number;
+  totalAttempts: number;
+  passRate: number;
+  testsByMode: Record<string, number>;
+  testsByStatus: Record<string, number>;
+}
+
+export async function getTestStats(): Promise<TestStats> {
+  const res = await axiosInstance.get('/api/v2/admin/test-stats');
+  return res.data;
+}
+
+// --- Test Attempts (Debugging) ---
+
+export interface TestAttemptDebug {
+  id: string;
+  studentId: string;
+  testId: string;
+  attemptNumber: number;
+  status: string;
+  startedAt: string;
+  submittedAt: string;
+  answers: Array<{
+    questionId: string;
+    answer: unknown;
+    isCorrect: boolean;
+    marksAwarded: number;
+    timeSpent: number;
+    flagged: boolean;
+  }>;
+  questionOrder: string[];
+  optionOrders: Record<string, string[]>;
+  sectionTransitions: Array<{
+    sectionIndex: number;
+    startedAt: string;
+    lockedAt: string;
+  }>;
+}
+
+export async function searchTestAttempts(params: { email?: string; testId?: string; attemptId?: string }): Promise<{ attempts: TestAttemptDebug[] }> {
+  const res = await axiosInstance.get('/api/v2/admin/test-attempts', { params });
+  return res.data;
+}
+
+// --- Class Stats ---
+
+export interface ClassStatsData {
+  organizationId: string;
+  organizationName: string;
+  totalClasses: number;
+  activeClasses: number;
+  archivedClasses: number;
+  totalStudentsEnrolled: number;
+  totalHomework: number;
+  totalAnnouncements: number;
+  classes: Array<{
+    id: string;
+    name: string;
+    studentCount: number;
+    homeworkCount: number;
+    status: string;
+  }>;
+}
+
+export async function getClassStats(orgId: string): Promise<ClassStatsData> {
+  const res = await axiosInstance.get(`/api/v2/admin/organizations/${orgId}/class-stats`);
+  return res.data;
+}

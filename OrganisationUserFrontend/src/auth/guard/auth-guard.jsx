@@ -6,9 +6,9 @@ import { paths } from 'src/routes/paths';
 import { useRouter, usePathname } from 'src/routes/hooks';
 
 import { CONFIG } from 'src/global-config';
+import { getCompanies } from 'src/lib/company-api';
 
 import { SplashScreen } from 'src/components/loading-screen';
-import { getCompanies } from 'src/lib/company-api';
 
 import { useAuthContext } from '../hooks';
 

@@ -20,7 +20,7 @@ const commonRules = () => ({
   'object-shorthand': 1,
   'no-useless-rename': 1,
   'default-case-last': 2,
-  'consistent-return': 2,
+  'consistent-return': 1,
   'no-constant-condition': 1,
   'no-unused-vars': [1, { args: 'none' }],
   'default-case': [2, { commentPattern: '^no default$' }],

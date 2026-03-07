@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
-import axiosInstance from '@/lib/axios';
+import { searchTestAttempts, type TestAttemptDebug } from '@/lib/admin-api';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,42 +25,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-interface Answer {
-  questionId: string;
-  answer: unknown;
-  isCorrect: boolean;
-  marksAwarded: number;
-  timeSpent: number;
-  flagged: boolean;
-}
-
-interface SectionTransition {
-  sectionIndex: number;
-  startedAt: string;
-  lockedAt: string;
-}
-
-interface TestAttempt {
-  id: string;
-  studentId: string;
-  testId: string;
-  attemptNumber: number;
-  status: string;
-  startedAt: string;
-  submittedAt: string;
-  answers: Answer[];
-  questionOrder: string[];
-  optionOrders: Record<string, string[]>;
-  sectionTransitions: SectionTransition[];
-}
-
-async function searchAttempts(searchType: string, query: string) {
-  const res = await axiosInstance.get('/api/v2/admin/test-attempts', {
-    params: { [searchType]: query },
-  });
-  return res.data;
-}
-
 function formatDate(dateStr: string | null | undefined): string {
   if (!dateStr) return '\u2014';
   try {
@@ -81,7 +45,7 @@ export default function TestDebuggingPage() {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const [attempts, setAttempts] = useState<TestAttempt[]>([]);
+  const [attempts, setAttempts] = useState<TestAttemptDebug[]>([]);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,9 +57,9 @@ export default function TestDebuggingPage() {
     setLoading(true);
     setSearched(true);
     try {
-      const res = await searchAttempts(searchType, query.trim());
-      const data = res.attempts || res.data || res;
-      setAttempts(Array.isArray(data) ? data : data ? [data] : []);
+      const res = await searchTestAttempts({ [searchType]: query.trim() });
+      const data = res.attempts || [];
+      setAttempts(Array.isArray(data) ? data : []);
     } catch (err: any) {
       if (err?.status === 404) {
         setAttempts([]);
@@ -119,7 +83,7 @@ export default function TestDebuggingPage() {
 
       <form onSubmit={handleSearch} className="flex items-center gap-2">
         <Select value={searchType} onValueChange={setSearchType}>
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-[160px]" aria-label="Search type">
             <SelectValue placeholder="Search by..." />
           </SelectTrigger>
           <SelectContent>
@@ -131,6 +95,7 @@ export default function TestDebuggingPage() {
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
+            aria-label="Search query"
             placeholder={
               searchType === 'email'
                 ? 'student@example.com'

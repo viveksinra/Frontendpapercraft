@@ -79,6 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [setState]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- initialization on mount
   useEffect(() => { checkUserSession(); }, []);
 
   const login = useCallback(async (email: string, password: string) => {

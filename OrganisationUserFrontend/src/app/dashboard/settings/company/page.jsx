@@ -89,9 +89,10 @@ export default function CompanyInfoPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
     loadCompanyInfo();
+    return undefined;
   }, [activeCompanyId]);
 
   const loadCompanyInfo = async () => {
@@ -298,8 +299,8 @@ export default function CompanyInfoPage() {
             <div className="mt-3 flex items-start gap-2 rounded-md border border-yellow-500/50 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-700 dark:text-yellow-400">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
               <p>
-                <strong>Important:</strong> Once you publish a blog, your username cannot be changed.
-                This ensures your published URLs remain consistent and accessible.
+                <strong>Important:</strong> Your username is used in shareable links for tests, courses, and invitations.
+                Changing it later may break existing shared URLs.
               </p>
             </div>
           </div>

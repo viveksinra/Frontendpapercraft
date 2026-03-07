@@ -1,19 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import {
-  ArrowRight,
+  Zap,
+  Play,
   Sparkles,
-  CheckCircle2,
   FileText,
   BookOpen,
-  Monitor,
-  BarChart3,
-  Play,
-  Zap,
   TrendingUp,
-  Users,
+  CheckCircle2,
   GraduationCap,
 } from 'lucide-react';
 

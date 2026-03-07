@@ -1,15 +1,14 @@
 'use client';
 
 import {
-  GripVertical,
-  Video,
-  FileText,
   Type,
-  HelpCircle,
-  Paperclip,
+  Video,
   Clock,
-  Eye,
   Trash2,
+  FileText,
+  Paperclip,
+  HelpCircle,
+  GripVertical,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';

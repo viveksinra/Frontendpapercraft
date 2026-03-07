@@ -1,6 +1,6 @@
 'use client';
 
-import { FileText, Package, Monitor, Layers } from 'lucide-react';
+import { Layers, Package, Monitor, FileText } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────
 

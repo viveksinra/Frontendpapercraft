@@ -13,8 +13,7 @@ import { getTenantBrandTokens, tokensToThemeOverrides } from './tenant-branding'
  * Get tenant ID from request (server-side)
  * Strategies:
  * 1. X-Tenant-ID header (preferred - set by proxy/middleware)
- * 2. Path-based extraction (/tenant1/blog) via `x-pathname` header (set by middleware)
- * 3. Host-based mapping (custom domains, localhost fallback)
+ * 2. Host-based mapping (custom domains, localhost fallback)
  */
 export async function getTenantFromRequest() {
   const requestHeaders = await headers();
@@ -26,20 +25,12 @@ export async function getTenantFromRequest() {
     return tenantHeader;
   }
 
-  // Strategy 2: Path-based (middleware should still rewrite /tenant1/blog → /blog with header)
-  const pathname = requestHeaders.get('x-pathname') || '';
-  const pathMatch = pathname.match(/^\/([^/]+)\/blog/);
-  if (pathMatch) {
-    return pathMatch[1];
-  }
-
-  // Strategy 3: Host-based (for custom domains)
-  // In Phase 2, this should look up from backend DomainConfig
+  // Strategy 2: Host-based (for custom domains)
   if (host.includes('localhost')) {
     return 'devTenant';
   }
 
-  // Fallback: use hostname (will need domain mapping in Phase 2)
+  // Fallback: use hostname
   return host.split(':')[0] || 'devTenant';
 }
 

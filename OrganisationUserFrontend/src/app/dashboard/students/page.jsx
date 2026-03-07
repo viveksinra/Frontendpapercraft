@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Search, GraduationCap } from 'lucide-react';
+import { Search, Loader2, GraduationCap } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
 import { listStudents } from 'src/lib/student-admin-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -35,7 +36,7 @@ export default function StudentsListPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;

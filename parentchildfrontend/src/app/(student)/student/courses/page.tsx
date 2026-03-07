@@ -25,7 +25,11 @@ export default function CourseCatalogPage() {
   });
 
   const fetchCourses = useCallback(async () => {
-    if (!companyId) return;
+    if (!companyId) {
+      setLoading(false);
+      setCourses([]);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
@@ -75,6 +79,7 @@ export default function CourseCatalogPage() {
           <AlertCircle className="h-8 w-8 text-destructive" />
           <p className="mt-2 text-sm text-destructive">{error}</p>
           <button
+            type="button"
             className="mt-4 px-4 py-2 text-sm rounded-md border"
             onClick={fetchCourses}
           >

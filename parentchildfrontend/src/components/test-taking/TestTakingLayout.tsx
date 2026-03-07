@@ -39,9 +39,14 @@ export function TestTakingLayout({ testId }: TestTakingLayoutProps) {
         <div className="flex flex-col items-center gap-3">
           <AlertTriangle className="h-8 w-8 text-destructive" />
           <p className="text-sm text-destructive">{test.error}</p>
-          <Button variant="outline" onClick={() => window.location.reload()}>
-            Retry
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={test.retryLoad}>
+              Retry
+            </Button>
+            <Button variant="ghost" onClick={() => window.history.back()}>
+              Go Back
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -161,7 +166,7 @@ export function TestTakingLayout({ testId }: TestTakingLayoutProps) {
           test.handleSubmit();
         }}
         summary={test.summary}
-        submitting={test.phase === 'submitting'}
+        submitting={false}
       />
     </div>
   );

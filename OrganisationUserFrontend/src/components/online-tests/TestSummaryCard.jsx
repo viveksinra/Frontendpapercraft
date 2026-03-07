@@ -1,12 +1,12 @@
 'use client';
 
-import { Clock, FileText, Hash, Pencil, Eye, BarChart3, Play, Archive, RotateCcw } from 'lucide-react';
+import { Eye, Hash, Play, Clock, Pencil, FileText, BarChart3, RotateCcw } from 'lucide-react';
 
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
-import TestStatusBadge from './TestStatusBadge';
 import TestModeBadge from './TestModeBadge';
+import TestStatusBadge from './TestStatusBadge';
 
 function getActions(status) {
   switch (status) {

@@ -3,17 +3,9 @@
 import { useState, useEffect } from 'react';
 import { RefreshCw, FlaskConical, Users, Award } from 'lucide-react';
 import { toast } from 'sonner';
-import axiosInstance from '@/lib/axios';
+import { getTestStats, type TestStats } from '@/lib/admin-api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-
-interface TestStats {
-  totalTests: number;
-  totalAttempts: number;
-  passRate: number;
-  testsByMode: Record<string, number>;
-  testsByStatus: Record<string, number>;
-}
 
 const MODE_LABELS: Record<string, string> = {
   live_mock: 'Live Mock',
@@ -46,11 +38,6 @@ const STATUS_COLORS: Record<string, string> = {
   completed: 'bg-emerald-600',
   archived: 'bg-slate-500',
 };
-
-async function fetchTestStats(): Promise<TestStats> {
-  const res = await axiosInstance.get('/api/v2/admin/test-stats');
-  return res.data;
-}
 
 function BarChart({
   data,
@@ -94,7 +81,7 @@ export default function TestStatsPage() {
   const loadStats = async () => {
     setLoading(true);
     try {
-      const data = await fetchTestStats();
+      const data = await getTestStats();
       setStats(data);
     } catch (err: any) {
       if (err?.status === 404) {

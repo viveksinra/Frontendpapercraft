@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { Check, ArrowLeft, ArrowRight } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 
 import UploadStep from './UploadStep';

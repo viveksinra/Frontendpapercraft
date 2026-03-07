@@ -1,19 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Save, CheckCircle } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-
-import TemplateSelector from './TemplateSelector';
-import SectionList from './SectionList';
-import QuestionPicker from './QuestionPicker';
-import SelectedQuestionsList from './SelectedQuestionsList';
-import PaperReviewPanel from './PaperReviewPanel';
-import PdfPreviewPanel from './PdfPreviewPanel';
+import { Save, ChevronLeft, CheckCircle, ChevronRight } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+
+import SectionList from './SectionList';
+import QuestionPicker from './QuestionPicker';
+import PdfPreviewPanel from './PdfPreviewPanel';
+import TemplateSelector from './TemplateSelector';
+import PaperReviewPanel from './PaperReviewPanel';
+import SelectedQuestionsList from './SelectedQuestionsList';
 
 const STEPS = [
   { label: 'Template & Info', description: 'Select template and enter paper details' },

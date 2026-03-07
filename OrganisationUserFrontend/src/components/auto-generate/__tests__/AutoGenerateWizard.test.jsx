@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { it, vi, expect, describe } from 'vitest';
 
 // Test the AutoGenerateWizard's callback logic and state transitions
 describe('AutoGenerateWizard', () => {

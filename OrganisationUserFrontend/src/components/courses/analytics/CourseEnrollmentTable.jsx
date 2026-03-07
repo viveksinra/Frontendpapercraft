@@ -1,14 +1,14 @@
 'use client';
 
+import { Search, Loader2 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2, Search } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { getCourseEnrollments } from 'src/lib/course-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 const STATUS_COLORS = {
   active: 'default',

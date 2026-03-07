@@ -8,8 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
-import BlueprintSectionCard from './BlueprintSectionCard';
 import ConstraintsPanel from './ConstraintsPanel';
+import BlueprintSectionCard from './BlueprintSectionCard';
 
 export default function BlueprintEditor({ blueprint, onSave, onCancel, saving = false }) {
   const [name, setName] = useState(blueprint?.name || '');

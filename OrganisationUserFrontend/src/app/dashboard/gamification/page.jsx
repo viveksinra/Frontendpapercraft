@@ -3,29 +3,37 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Loader2,
-  Trophy,
   Plus,
-  Trash2,
   Save,
+  Star,
   Award,
   Flame,
-  Star,
+  Trophy,
+  Trash2,
+  Loader2,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
-  getConfig,
-  updateConfig,
   addBadge,
+  getConfig,
   deleteBadge,
+  updateConfig,
 } from 'src/lib/gamification-api';
 
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogContent,
+} from '@/components/ui/dialog';
 import {
   Table,
   TableRow,
@@ -34,13 +42,6 @@ import {
   TableHead,
   TableHeader,
 } from '@/components/ui/table';
-import {
-  Dialog,
-  DialogTitle,
-  DialogHeader,
-  DialogFooter,
-  DialogContent,
-} from '@/components/ui/dialog';
 
 // ----------------------------------------------------------------------
 
@@ -87,7 +88,7 @@ export default function GamificationConfigPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;
@@ -174,7 +175,7 @@ export default function GamificationConfigPage() {
 
   // Clear success after delay
   useEffect(() => {
-    if (!success) return;
+    if (!success) return undefined;
     const timer = setTimeout(() => setSuccess(false), 4000);
     return () => clearTimeout(timer);
   }, [success]);

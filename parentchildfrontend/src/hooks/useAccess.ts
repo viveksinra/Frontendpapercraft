@@ -11,11 +11,21 @@ interface AccessResult {
 // Simple in-memory cache for access results
 const accessCache = new Map<string, { hasAccess: boolean; product?: any; purchase?: any }>();
 
+function getInitialState(referenceType: string, referenceId: string): AccessResult {
+  if (!referenceType || !referenceId) {
+    return { hasAccess: false, isLoading: false };
+  }
+  const cached = accessCache.get(`${referenceType}:${referenceId}`);
+  if (cached) {
+    return { ...cached, isLoading: false };
+  }
+  return { hasAccess: false, isLoading: true };
+}
+
 export function useAccess(referenceType: string, referenceId: string): AccessResult {
-  const [result, setResult] = useState<AccessResult>({
-    hasAccess: false,
-    isLoading: true,
-  });
+  const [result, setResult] = useState<AccessResult>(
+    () => getInitialState(referenceType, referenceId)
+  );
   const mounted = useRef(true);
 
   useEffect(() => {
@@ -23,18 +33,13 @@ export function useAccess(referenceType: string, referenceId: string): AccessRes
     return () => { mounted.current = false; };
   }, []);
 
+  const skip = !referenceType || !referenceId;
+  const cacheKey = `${referenceType}:${referenceId}`;
+  const hasCached = !skip && accessCache.has(cacheKey);
+
   useEffect(() => {
-    if (!referenceType || !referenceId) {
-      setResult({ hasAccess: false, isLoading: false });
-      return;
-    }
-
-    const cacheKey = `${referenceType}:${referenceId}`;
-    const cached = accessCache.get(cacheKey);
-
-    if (cached) {
-      setResult({ ...cached, isLoading: false });
-      return;
+    if (skip || hasCached) {
+      return undefined;
     }
 
     let cancelled = false;
@@ -63,7 +68,7 @@ export function useAccess(referenceType: string, referenceId: string): AccessRes
 
     check();
     return () => { cancelled = true; };
-  }, [referenceType, referenceId]);
+  }, [referenceType, referenceId, skip, hasCached, cacheKey]);
 
   return result;
 }

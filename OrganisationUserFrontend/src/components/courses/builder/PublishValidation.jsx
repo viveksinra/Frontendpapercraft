@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { XCircle, CheckCircle2 } from 'lucide-react';
 
 function Check({ label, passed }) {
   return (

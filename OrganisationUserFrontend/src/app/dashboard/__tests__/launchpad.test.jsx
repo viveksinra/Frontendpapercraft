@@ -10,56 +10,27 @@ describe('Launchpad utilities', () => {
     expect(
       getLaunchpadProgress({
         brandingReady: true,
-        datasetReady: false,
-        pairingReady: false,
-        sampleProjectReady: false,
-      })
-    ).toBe(25);
-    expect(
-      getLaunchpadProgress({
-        brandingReady: true,
-        datasetReady: true,
-        pairingReady: false,
-        sampleProjectReady: false,
+        settingsReady: false,
       })
     ).toBe(50);
     expect(
       getLaunchpadProgress({
         brandingReady: true,
-        datasetReady: true,
-        pairingReady: true,
-        sampleProjectReady: false,
-      })
-    ).toBe(75);
-    expect(
-      getLaunchpadProgress({
-        brandingReady: true,
-        datasetReady: true,
-        pairingReady: true,
-        sampleProjectReady: true,
+        settingsReady: true,
       })
     ).toBe(100);
   });
 
-  it('creates four onboarding steps with expected routes', () => {
+  it('creates onboarding steps with expected routes', () => {
     const steps = buildLaunchpadSteps({
       status: {
         brandingReady: false,
-        datasetReady: false,
-        pairingReady: false,
-        sampleProjectReady: false,
+        settingsReady: false,
       },
       paths,
-      basePathLabel: '/demo/blog',
     });
-    expect(steps).toHaveLength(4);
-    const [branding, dataset, pairing, draft] = steps;
+    expect(steps).toHaveLength(1);
+    const [branding] = steps;
     expect(branding.actionPath).toBe(paths.dashboard.settings.brand);
-    expect(dataset.actionPath).toBe(paths.dashboard.dataSources);
-    expect(pairing.actionPath).toBe(paths.dashboard.templatePairing);
-    expect(draft.actionPath).toBe(paths.dashboard.generation);
-    expect(draft.tooltip).toContain('/demo/blog');
   });
 });
-
-

@@ -5,16 +5,16 @@ import { downloadCertificate } from '@/lib/course-api';
 import { Download, Loader2 } from 'lucide-react';
 
 interface CertificateDownloadButtonProps {
-  enrollmentId: string;
+  courseId: string;
 }
 
-export default function CertificateDownloadButton({ enrollmentId }: CertificateDownloadButtonProps) {
+export default function CertificateDownloadButton({ courseId }: CertificateDownloadButtonProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleDownload() {
     setLoading(true);
     try {
-      const data = await downloadCertificate(enrollmentId);
+      const data = await downloadCertificate(courseId);
       if (data.url) {
         window.open(data.url, '_blank');
       }

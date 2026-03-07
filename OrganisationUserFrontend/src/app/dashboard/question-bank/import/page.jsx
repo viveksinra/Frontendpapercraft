@@ -1,17 +1,17 @@
 'use client';
 
+import { ArrowLeft } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { startBulkImport, confirmImport, getImportJobStatus } from 'src/lib/question-api';
+
 import { getSubjectTree } from 'src/lib/subject-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { confirmImport, startBulkImport } from 'src/lib/question-api';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
 import ImportWizard from 'src/components/question-bank/ImportWizard';
 
 export default function ImportPage() {

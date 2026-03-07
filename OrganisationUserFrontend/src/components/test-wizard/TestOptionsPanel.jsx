@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
 import { Info } from 'lucide-react';
+import { useMemo, useEffect } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -90,9 +90,7 @@ export default function TestOptionsPanel({ mode, options, onChange }) {
   const autoDefaults = useMemo(() => MODE_DEFAULTS[mode] || {}, [mode]);
 
   // Determine which options are auto-set by the mode
-  const isAuto = (key) => {
-    return mode && autoDefaults[key] !== undefined;
-  };
+  const isAuto = (key) => mode && autoDefaults[key] !== undefined;
 
   const getOptionValue = (key) => {
     if (options?.[key] !== undefined) return options[key];

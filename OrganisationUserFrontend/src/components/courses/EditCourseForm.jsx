@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
 import { getCourse, updateCourse } from 'src/lib/course-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';

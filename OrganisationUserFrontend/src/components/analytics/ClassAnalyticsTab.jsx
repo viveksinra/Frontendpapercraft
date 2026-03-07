@@ -1,16 +1,19 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState, useCallback } from 'react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getClassTestAnalytics } from 'src/lib/analytics-api';
 import { paths } from 'src/routes/paths';
 
-import { Button } from '@/components/ui/button';
+import { getClassTestAnalytics } from 'src/lib/analytics-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
+import { ScoreDistributionHistogram } from '@papercraft/shared';
+
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 
@@ -98,15 +101,13 @@ export default function ClassAnalyticsTab() {
             </div>
           )}
 
-          {/* Score Distribution placeholder */}
+          {/* Score Distribution */}
           <Card>
             <CardHeader>
               <CardTitle>Score Distribution</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
-                Score distribution histogram will render here using ScoreDistributionHistogram.
-              </p>
+              <ScoreDistributionHistogram data={testAnalytics.scoreDistribution || []} height={300} />
             </CardContent>
           </Card>
 

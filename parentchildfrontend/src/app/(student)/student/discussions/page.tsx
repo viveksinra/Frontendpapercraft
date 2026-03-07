@@ -109,12 +109,14 @@ export default function StudentDiscussionsPage() {
           <CardContent className="space-y-3">
             <Input
               placeholder="Thread title"
+              aria-label="Thread title"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
             />
             <textarea
               className="w-full rounded-md border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
               placeholder="What do you want to discuss?"
+              aria-label="Discussion body"
               rows={3}
               value={newBody}
               onChange={(e) => setNewBody(e.target.value)}
@@ -149,6 +151,7 @@ export default function StudentDiscussionsPage() {
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search discussions..."
+            aria-label="Search discussions"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}

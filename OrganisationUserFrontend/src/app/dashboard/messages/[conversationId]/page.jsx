@@ -1,15 +1,16 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, Send } from 'lucide-react';
+import { Send, Loader2, ArrowLeft } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
-  getConversationMessages,
   sendMessage,
   markConversationRead,
+  getConversationMessages,
 } from 'src/lib/message-api';
 
 import { Input } from '@/components/ui/input';
@@ -62,7 +63,7 @@ export default function ConversationDetailPage() {
     if (!activeCompanyId || !conversationId) {
       setError('Missing company or conversation');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;

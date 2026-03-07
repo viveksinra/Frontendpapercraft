@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Users, Search, X } from 'lucide-react';
+import { X, Globe, Users, Search } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

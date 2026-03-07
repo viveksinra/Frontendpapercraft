@@ -1,24 +1,24 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { getBalance, getDashboardLink } from 'src/lib/stripe-connect-api';
 import {
   getOverview,
-  getTimeSeries,
   getByProduct,
-  getTransactions,
+  getTimeSeries,
   getTopProducts,
+  getTransactions,
 } from 'src/lib/revenue-api';
-import { getBalance, getDashboardLink } from 'src/lib/stripe-connect-api';
 
-import RevenueOverviewCards from 'src/components/revenue/RevenueOverviewCards';
-import RevenueTimeSeriesChart from 'src/components/revenue/RevenueTimeSeriesChart';
-import RevenueByProductChart from 'src/components/revenue/RevenueByProductChart';
 import TopProductsList from 'src/components/revenue/TopProductsList';
-import TransactionsTable from 'src/components/revenue/TransactionsTable';
 import PayoutStatusCard from 'src/components/revenue/PayoutStatusCard';
+import TransactionsTable from 'src/components/revenue/TransactionsTable';
+import RevenueOverviewCards from 'src/components/revenue/RevenueOverviewCards';
+import RevenueByProductChart from 'src/components/revenue/RevenueByProductChart';
+import RevenueTimeSeriesChart from 'src/components/revenue/RevenueTimeSeriesChart';
 
 // ─────────────────────────────────────────────────────────────────
 
@@ -66,7 +66,7 @@ export default function RevenueDashboardPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     try {

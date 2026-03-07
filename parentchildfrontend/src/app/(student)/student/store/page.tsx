@@ -1,11 +1,12 @@
 'use client';
 
+import { useAuth } from '@/contexts/AuthContext';
 import { ProductCatalog } from '@/components/store/ProductCatalog';
 
-// TODO: Get companyId from user's org membership
-const COMPANY_ID = ''; // Will be populated from user context
-
 export default function StudentStorePage() {
+  const { user } = useAuth();
+  const companyId = user?.companyId || '';
+
   return (
     <div className="space-y-6">
       <div>
@@ -14,7 +15,7 @@ export default function StudentStorePage() {
           Browse papers, tests, and bundles available from your institute.
         </p>
       </div>
-      <ProductCatalog companyId={COMPANY_ID} basePath="/student/store" />
+      <ProductCatalog companyId={companyId} basePath="/student/store" />
     </div>
   );
 }

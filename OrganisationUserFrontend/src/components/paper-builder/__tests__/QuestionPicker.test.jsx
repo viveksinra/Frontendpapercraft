@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { it, vi, expect, describe, beforeEach } from 'vitest';
 
 vi.mock('src/lib/company-api', () => ({
   getActiveCompanyIdFromCookie: vi.fn(() => 'company123'),
@@ -13,7 +13,6 @@ vi.mock('src/lib/v2-endpoints', () => ({
   v2Endpoints: {},
 }));
 
-import axios from 'src/lib/axios';
 
 describe('QuestionPicker', () => {
   beforeEach(() => {

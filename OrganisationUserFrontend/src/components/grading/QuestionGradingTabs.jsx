@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, Circle, AlertCircle } from 'lucide-react';
+import { Circle, CheckCircle, AlertCircle } from 'lucide-react';
 
 function statusIcon(question) {
   if (question.gradedCount != null && question.totalResponses != null) {

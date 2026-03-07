@@ -1,23 +1,23 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Search, Plus } from 'lucide-react';
+import { Plus, Search, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   listCourses,
-  publishCourse,
-  unpublishCourse,
-  archiveCourse,
-  duplicateCourse,
   deleteCourse,
+  publishCourse,
+  archiveCourse,
+  unpublishCourse,
+  duplicateCourse,
 } from 'src/lib/course-api';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
 import CourseList from 'src/components/courses/CourseList';
 
 // ─────────────────────────────────────────────────────────────────
@@ -103,9 +103,12 @@ export default function CoursesListPage() {
         )}
 
         {/* Tabs */}
-        <div className="flex items-center gap-1 border-b">
+        <div className="flex items-center gap-1 border-b" role="tablist" aria-label="Course status filters">
           {STATUS_TABS.map((tab) => (
             <button
+              type="button"
+              role="tab"
+              aria-selected={statusFilter === tab.value}
               key={tab.value}
               onClick={() => { setStatusFilter(tab.value); setPage(1); }}
               className={`px-3 py-2 text-sm font-medium border-b-2 transition-colors ${

@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, TrendingUp, ArrowUp, ArrowDown, Percent } from 'lucide-react';
+import { ArrowUp, Percent, BarChart3, ArrowDown, TrendingUp } from 'lucide-react';
 
 import { Card } from '@/components/ui/card';
 

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { listTemplates } from 'src/lib/paper-template-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import TemplateCard from 'src/components/templates/TemplateCard';
 

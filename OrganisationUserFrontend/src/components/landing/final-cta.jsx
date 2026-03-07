@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Sparkles, Clock, Users, FileText, Zap } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { Zap, Clock, Users, Sparkles, FileText, ArrowRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 

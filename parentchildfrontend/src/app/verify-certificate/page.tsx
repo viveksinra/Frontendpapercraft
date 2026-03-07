@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axiosInstance from '@/lib/axios';
 import { Award, Search, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 
-export default function VerifyCertificatePage() {
+function VerifyCertificateContent() {
   const searchParams = useSearchParams();
   const initialId = searchParams.get('id') || '';
 
@@ -123,5 +123,19 @@ export default function VerifyCertificatePage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function VerifyCertificatePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      }
+    >
+      <VerifyCertificateContent />
+    </Suspense>
   );
 }

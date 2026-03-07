@@ -1,6 +1,6 @@
 'use client';
 
-import { Circle, CheckCircle2, WifiOff } from 'lucide-react';
+import { Circle, WifiOff, CheckCircle2 } from 'lucide-react';
 
 function formatTime(seconds) {
   if (!seconds && seconds !== 0) return '--';

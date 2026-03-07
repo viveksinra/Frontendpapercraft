@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Sparkles, Mail } from 'lucide-react';
+import { Mail, Sparkles } from 'lucide-react';
 
 const footerLinks = {
   product: [

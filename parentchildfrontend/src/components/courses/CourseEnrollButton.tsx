@@ -10,7 +10,7 @@ interface CourseEnrollButtonProps {
   isEnrolled: boolean;
   courseSlug: string;
   isParent?: boolean;
-  children?: any[];
+  linkedChildren?: any[];
   onEnrolled?: () => void;
 }
 
@@ -19,7 +19,7 @@ export default function CourseEnrollButton({
   isEnrolled,
   courseSlug,
   isParent = false,
-  children: linkedChildren,
+  linkedChildren,
   onEnrolled,
 }: CourseEnrollButtonProps) {
   const router = useRouter();

@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { FileText, ListChecks, Search, Plus, Trash2 } from 'lucide-react';
+import { Plus, Search, Trash2, FileText, ListChecks } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 export default function SourceSelector({ paperId, sections, onChange }) {
   const [sourceType, setSourceType] = useState(paperId ? 'paper' : 'manual');

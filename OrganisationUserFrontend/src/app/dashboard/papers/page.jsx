@@ -1,17 +1,17 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Plus, Sparkles, FileText, CheckCircle, Globe } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Plus, Globe, Loader2, Sparkles, FileText, CheckCircle } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { listPapers, finalizePaper, publishPaper, deletePaper, downloadPdf } from 'src/lib/paper-api';
+
 import { listTemplates } from 'src/lib/paper-template-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { listPapers, deletePaper, downloadPdf, publishPaper, finalizePaper } from 'src/lib/paper-api';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
 import PaperListTable from 'src/components/papers/PaperListTable';
 import PaperFilterBar from 'src/components/papers/PaperFilterBar';
 import PaperStatusTabs from 'src/components/papers/PaperStatusTabs';

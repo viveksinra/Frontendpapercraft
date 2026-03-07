@@ -105,29 +105,30 @@ export const endpoints = {
   },
   // Phase 8: Course Builder
   courseCatalog: {
-    browse: (companyId: string) => `/api/v2/companies/${companyId}/catalog`,
+    browse: (companyId: string) => `/api/v2/companies/${companyId}/catalog/courses`,
     detail: (companyId: string, courseSlugOrId: string) =>
-      `/api/v2/companies/${companyId}/catalog/${courseSlugOrId}`,
+      `/api/v2/companies/${companyId}/catalog/courses/${courseSlugOrId}`,
     reviews: (companyId: string, courseSlugOrId: string) =>
-      `/api/v2/companies/${companyId}/catalog/${courseSlugOrId}/reviews`,
+      `/api/v2/companies/${companyId}/catalog/courses/${courseSlugOrId}/reviews`,
   },
   courseEnrollment: {
     enroll: (courseId: string) => `/api/v2/courses/${courseId}/enroll`,
     myEnrollments: '/api/v2/courses/my-enrollments',
     progress: (courseId: string) => `/api/v2/courses/${courseId}/progress`,
-    complete: (courseId: string) => `/api/v2/courses/${courseId}/complete`,
-    incomplete: (courseId: string) => `/api/v2/courses/${courseId}/incomplete`,
-    trackTime: (courseId: string) => `/api/v2/courses/${courseId}/track-time`,
-    content: (courseId: string, sectionId: string, lessonId: string) =>
-      `/api/v2/courses/${courseId}/content/${sectionId}/${lessonId}`,
+    complete: (courseId: string, lessonId: string) => `/api/v2/courses/${courseId}/lessons/${lessonId}/complete`,
+    incomplete: (courseId: string, lessonId: string) => `/api/v2/courses/${courseId}/lessons/${lessonId}/incomplete`,
+    trackTime: (courseId: string, lessonId: string) => `/api/v2/courses/${courseId}/lessons/${lessonId}/track-time`,
+    content: (courseId: string, _sectionId: string, lessonId: string) =>
+      `/api/v2/courses/${courseId}/lessons/${lessonId}/content`,
     rate: (courseId: string) => `/api/v2/courses/${courseId}/rate`,
     drop: (courseId: string) => `/api/v2/courses/${courseId}/drop`,
     currentLesson: (courseId: string) => `/api/v2/courses/${courseId}/current-lesson`,
   },
   certificates: {
     myCertificates: '/api/v2/certificates/my-certificates',
-    get: (enrollmentId: string) => `/api/v2/certificates/${enrollmentId}`,
-    download: (enrollmentId: string) => `/api/v2/certificates/${enrollmentId}/download`,
+    get: (courseId: string) => `/api/v2/certificates/courses/${courseId}/certificate`,
+    download: (courseId: string) => `/api/v2/certificates/courses/${courseId}/certificate/download`,
+    verify: (certificateNumber: string) => `/api/v2/certificates/verify/${certificateNumber}`,
   },
   parentCourses: {
     childCourses: (childId: string) => `/api/v2/parent/children/${childId}/courses`,

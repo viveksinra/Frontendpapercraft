@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Loader2, ArrowLeft } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
 import { listClasses } from 'src/lib/class-api';
 import { createHomework } from 'src/lib/homework-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 
 // ----------------------------------------------------------------------
 
@@ -35,7 +36,7 @@ export default function CreateHomeworkPage() {
   });
 
   useEffect(() => {
-    if (!activeCompanyId) return;
+    if (!activeCompanyId) return undefined;
     let cancelled = false;
     async function load() {
       try {

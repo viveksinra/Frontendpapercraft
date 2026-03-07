@@ -1,11 +1,11 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
 
 import { paths } from 'src/routes/paths';
-import { Button } from '@/components/ui/button';
 
+import { Button } from '@/components/ui/button';
 import CourseAnalyticsDashboard from 'src/components/courses/analytics/CourseAnalyticsDashboard';
 
 export default function CourseAnalyticsPage() {

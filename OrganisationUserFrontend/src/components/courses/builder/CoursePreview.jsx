@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Clock, BookOpen, Star, Video, FileText, Type, HelpCircle, Paperclip, Lock } from 'lucide-react';
+import { Star, Type, Lock, Clock, Video, BookOpen, FileText, Paperclip, HelpCircle, ChevronDown, ChevronRight } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 

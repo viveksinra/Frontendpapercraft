@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Loader2, Save, Bell, Mail, Smartphone } from 'lucide-react';
+import { Save, Bell, Mail, Loader2, Smartphone } from 'lucide-react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { getPreferences, updatePreferences } from 'src/lib/notification-api';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Card, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 
@@ -84,7 +84,7 @@ export default function NotificationPreferencesPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;
@@ -166,7 +166,7 @@ export default function NotificationPreferencesPage() {
 
   // Clear success after delay
   useEffect(() => {
-    if (!success) return;
+    if (!success) return undefined;
     const timer = setTimeout(() => setSuccess(false), 4000);
     return () => clearTimeout(timer);
   }, [success]);

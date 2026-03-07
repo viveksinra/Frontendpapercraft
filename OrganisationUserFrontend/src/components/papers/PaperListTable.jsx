@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { MoreHorizontal, Eye, Download, Pencil, CheckCircle, Globe, Trash2 } from 'lucide-react';
+import { Eye, Globe, Pencil, Trash2, Download, CheckCircle, MoreHorizontal } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
 
@@ -77,7 +77,7 @@ export default function PaperListTable({ papers = [], onFinalize, onPublish, onD
               <TableCell className="text-right">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0" aria-label="Actions menu">
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>

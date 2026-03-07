@@ -1,15 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import { Loader2, ArrowLeft } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getClassAnalytics, getClassTrend } from 'src/lib/analytics-api';
-import { paths } from 'src/routes/paths';
+import { getClassTrend, getClassAnalytics } from 'src/lib/analytics-api';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +23,7 @@ export default function ClassAnalyticsDetailPage() {
   const [trend, setTrend] = useState([]);
 
   useEffect(() => {
-    if (!companyId || !classId) return;
+    if (!companyId || !classId) return undefined;
     (async () => {
       try {
         setLoading(true);
@@ -40,6 +39,7 @@ export default function ClassAnalyticsDetailPage() {
         setLoading(false);
       }
     })();
+    return undefined;
   }, [companyId, classId]);
 
   if (loading) {

@@ -1,27 +1,27 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
 import {
-  Loader2,
-  ArrowLeft,
   Pencil,
   Trash2,
+  Loader2,
+  Package,
+  ArrowLeft,
+  ExternalLink,
   ArrowUpCircle,
   ArrowDownCircle,
-  ExternalLink,
-  Package,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getProduct, publishProduct, unpublishProduct, deleteProduct } from 'src/lib/product-api';
+import { getProduct, deleteProduct, publishProduct, unpublishProduct } from 'src/lib/product-api';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
-import ProductStatusBadge from 'src/components/products/ProductStatusBadge';
 import ProductStatsCard from 'src/components/products/ProductStatsCard';
+import ProductStatusBadge from 'src/components/products/ProductStatusBadge';
 
 // ─────────────────────────────────────────────────────────────────
 

@@ -1,17 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Clock, StopCircle, Pause, Play, AlertTriangle } from 'lucide-react';
+import { Play, Clock, Pause, StopCircle, AlertTriangle } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
-  DialogDescription,
+  DialogHeader,
   DialogFooter,
+  DialogContent,
+  DialogDescription,
 } from '@/components/ui/dialog';
 
 export default function EmergencyControls({

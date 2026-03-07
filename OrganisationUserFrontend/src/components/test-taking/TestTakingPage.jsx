@@ -1,18 +1,19 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight, Flag, FlagOff, Send } from 'lucide-react';
-
 import { TimerComponent, QuestionNavigator } from '@papercraft/shared';
-import { Button } from '@/components/ui/button';
-import { startTest, submitAnswer as submitAnswerApi, submitTest as submitTestApi } from '@/lib/test-taking-api';
+import { useRef, useMemo, useState, useEffect, useCallback } from 'react';
+import { Flag, Send, FlagOff, ChevronLeft, ChevronRight } from 'lucide-react';
 
-import TestPreStartScreen from './TestPreStartScreen';
-import QuestionDisplay from './QuestionDisplay';
+import { startTest, submitTest as submitTestApi, submitAnswer as submitAnswerApi } from '@/lib/test-taking-api';
+
+import { Button } from '@/components/ui/button';
+
 import AnswerInput from './AnswerInput';
-import AutoSaveIndicator from './AutoSaveIndicator';
-import SectionTransitionOverlay from './SectionTransitionOverlay';
+import QuestionDisplay from './QuestionDisplay';
 import TestSubmitDialog from './TestSubmitDialog';
+import AutoSaveIndicator from './AutoSaveIndicator';
+import TestPreStartScreen from './TestPreStartScreen';
+import SectionTransitionOverlay from './SectionTransitionOverlay';
 
 // ─── Phases ─────────────────────────────────────────────────────────────────
 
@@ -37,6 +38,7 @@ export default function TestTakingPage({ testId }) {
   const [submitDialogOpen, setSubmitDialogOpen] = useState(false);
 
   const saveTimerRef = useRef(null);
+  const submittingRef = useRef(false);
 
   // ── Fetch test data ─────────────────────────────────────────────────────
 
@@ -145,13 +147,11 @@ export default function TestTakingPage({ testId }) {
   );
 
   // Cleanup on unmount
-  useEffect(() => {
-    return () => {
+  useEffect(() => () => {
       if (saveTimerRef.current) {
         clearTimeout(saveTimerRef.current);
       }
-    };
-  }, []);
+    }, []);
 
   // ── Handlers ──────────────────────────────────────────────────────────
 
@@ -211,7 +211,7 @@ export default function TestTakingPage({ testId }) {
   const handleTimerExpiry = useCallback(() => {
     // Auto-submit when full test timer expires
     handleSubmit();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
 
   const handleSectionContinue = useCallback(
     (completedIndex) => {
@@ -233,15 +233,19 @@ export default function TestTakingPage({ testId }) {
   const handleSectionTimeUp = useCallback(() => {
     // Last section expired -- auto-submit
     handleSubmit();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleSubmit]);
 
   const handleSubmit = useCallback(async () => {
+    // Prevent double submission from timer expiry + manual submit race
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     try {
       setSaving(true);
       await submitTestApi(testId);
       setPhase(PHASE.SUBMITTED);
       setSubmitDialogOpen(false);
     } catch (err) {
+      submittingRef.current = false;
       console.error('Submit failed:', err);
     } finally {
       setSaving(false);

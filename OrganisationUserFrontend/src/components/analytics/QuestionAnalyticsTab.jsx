@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, AlertTriangle } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+
+import { paths } from 'src/routes/paths';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
@@ -10,11 +12,10 @@ import {
   getProblematicQuestions,
   getDifficultyCalibration,
 } from 'src/lib/analytics-api';
-import { paths } from 'src/routes/paths';
 
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 import {
   Select,
   SelectItem,

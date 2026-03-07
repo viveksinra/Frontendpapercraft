@@ -2,23 +2,24 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, ArrowLeft, X, Plus } from 'lucide-react';
+import { X, Plus, Loader2, ArrowLeft } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { createProduct, updateProduct, publishProduct } from 'src/lib/product-api';
 
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 
-import ProductTypeSelector from './ProductTypeSelector';
+import AddOnEditor from './AddOnEditor';
 import ContentLinker from './ContentLinker';
 import PricingSection from './PricingSection';
-import AddOnEditor from './AddOnEditor';
 import BundleItemSelector from './BundleItemSelector';
+import ProductTypeSelector from './ProductTypeSelector';
 
 // ─────────────────────────────────────────────────────────────────
 

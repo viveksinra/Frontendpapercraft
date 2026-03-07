@@ -36,7 +36,7 @@ export default function CertificateCard({ certificate }: CertificateCardProps) {
           </p>
         )}
         <div className="flex items-center gap-2 pt-1">
-          <CertificateDownloadButton enrollmentId={certificate.enrollmentId || certificate._id} />
+          <CertificateDownloadButton courseId={certificate.courseId} />
           <Link
             href={`/verify-certificate?id=${certificate.certificateNumber || ''}`}
             className="text-xs text-primary hover:underline"

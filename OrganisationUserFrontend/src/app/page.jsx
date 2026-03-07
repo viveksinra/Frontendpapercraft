@@ -1,12 +1,12 @@
-import { LandingHeader } from 'src/components/landing/header';
+import { FAQ } from 'src/components/landing/faq';
 import { Hero } from 'src/components/landing/hero';
-import { FeaturesGrid } from 'src/components/landing/features-grid';
+import { Footer } from 'src/components/landing/footer';
+import { Pricing } from 'src/components/landing/pricing';
+import { FinalCTA } from 'src/components/landing/final-cta';
+import { LandingHeader } from 'src/components/landing/header';
 import { HowItWorks } from 'src/components/landing/how-it-works';
 import { Testimonials } from 'src/components/landing/testimonials';
-import { Pricing } from 'src/components/landing/pricing';
-import { FAQ } from 'src/components/landing/faq';
-import { FinalCTA } from 'src/components/landing/final-cta';
-import { Footer } from 'src/components/landing/footer';
+import { FeaturesGrid } from 'src/components/landing/features-grid';
 
 export default function LandingPage() {
   return (

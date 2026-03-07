@@ -3,7 +3,7 @@
 import { Plus, Trash2, GripVertical } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 import SectionEditor from './SectionEditor';
 

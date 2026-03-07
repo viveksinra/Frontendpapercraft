@@ -1,20 +1,19 @@
 'use client';
 
+import { Plus, Loader2, ArrowLeft } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
-import { Loader2, Plus, ArrowLeft } from 'lucide-react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   listBlueprints,
+  cloneBlueprint,
   createBlueprint,
   updateBlueprint,
   deleteBlueprint,
-  cloneBlueprint,
   validateBlueprint,
 } from 'src/lib/paper-blueprint-api';
 
 import { Button } from '@/components/ui/button';
-
 import BlueprintList from 'src/components/blueprints/BlueprintList';
 import BlueprintEditor from 'src/components/blueprints/BlueprintEditor';
 import FeasibilityChecker from 'src/components/blueprints/FeasibilityChecker';
@@ -95,9 +94,7 @@ export default function BlueprintsPage() {
     }
   };
 
-  const handleFeasibilityCheck = async (cId, bpId) => {
-    return validateBlueprint(cId, bpId);
-  };
+  const handleFeasibilityCheck = async (cId, bpId) => validateBlueprint(cId, bpId);
 
   if (!companyId) {
     return (

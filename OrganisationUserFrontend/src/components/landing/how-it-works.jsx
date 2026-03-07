@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { BookOpen, FileText, Monitor, BarChart3, ArrowRight } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { Monitor, BookOpen, FileText, BarChart3, ArrowRight } from 'lucide-react';
 
 import { GlassCard } from '@/components/ui/glass-card';
 

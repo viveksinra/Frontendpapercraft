@@ -65,6 +65,7 @@ export default function UsersPage() {
           <Input
             type="email"
             placeholder="user@example.com"
+            aria-label="User email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="pl-9"

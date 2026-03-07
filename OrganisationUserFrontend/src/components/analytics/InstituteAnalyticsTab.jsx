@@ -1,19 +1,23 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
+  getContentUsage,
+  getTeacherActivity,
+  getStudentRetention,
   getInstituteOverview,
   getEnrollmentTrends,
-  getTeacherActivity,
-  getContentUsage,
-  getStudentRetention,
 } from 'src/lib/analytics-api';
+import {
+  EnrollmentLineChart,
+  RetentionBarsChart,
+} from '@papercraft/shared';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 // ----------------------------------------------------------------------
 
@@ -27,25 +31,28 @@ export default function InstituteAnalyticsTab() {
   const [teachers, setTeachers] = useState([]);
   const [content, setContent] = useState([]);
   const [retention, setRetention] = useState([]);
+  const [enrollment, setEnrollment] = useState([]);
 
   const loadData = useCallback(async () => {
-    if (!companyId) return;
+    if (!companyId) return undefined;
     try {
       setLoading(true);
       setError(null);
 
       const params = { dateRange };
-      const [overviewData, teacherData, contentData, retentionData] = await Promise.all([
+      const [overviewData, teacherData, contentData, retentionData, enrollmentData] = await Promise.all([
         getInstituteOverview(companyId, params),
         getTeacherActivity(companyId, params),
         getContentUsage(companyId, params),
         getStudentRetention(companyId, params),
+        getEnrollmentTrends(companyId, params),
       ]);
 
       setOverview(overviewData);
       setTeachers(teacherData?.teachers || []);
       setContent(contentData?.content || []);
       setRetention(retentionData?.retention || []);
+      setEnrollment(enrollmentData?.trends || []);
     } catch (err) {
       setError(err.message || 'Failed to load institute analytics');
     } finally {
@@ -107,16 +114,13 @@ export default function InstituteAnalyticsTab() {
         </div>
       )}
 
-      {/* Enrollment / Retention charts placeholder */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Enrollment Trends</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Enrollment line chart will render here using EnrollmentLineChart.
-            </p>
+            <EnrollmentLineChart data={enrollment} height={300} />
           </CardContent>
         </Card>
         <Card>
@@ -124,9 +128,7 @@ export default function InstituteAnalyticsTab() {
             <CardTitle>Student Retention</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Retention bar chart will render here using RetentionBarsChart.
-            </p>
+            <RetentionBarsChart data={retention} height={250} />
           </CardContent>
         </Card>
       </div>

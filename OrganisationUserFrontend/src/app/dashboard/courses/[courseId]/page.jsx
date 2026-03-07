@@ -1,38 +1,37 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
 import {
-  Loader2,
-  ArrowLeft,
+  Copy,
+  Star,
+  Users,
   Pencil,
   Hammer,
+  Trash2,
+  Loader2,
+  Archive,
+  BookOpen,
+  ArrowLeft,
   BarChart3,
-  Users,
-  Copy,
   ArrowUpCircle,
   ArrowDownCircle,
-  Archive,
-  Trash2,
-  BookOpen,
-  Clock,
-  Star,
 } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
   getCourse,
-  publishCourse,
-  unpublishCourse,
-  archiveCourse,
-  duplicateCourse,
   deleteCourse,
+  publishCourse,
+  archiveCourse,
+  unpublishCourse,
+  duplicateCourse,
 } from 'src/lib/course-api';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
 import CourseStatusBadge from 'src/components/courses/CourseStatusBadge';
 
 function formatDuration(minutes) {

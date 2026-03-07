@@ -2,15 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import {
-  FileText,
-  Heading,
-  MessageSquareText,
-  PanelBottom,
-  Palette,
   X,
+  Heading,
+  Palette,
+  FileText,
+  PanelBottom,
+  MessageSquareText,
 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -18,8 +19,8 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 
 import HeaderEditor from './HeaderEditor';
 import FooterEditor from './FooterEditor';
-import FormattingEditor from './FormattingEditor';
 import TemplatePreview from './TemplatePreview';
+import FormattingEditor from './FormattingEditor';
 
 const sections = [
   { id: 'general', label: 'General', icon: FileText },

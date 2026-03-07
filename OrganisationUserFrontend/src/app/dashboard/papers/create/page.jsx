@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { createPaper, finalizePaper, downloadPdf } from 'src/lib/paper-api';
+import { createPaper, downloadPdf, finalizePaper } from 'src/lib/paper-api';
 
 import { Button } from '@/components/ui/button';
-
 import PaperBuilderWizard from 'src/components/paper-builder/PaperBuilderWizard';
 
 export default function CreatePaperPage() {

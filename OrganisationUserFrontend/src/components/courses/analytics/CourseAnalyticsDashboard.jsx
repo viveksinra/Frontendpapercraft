@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { getCourseAnalytics, getCourseReviews, toggleReviewVisibility } from 'src/lib/course-api';
+import { getCourseReviews, getCourseAnalytics, toggleReviewVisibility } from 'src/lib/course-api';
 
 import CourseKPICards from './CourseKPICards';
+import CourseReviewsList from './CourseReviewsList';
 import CompletionFunnelChart from './CompletionFunnelChart';
 import RatingDistributionChart from './RatingDistributionChart';
-import CourseReviewsList from './CourseReviewsList';
 
 export default function CourseAnalyticsDashboard({ courseId }) {
   const companyId = getActiveCompanyIdFromCookie();

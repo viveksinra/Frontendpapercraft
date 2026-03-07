@@ -1,8 +1,9 @@
 'use client';
 
 import { Plus, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function MatchPairBuilder({ pairs = [], onChange }) {
   const handleAdd = () => {

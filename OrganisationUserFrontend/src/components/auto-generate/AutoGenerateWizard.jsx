@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, RefreshCw, CheckCircle } from 'lucide-react';
+import { RefreshCw, ChevronLeft, CheckCircle, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-import BlueprintSelector from './BlueprintSelector';
 import DraftReviewPanel from './DraftReviewPanel';
+import BlueprintSelector from './BlueprintSelector';
 import QuestionSwapDialog from './QuestionSwapDialog';
 
 export default function AutoGenerateWizard({

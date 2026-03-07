@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Megaphone, Plus, Pin, Trash2 } from 'lucide-react';
+import { Pin, Plus, Trash2, Loader2, Megaphone } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
+
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
-import { listAnnouncements, deleteAnnouncement, pinAnnouncement } from 'src/lib/announcement-api';
+import { pinAnnouncement, listAnnouncements, deleteAnnouncement } from 'src/lib/announcement-api';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -123,10 +124,10 @@ export default function AnnouncementsListPage() {
                       </div>
                     </div>
                     <div className="flex gap-1">
-                      <Button variant="ghost" size="icon" onClick={() => handlePin(id)} title={a.isPinned ? 'Unpin' : 'Pin'}>
+                      <Button variant="ghost" size="icon" aria-label={a.isPinned ? 'Unpin' : 'Pin'} onClick={() => handlePin(id)} title={a.isPinned ? 'Unpin' : 'Pin'}>
                         <Pin className={`h-4 w-4 ${a.isPinned ? 'text-amber-500' : 'text-muted-foreground'}`} />
                       </Button>
-                      <Button variant="ghost" size="icon" onClick={() => handleDelete(id)}>
+                      <Button variant="ghost" size="icon" aria-label="Delete announcement" onClick={() => handleDelete(id)}>
                         <Trash2 className="h-4 w-4 text-muted-foreground" />
                       </Button>
                     </div>

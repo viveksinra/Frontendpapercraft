@@ -13,15 +13,16 @@ export function RoleGuard({ children, allowedRole }: RoleGuardProps) {
   const { user, loading, authenticated } = useAuth();
   const router = useRouter();
 
+  const userRole = user?.role;
+
   useEffect(() => {
-    if (!loading && authenticated && user) {
-      if (user.role !== allowedRole) {
-        // Redirect to the correct dashboard
-        const target = user.role === 'student' ? '/student/dashboard' : '/parent/dashboard';
+    if (!loading && authenticated && userRole) {
+      if (userRole !== allowedRole) {
+        const target = userRole === 'student' ? '/student/dashboard' : '/parent/dashboard';
         router.replace(target);
       }
     }
-  }, [loading, authenticated, user, allowedRole, router]);
+  }, [loading, authenticated, userRole, allowedRole, router]);
 
   if (loading) {
     return (

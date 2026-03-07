@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { GripVertical, Plus, Pencil, Trash2, ChevronDown, ChevronRight } from 'lucide-react';
+import { Plus, Pencil, Trash2, ChevronDown, GripVertical, ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
-import SectionForm from './SectionForm';
 import LessonItem from './LessonItem';
+import SectionForm from './SectionForm';
 
 // ─────────────────────────────────────────────────────────────────
 

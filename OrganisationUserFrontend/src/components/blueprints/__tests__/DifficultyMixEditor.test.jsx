@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { it, vi, expect, describe } from 'vitest';
 
 // Test DifficultyMixEditor validation and update logic
 const DIFFICULTIES = ['easy', 'medium', 'hard', 'expert'];

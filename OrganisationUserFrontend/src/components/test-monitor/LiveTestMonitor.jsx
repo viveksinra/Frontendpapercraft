@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { Loader2, Radio } from 'lucide-react';
+import { Radio, Loader2 } from 'lucide-react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 
 import axiosInstance from '@/lib/axios';
 import { v2Endpoints } from '@/lib/v2-endpoints';
 
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 
 import MonitorStatsBar from './MonitorStatsBar';
-import StudentProgressTable from './StudentProgressTable';
 import EmergencyControls from './EmergencyControls';
+import StudentProgressTable from './StudentProgressTable';
 
 function formatCountdown(seconds) {
   if (!seconds && seconds !== 0) return '--:--:--';
@@ -31,7 +31,7 @@ export default function LiveTestMonitor({ testId, companyId }) {
   const pollRef = useRef(null);
 
   const fetchLiveData = useCallback(async () => {
-    if (!testId || !companyId) return;
+    if (!testId || !companyId) return undefined;
 
     try {
       const [statusRes, testRes] = await Promise.all([
@@ -71,7 +71,7 @@ export default function LiveTestMonitor({ testId, companyId }) {
 
   // Countdown timer
   useEffect(() => {
-    if (timeRemaining == null || timeRemaining <= 0) return;
+    if (timeRemaining == null || timeRemaining <= 0) return undefined;
 
     intervalRef.current = setInterval(() => {
       setTimeRemaining((prev) => {

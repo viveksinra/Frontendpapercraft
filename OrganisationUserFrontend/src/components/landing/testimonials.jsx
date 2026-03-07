@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { Quote, Star, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { Star, Play, Quote, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/glass-card';
 

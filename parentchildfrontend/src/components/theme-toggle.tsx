@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { Moon, Sun, Monitor } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,15 +24,21 @@ function applyTheme(theme: Theme) {
   root.classList.add(resolved);
 }
 
-export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>('system');
+function useIsMounted() {
   const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- standard hydration-safe mount detection
+  useEffect(() => { setMounted(true); }, []);
+  return mounted;
+}
+
+export function ThemeToggle() {
+  const mounted = useIsMounted();
+  const themeRef = useRef<Theme>('system');
 
   useEffect(() => {
-    setMounted(true);
     const stored = localStorage.getItem('theme') as Theme | null;
     if (stored) {
-      setTheme(stored);
+      themeRef.current = stored;
       applyTheme(stored);
     } else {
       applyTheme('system');
@@ -40,20 +46,20 @@ export function ThemeToggle() {
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted) return undefined;
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = () => {
-      if (theme === 'system') applyTheme('system');
+      if (themeRef.current === 'system') applyTheme('system');
     };
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
-  }, [theme, mounted]);
+  }, [mounted]);
 
-  const selectTheme = (t: Theme) => {
-    setTheme(t);
+  const selectTheme = useCallback((t: Theme) => {
+    themeRef.current = t;
     localStorage.setItem('theme', t);
     applyTheme(t);
-  };
+  }, []);
 
   if (!mounted) {
     return (

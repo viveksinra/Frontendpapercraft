@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+
 import CourseBuilder from 'src/components/courses/builder/CourseBuilder';
 
 export default function CourseBuilderPage() {

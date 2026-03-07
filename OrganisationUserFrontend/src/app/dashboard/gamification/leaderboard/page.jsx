@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Trophy, Medal, ArrowLeft } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Medal, Trophy, Loader2, ArrowLeft } from 'lucide-react';
 
 import { paths } from 'src/routes/paths';
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+
 import { getLeaderboard } from 'src/lib/gamification-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

@@ -1,36 +1,36 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import {
+  X,
   User,
   Mail,
-  School,
-  Building,
   Hash,
+  Copy,
+  Send,
   Users,
+  Check,
+  School,
   Loader2,
+  Building,
+  UserPlus,
+  ArrowLeft,
   GraduationCap,
   ClipboardList,
-  ArrowLeft,
-  Copy,
-  Check,
-  UserPlus,
-  X,
-  Send,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
 import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import {
+  inviteParent,
   getStudentProfile,
   getStudentParents,
   getStudentTestHistory,
-  inviteParent,
 } from 'src/lib/student-admin-api';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 import {
   Dialog,
@@ -132,7 +132,7 @@ export default function StudentProfileView({ studentId }) {
     if (!activeCompanyId || !studentId) {
       setError('Missing company or student ID');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;

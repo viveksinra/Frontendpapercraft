@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, CheckCircle2, Star, Clock, TrendingUp, BookOpen } from 'lucide-react';
+import { Star, Users, Clock, BookOpen, TrendingUp, CheckCircle2 } from 'lucide-react';
 
 function KPICard({ icon: Icon, label, value }) {
   return (

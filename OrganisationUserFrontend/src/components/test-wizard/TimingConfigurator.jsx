@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Info } from 'lucide-react';
+import { Info, Clock } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

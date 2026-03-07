@@ -1,11 +1,11 @@
 'use client';
 
+import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 import { getProduct } from 'src/lib/product-api';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import CreateProductForm from 'src/components/products/CreateProductForm';
 
@@ -23,7 +23,7 @@ export default function EditProductPage() {
     if (!activeCompanyId || !productId) {
       setError('Missing company or product ID');
       setLoading(false);
-      return;
+      return undefined;
     }
 
     let cancelled = false;

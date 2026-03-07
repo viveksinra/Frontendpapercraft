@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Sparkles, ChevronDown } from 'lucide-react';
 
 import { cn } from '@/lib/utils';

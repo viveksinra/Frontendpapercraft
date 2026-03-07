@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, XCircle, Clock, Flag } from 'lucide-react';
+import { Flag, Clock, XCircle, CheckCircle } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 

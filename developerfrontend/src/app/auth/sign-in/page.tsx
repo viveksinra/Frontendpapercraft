@@ -10,16 +10,20 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loader2, Shield, Sparkles } from 'lucide-react';
 
-const TEST_ACCOUNTS = [
-  {
-    label: 'Developer',
-    name: 'Vivek Kumar',
-    email: 'vivek@chelmsford11plus.com',
-    password: 'Test@1234',
-    icon: Shield,
-    description: 'Developer — full access, platform admin',
-  },
-];
+const IS_DEV = process.env.NODE_ENV === 'development';
+
+const TEST_ACCOUNTS = IS_DEV
+  ? [
+      {
+        label: 'Developer',
+        name: 'Vivek Kumar',
+        email: 'vivek@chelmsford11plus.com',
+        password: 'Test@1234',
+        icon: Shield,
+        description: 'Developer — full access, platform admin',
+      },
+    ]
+  : [];
 
 export default function SignInPage() {
   const router = useRouter();
@@ -105,45 +109,47 @@ export default function SignInPage() {
         </CardContent>
       </Card>
 
-      {/* Quick login */}
-      <Card className="border-dashed bg-card/50 backdrop-blur-sm">
-        <div className="px-4 pt-3.5 pb-1">
-          <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
-            Quick Login — Test Accounts
-          </p>
-        </div>
-        <CardContent className="px-4 pb-4 pt-2">
-          {TEST_ACCOUNTS.map((account) => {
-            const Icon = account.icon;
-            const isActive = email === account.email;
-            return (
-              <button
-                key={account.email}
-                type="button"
-                onClick={() => fillCredentials(account)}
-                className={`w-full flex items-center gap-3 rounded-xl border p-3 text-left transition-all cursor-pointer ${
-                  isActive
-                    ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary/20'
-                    : 'border-border hover:bg-accent hover:border-accent-foreground/20'
-                }`}
-              >
-                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${isActive ? 'bg-primary/15' : 'bg-muted'}`}>
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">{account.name}</span>
-                    <span className="inline-flex items-center rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-                      {account.label}
-                    </span>
+      {/* Quick login — development only */}
+      {TEST_ACCOUNTS.length > 0 && (
+        <Card className="border-dashed bg-card/50 backdrop-blur-sm">
+          <div className="px-4 pt-3.5 pb-1">
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+              Quick Login — Test Accounts
+            </p>
+          </div>
+          <CardContent className="px-4 pb-4 pt-2">
+            {TEST_ACCOUNTS.map((account) => {
+              const Icon = account.icon;
+              const isActive = email === account.email;
+              return (
+                <button
+                  key={account.email}
+                  type="button"
+                  onClick={() => fillCredentials(account)}
+                  className={`w-full flex items-center gap-3 rounded-xl border p-3 text-left transition-all cursor-pointer ${
+                    isActive
+                      ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary/20'
+                      : 'border-border hover:bg-accent hover:border-accent-foreground/20'
+                  }`}
+                >
+                  <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${isActive ? 'bg-primary/15' : 'bg-muted'}`}>
+                    <Icon className={`h-4 w-4 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
                   </div>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">{account.description}</p>
-                </div>
-              </button>
-            );
-          })}
-        </CardContent>
-      </Card>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">{account.name}</span>
+                      <span className="inline-flex items-center rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+                        {account.label}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">{account.description}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { ProductCatalog } from '@/components/store/ProductCatalog';
-
-// TODO: Get companyId from child's org membership
-const COMPANY_ID = '';
+import { ChildSelector } from '@/components/store/ChildSelector';
 
 export default function ParentStorePage() {
+  const [selectedChildId, setSelectedChildId] = useState('');
+  const [companyId, setCompanyId] = useState('');
+
   return (
     <div className="space-y-6">
       <div>
@@ -14,7 +16,14 @@ export default function ParentStorePage() {
           Browse and purchase papers, tests, and bundles for your children.
         </p>
       </div>
-      <ProductCatalog companyId={COMPANY_ID} basePath="/store" />
+      <ChildSelector
+        selectedChildId={selectedChildId}
+        onSelect={(id, _name, childCompanyId) => {
+          setSelectedChildId(id);
+          setCompanyId(childCompanyId);
+        }}
+      />
+      <ProductCatalog companyId={companyId} basePath="/store" />
     </div>
   );
 }

@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
-import { Check, Sparkles, Zap, Crown, ArrowRight, Shield, Clock } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { Zap, Check, Crown, Clock, Shield, Sparkles, ArrowRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
 import { GlassCard } from '@/components/ui/glass-card';
 

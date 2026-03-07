@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Sparkles, Menu, X, Zap, ChevronRight, Sun, Moon } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { useState, useEffect } from 'react';
+import { X, Zap, Sun, Menu, Moon, Sparkles, ChevronRight } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
 
 const navLinks = [

@@ -1,6 +1,7 @@
 'use client';
 
-import { Archive, Send } from 'lucide-react';
+import { Send, Archive } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 
 export default function BulkActionBar({ selectedCount, onArchive, onSubmitForReview, onClearSelection }) {

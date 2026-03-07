@@ -1,6 +1,6 @@
 'use client';
 
-import { X, GripVertical, ArrowUp, ArrowDown } from 'lucide-react';
+import { X, ArrowUp, ArrowDown, GripVertical } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

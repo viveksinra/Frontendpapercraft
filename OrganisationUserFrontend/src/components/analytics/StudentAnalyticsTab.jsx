@@ -1,20 +1,21 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Search } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Search, Loader2 } from 'lucide-react';
 
-import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
+import { paths } from 'src/routes/paths';
+
 import {
   getStudentAnalytics,
-  getStudentScoreTrend,
-  getStudentSubjectRadar,
 } from 'src/lib/analytics-api';
-import { paths } from 'src/routes/paths';
+import { getActiveCompanyIdFromCookie } from 'src/lib/company-api';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
+
+import { ScoreTrendLineChart, SubjectRadarChart } from '@papercraft/shared';
 
 import StudentKPICards from './StudentKPICards';
 import ElevenPlusPanel from './ElevenPlusPanel';
@@ -85,16 +86,14 @@ export default function StudentAnalyticsTab() {
           {/* KPI Cards */}
           <StudentKPICards stats={analytics.overallStats} />
 
-          {/* Charts placeholder */}
+          {/* Charts */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Score Trend</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Score trend chart will render here using ScoreTrendLineChart.
-                </p>
+                <ScoreTrendLineChart data={analytics.scoreTrend || []} height={300} showClassAvg />
               </CardContent>
             </Card>
             <Card>
@@ -102,9 +101,7 @@ export default function StudentAnalyticsTab() {
                 <CardTitle>Subject Breakdown</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Subject radar chart will render here using SubjectRadarChart.
-                </p>
+                <SubjectRadarChart data={analytics.subjectBreakdown || []} height={300} />
               </CardContent>
             </Card>
           </div>

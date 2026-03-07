@@ -1,18 +1,18 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 
 import ModeSelector from './ModeSelector';
 import SourceSelector from './SourceSelector';
-import TimingConfigurator from './TimingConfigurator';
-import TestOptionsPanel from './TestOptionsPanel';
 import AssignmentPanel from './AssignmentPanel';
 import TestReviewPanel from './TestReviewPanel';
+import TestOptionsPanel from './TestOptionsPanel';
+import TimingConfigurator from './TimingConfigurator';
 
 const STEPS = [
   { label: 'Mode', description: 'Choose test type' },

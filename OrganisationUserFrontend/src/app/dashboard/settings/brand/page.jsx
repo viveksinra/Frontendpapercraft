@@ -614,9 +614,10 @@ export default function BrandSettingsPage() {
     if (!activeCompanyId) {
       setError('No active company selected');
       setLoading(false);
-      return;
+      return undefined;
     }
     loadBrandSettings();
+    return undefined;
   }, [activeCompanyId]);
 
   useEffect(() => {

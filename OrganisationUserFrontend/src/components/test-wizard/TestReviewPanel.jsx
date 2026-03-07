@@ -2,19 +2,19 @@
 
 import { useMemo } from 'react';
 import {
-  AlertTriangle,
-  Save,
-  CalendarClock,
   Zap,
+  Save,
   Clock,
+  Users,
   FileText,
   Settings,
-  Users,
   CheckCircle,
+  AlertTriangle,
+  CalendarClock,
 } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 const MODE_LABELS = {
   live_mock: 'Live Mock',
@@ -62,15 +62,12 @@ export default function TestReviewPanel({
     paperId,
   } = data || {};
 
-  const questionCount = useMemo(() => {
-    return (sections || []).reduce(
+  const questionCount = useMemo(() => (sections || []).reduce(
       (sum, s) => sum + (s.questions?.length || 0),
       0
-    );
-  }, [sections]);
+    ), [sections]);
 
-  const totalMarks = useMemo(() => {
-    return (sections || []).reduce(
+  const totalMarks = useMemo(() => (sections || []).reduce(
       (sum, s) =>
         sum +
         (s.questions || []).reduce(
@@ -78,8 +75,7 @@ export default function TestReviewPanel({
           0
         ),
       0
-    );
-  }, [sections]);
+    ), [sections]);
 
   const enabledOptions = useMemo(() => {
     if (!options) return [];

@@ -1,6 +1,6 @@
 'use client';
 
-import { ShoppingCart, TrendingUp } from 'lucide-react';
+import { TrendingUp, ShoppingCart } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────
 

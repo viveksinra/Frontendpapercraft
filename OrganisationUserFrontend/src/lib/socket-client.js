@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+
 import { BACKEND_URL } from 'src/lib/v2-endpoints';
 
 let socket = null;

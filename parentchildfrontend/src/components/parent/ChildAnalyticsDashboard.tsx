@@ -15,6 +15,8 @@ import {
   getImprovementLabel,
   getQualificationBandColor,
   getTrendArrow,
+  ScoreTrendLineChart,
+  SubjectRadarChart,
 } from '@papercraft/shared';
 
 import { Button } from '@/components/ui/button';
@@ -240,6 +242,8 @@ export function ChildAnalyticsDashboard({ childId, childName }: { childId: strin
   const [analytics, setAnalytics] = useState<Record<string, unknown> | null>(null);
   const [elevenPlus, setElevenPlus] = useState<Record<string, unknown> | null>(null);
   const [reports, setReports] = useState<Array<Record<string, unknown>>>([]);
+  const [scoreTrend, setScoreTrend] = useState<Array<{ date: string; score: number; classAvg?: number }>>([]);
+  const [subjectRadar, setSubjectRadar] = useState<Array<{ subject: string; studentAvg: number; classAvg?: number }>>([]);
 
   const name = childName || 'Your child';
 
@@ -253,14 +257,20 @@ export function ChildAnalyticsDashboard({ childId, childName }: { childId: strin
         setAnalytics(analyticsData);
         setReports(reportsData?.reports || []);
 
-        // Load 11+ data (best-effort)
-        try {
-          const elevenPlusData = await getChildElevenPlusAnalytics(childId);
-          if (elevenPlusData?.band?.band) {
-            setElevenPlus(elevenPlusData);
-          }
-        } catch {
-          // 11+ data is optional
+        // Load chart and 11+ data (best-effort, non-blocking)
+        const [trendRes, radarRes, elevenPlusRes] = await Promise.allSettled([
+          getChildScoreTrend(childId),
+          getChildSubjectRadar(childId),
+          getChildElevenPlusAnalytics(childId),
+        ]);
+        if (trendRes.status === 'fulfilled' && trendRes.value?.trend) {
+          setScoreTrend(trendRes.value.trend);
+        }
+        if (radarRes.status === 'fulfilled' && radarRes.value?.subjects) {
+          setSubjectRadar(radarRes.value.subjects);
+        }
+        if (elevenPlusRes.status === 'fulfilled' && elevenPlusRes.value?.band?.band) {
+          setElevenPlus(elevenPlusRes.value);
         }
       } catch (err: unknown) {
         setError(err instanceof Error ? err.message : 'Failed to load analytics');
@@ -328,16 +338,13 @@ export function ChildAnalyticsDashboard({ childId, childName }: { childId: strin
       {/* Class comparison narrative */}
       {subjects && <ChildClassComparison subjects={subjects} childName={name} />}
 
-      {/* Charts placeholders */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
             <CardTitle>Score Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Score trend chart will render here using ScoreTrendLineChart.
-            </p>
+            <ScoreTrendLineChart data={scoreTrend} height={300} showClassAvg />
           </CardContent>
         </Card>
         <Card>
@@ -345,9 +352,7 @@ export function ChildAnalyticsDashboard({ childId, childName }: { childId: strin
             <CardTitle>Subject Breakdown</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Subject radar chart will render here using SubjectRadarChart.
-            </p>
+            <SubjectRadarChart data={subjectRadar} height={300} />
           </CardContent>
         </Card>
       </div>

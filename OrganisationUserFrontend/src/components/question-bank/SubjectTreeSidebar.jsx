@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronRight, ChevronDown, FolderOpen, Folder } from 'lucide-react';
+import { Folder, FolderOpen, ChevronDown, ChevronRight } from 'lucide-react';
 
 function buildTree(subjects) {
   const map = {};

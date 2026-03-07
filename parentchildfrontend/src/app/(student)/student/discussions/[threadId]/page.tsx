@@ -127,7 +127,7 @@ export default function StudentThreadDetailPage() {
                 )}
               </div>
             </div>
-            <Button variant="outline" size="sm" onClick={handleUpvoteThread}>
+            <Button variant="outline" size="sm" aria-label="Upvote thread" onClick={handleUpvoteThread}>
               <ThumbsUp className="mr-1 h-4 w-4" />
               {thread.upvotes || 0}
             </Button>
@@ -174,6 +174,7 @@ export default function StudentThreadDetailPage() {
                   <Button
                     variant="ghost"
                     size="sm"
+                    aria-label="Upvote reply"
                     onClick={() => handleUpvoteReply(reply.id || reply._id)}
                   >
                     <ThumbsUp className="mr-1 h-3 w-3" />
@@ -191,6 +192,7 @@ export default function StudentThreadDetailPage() {
           <textarea
             className="w-full rounded-md border bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             placeholder="Write a reply..."
+            aria-label="Reply to discussion"
             rows={3}
             value={replyBody}
             onChange={(e) => setReplyBody(e.target.value)}
